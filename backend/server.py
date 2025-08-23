@@ -50,9 +50,85 @@ async def create_super_admin():
     except Exception as e:
         logger.error(f"Error creating super admin: {e}")
 
+async def create_default_content():
+    """Create default content items if they don't exist"""
+    try:
+        default_content = [
+            {
+                "key": "landing_hero_title",
+                "content_type": ContentType.LANDING_PAGE,
+                "title": "Landing Page Hero Title",
+                "content": "Welcome to Ahlulbayt Studies",
+                "description": "Main title displayed on the landing page"
+            },
+            {
+                "key": "landing_hero_subtitle",
+                "content_type": ContentType.LANDING_PAGE,
+                "title": "Landing Page Hero Subtitle",
+                "content": "Discover our comprehensive Islamic education programs",
+                "description": "Subtitle text below the hero title"
+            },
+            {
+                "key": "enroll_button",
+                "content_type": ContentType.BUTTON_LABEL,
+                "title": "Enroll Button Label",
+                "content": "Enroll Now",
+                "description": "Text for the enrollment button on program cards"
+            },
+            {
+                "key": "overview_button",
+                "content_type": ContentType.BUTTON_LABEL,
+                "title": "Overview Button Label",
+                "content": "Program Overview",
+                "description": "Text for the overview button on program cards"
+            },
+            {
+                "key": "admin_dashboard_title",
+                "content_type": ContentType.PAGE_TITLE,
+                "title": "Admin Dashboard Title",
+                "content": "Admin Dashboard",
+                "description": "Title for the admin dashboard page"
+            },
+            {
+                "key": "student_dashboard_title",
+                "content_type": ContentType.PAGE_TITLE,
+                "title": "Student Dashboard Title",
+                "content": "Student Dashboard",
+                "description": "Title for the student dashboard page"
+            },
+            {
+                "key": "add_program_button",
+                "content_type": ContentType.BUTTON_LABEL,
+                "title": "Add Program Button",
+                "content": "Add New Program",
+                "description": "Button text for adding new programs"
+            }
+        ]
+        
+        super_admin = await db.users.find_one({"email": "zbazzi199@gmail.com"})
+        if not super_admin:
+            logger.error("Super admin not found for content creation")
+            return
+            
+        for content_data in default_content:
+            existing_content = await db.content_items.find_one({"key": content_data["key"]})
+            if not existing_content:
+                content_item = ContentItem(
+                    **content_data,
+                    updated_by=super_admin["id"]
+                )
+                await db.content_items.insert_one(content_item.dict())
+                logger.info(f"Created default content: {content_data['key']}")
+            else:
+                logger.info(f"Content already exists: {content_data['key']}")
+                
+    except Exception as e:
+        logger.error(f"Error creating default content: {e}")
+
 async def init_database():
     """Initialize database with required data"""
     await create_super_admin()
+    await create_default_content()
 
 # Create the main app without a prefix
 app = FastAPI()
