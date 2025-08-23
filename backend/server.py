@@ -226,8 +226,73 @@ async def test_jwt_verification(credentials: HTTPAuthorizationCredentials = Depe
             return {"token_valid": False, "error": "User not found"}
     except HTTPException as e:
         return {"token_valid": False, "error": e.detail}
+@api_router.post("/register", response_model=dict)
+async def register_user(user_data: UserCreate):
+    """Register a new user (admin or student)"""
+    try:
+        # Check if user already exists
+        existing_user = await db.users.find_one({"email": user_data.email})
+        if existing_user:
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail="Email already registered"
+            )
+        
+        # Validate admin registration code if user is registering as admin
+        if user_data.role == UserRole.ADMIN:
+            if not user_data.admin_code or user_data.admin_code != os.environ.get("ADMIN_REGISTRATION_CODE"):
+                raise HTTPException(
+                    status_code=status.HTTP_400_BAD_REQUEST,
+                    detail="Invalid admin registration code"
+                )
+        
+        # Create user object
+        hashed_password = get_password_hash(user_data.password)
+        
+        # Set user status based on role
+        if user_data.role == UserRole.ADMIN:
+            user_status = UserStatus.APPROVED  # Admins are auto-approved
+        else:
+            user_status = UserStatus.PENDING   # Students need approval
+        
+        new_user = User(
+            email=user_data.email,
+            name=user_data.name,
+            age=user_data.age,
+            phone=user_data.phone,
+            role=user_data.role,
+            status=user_status,
+            hashed_password=hashed_password,
+            created_at=datetime.utcnow(),
+            updated_at=datetime.utcnow()
+        )
+        
+        # Insert user into database
+        user_dict = new_user.dict()
+        await db.users.insert_one(user_dict)
+        
+        # Create JWT token for the new user (using UUID string as required)
+        token_data = {"sub": new_user.id}
+        access_token = create_access_token(data=token_data)
+        
+        # Return user info and token
+        user_response = UserResponse(**new_user.dict())
+        
+        return {
+            "message": "User registered successfully",
+            "user": user_response.dict(),
+            "access_token": access_token,
+            "token_type": "bearer",
+            "status": "approved" if user_data.role == UserRole.ADMIN else "pending_approval"
+        }
+        
+    except HTTPException:
+        raise
     except Exception as e:
-        return {"token_valid": False, "error": str(e)}
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"Registration failed: {str(e)}"
+        )
 
 @api_router.post("/status", response_model=StatusCheck)
 async def create_status_check(input: StatusCheckCreate):
