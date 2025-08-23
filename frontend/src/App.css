@@ -51,14 +51,16 @@ code {
 .text-indigo { color: #4338ca; }
 .text-white { color: #ffffff; }
 
-/* BORDER THICKNESS VARIABLES */
+/* BORDER THICKNESS & LENGTH VARIABLES */
 :root {
   --border-thickness: 18px;
+  --border-length: 60%; /* NEW: Border length control */
 }
 
 /* CUSTOM BACKGROUND COLOR VARIABLES - FIXED FOR SOLID COLORS */
 :root {
   --custom-bg-color: #c3ffff;
+  --border-color: #4dd6d6; /* Will be auto-calculated */
 }
 
 /* 1. GLOBAL STYLING RULES - FIXED SOLID BACKGROUND */
@@ -70,12 +72,12 @@ code {
   background-attachment: fixed;
 }
 
-/* Navigation Bar - SHORTER BORDER UNDER LOGO/TEXT ONLY */
+/* Navigation Bar - EXTENDED BORDER */
 .navigation-bar {
   background: transparent;
   backdrop-filter: none;
   -webkit-backdrop-filter: none;
-  border-bottom: none; /* REMOVED FULL-WIDTH BORDER */
+  border-bottom: none;
   border-radius: 0;
   margin: 0;
   position: relative;
@@ -84,7 +86,7 @@ code {
   padding: 24px 0;
 }
 
-/* Logo and Text Container with Border */
+/* Logo and Text Container - EXTENDED BORDER */
 .logo-text-container {
   position: relative;
   display: flex;
@@ -92,15 +94,44 @@ code {
   padding-bottom: 8px;
 }
 
-.logo-text-container::after {
+/* EXTENDED BORDER LINE - EDITABLE LENGTH */
+.navigation-bar::after {
   content: '';
   position: absolute;
-  bottom: -8px;
+  bottom: 16px;
   left: 0;
-  right: 0;
-  height: 3px; /* MUCH THINNER BORDER */
-  background: #4dd6d6;
+  width: var(--border-length);
+  height: 3px;
+  background: var(--border-color);
   border-radius: 2px;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.navigation-bar:hover::after {
+  opacity: 0.8;
+  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.3);
+}
+
+.navigation-bar::before {
+  content: '↔️ Click to adjust border length';
+  position: absolute;
+  bottom: -15px;
+  left: 20px;
+  background: rgba(0, 0, 0, 0.8);
+  color: white;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  white-space: nowrap;
+  z-index: 1000;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  pointer-events: none;
+}
+
+.navigation-bar:hover::before {
+  opacity: 1;
 }
 
 /* Hero Section - Direct on Background */
@@ -498,7 +529,7 @@ code {
   transform: scale(1.1);
 }
 
-/* BORDER THICKNESS EDITOR - NEW */
+/* BORDER THICKNESS & LENGTH EDITOR - ENHANCED */
 .border-thickness-editor {
   position: fixed;
   top: 20px;
@@ -509,7 +540,7 @@ code {
   padding: 16px;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
   z-index: 1000;
-  min-width: 200px;
+  min-width: 220px;
 }
 
 .border-thickness-editor h3 {
@@ -519,7 +550,7 @@ code {
   font-weight: 600;
 }
 
-.thickness-slider {
+.thickness-slider, .length-slider {
   width: 100%;
   height: 6px;
   border-radius: 3px;
@@ -528,11 +559,24 @@ code {
   margin-bottom: 8px;
 }
 
-.thickness-value {
-  text-align: center;
+.control-group {
+  margin-bottom: 16px;
+}
+
+.control-label {
+  display: block;
   color: #546E7A;
   font-size: 12px;
-  margin-bottom: 12px;
+  margin-bottom: 4px;
+  font-weight: 500;
+}
+
+.control-value {
+  text-align: center;
+  color: #2C3E50;
+  font-size: 11px;
+  margin-bottom: 8px;
+  font-weight: 600;
 }
 
 /* INCREASED SPACING */
@@ -551,12 +595,12 @@ code {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: linear-gradient(135deg, #4dd6d6, #66e6e6);
+  background: linear-gradient(135deg, var(--border-color), rgba(77, 214, 214, 0.8));
   border-radius: 10px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(135deg, #33cccc, #4dd6d6);
+  background: linear-gradient(135deg, rgba(77, 214, 214, 0.9), var(--border-color));
 }
 
 /* Focus states - Enhanced */
@@ -632,6 +676,10 @@ textarea:focus {
   .editable-text-dark:hover::after,
   .editable-image:hover::after,
   .editable-logo:hover::after {
+    display: none;
+  }
+  
+  .navigation-bar::before {
     display: none;
   }
 }

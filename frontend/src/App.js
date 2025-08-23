@@ -22,6 +22,52 @@ const LandingPage = () => {
   const [showBorderEditor, setShowBorderEditor] = useState(false);
   const [currentBgColor, setCurrentBgColor] = useState("#c3ffff");
   const [borderThickness, setBorderThickness] = useState(18);
+  const [borderLength, setBorderLength] = useState(60); // NEW: Border length state
+
+  // Helper function to convert hex to RGB
+  const hexToRgb = (hex) => {
+    const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+    return result ? {
+      r: parseInt(result[1], 16),
+      g: parseInt(result[2], 16),
+      b: parseInt(result[3], 16)
+    } : null;
+  };
+
+  // Helper function to calculate complementary darker color
+  const calculateBorderColor = (bgColor) => {
+    const rgb = hexToRgb(bgColor);
+    if (!rgb) return "#4dd6d6";
+    
+    // Calculate a darker, more saturated version of the background color
+    const darkenFactor = 0.6; // Make it 40% darker
+    const saturateFactor = 1.2; // Increase saturation by 20%
+    
+    let r = Math.floor(rgb.r * darkenFactor);
+    let g = Math.floor(rgb.g * darkenFactor);
+    let b = Math.floor(rgb.b * darkenFactor);
+    
+    // Increase saturation by reducing the least prominent color component
+    const max = Math.max(r, g, b);
+    const min = Math.min(r, g, b);
+    const diff = max - min;
+    
+    if (diff > 0) {
+      if (r === max) g = Math.max(0, g - diff * (1 - saturateFactor));
+      if (g === max) r = Math.max(0, r - diff * (1 - saturateFactor));
+      if (b === max) {
+        r = Math.max(0, r - diff * (1 - saturateFactor));
+        g = Math.max(0, g - diff * (1 - saturateFactor));
+      }
+    }
+    
+    // Ensure minimum contrast
+    r = Math.min(255, Math.max(0, r));
+    g = Math.min(255, Math.max(0, g));
+    b = Math.min(255, Math.max(0, b));
+    
+    return `#${r.toString(16).padStart(2, '0')}${g.toString(16).padStart(2, '0')}${b.toString(16).padStart(2, '0')}`;
+  };
 
   // Expanded font options with new fonts
   const fontOptions = [
@@ -134,10 +180,13 @@ const LandingPage = () => {
     fetchContent();
   }, []);
 
-  // Update CSS custom properties when background color changes - FIXED FOR SOLID COLOR
+  // Update CSS custom properties when background color changes - FIXED WITH AUTO BORDER COLOR
   useEffect(() => {
     const root = document.documentElement;
+    const borderColor = calculateBorderColor(currentBgColor);
+    
     root.style.setProperty('--custom-bg-color', currentBgColor);
+    root.style.setProperty('--border-color', borderColor);
   }, [currentBgColor]);
 
   // Update border thickness when it changes
@@ -145,6 +194,12 @@ const LandingPage = () => {
     const root = document.documentElement;
     root.style.setProperty('--border-thickness', `${borderThickness}px`);
   }, [borderThickness]);
+
+  // Update border length when it changes
+  useEffect(() => {
+    const root = document.documentElement;
+    root.style.setProperty('--border-length', `${borderLength}%`);
+  }, [borderLength]);
 
   const handleEnrollClick = (programName) => {
     // In next step, this will redirect to login/signup
@@ -188,6 +243,15 @@ Click OK to open font & color selector...`);
 
   const handleBorderThicknessChange = (thickness) => {
     setBorderThickness(thickness);
+  };
+
+  const handleBorderLengthChange = (length) => {
+    setBorderLength(length);
+  };
+
+  // Handle border line click for length adjustment
+  const handleBorderLineClick = () => {
+    setShowBorderEditor(true);
   };
 
   const getCardClassName = (type) => {
@@ -244,21 +308,37 @@ Click OK to open font & color selector...`);
         </div>
       )}
 
-      {/* Border Thickness Editor */}
+      {/* Border Thickness & Length Editor - ENHANCED */}
       {showBorderEditor && (
         <div className="border-thickness-editor">
-          <h3>📏 Border Thickness</h3>
-          <input
-            type="range"
-            min="5"
-            max="30"
-            value={borderThickness}
-            onChange={(e) => handleBorderThicknessChange(parseInt(e.target.value))}
-            className="thickness-slider"
-          />
-          <div className="thickness-value">
-            {borderThickness}px
+          <h3>📏 Border Controls</h3>
+          
+          <div className="control-group">
+            <label className="control-label">Border Thickness</label>
+            <input
+              type="range"
+              min="5"
+              max="30"
+              value={borderThickness}
+              onChange={(e) => handleBorderThicknessChange(parseInt(e.target.value))}
+              className="thickness-slider"
+            />
+            <div className="control-value">{borderThickness}px</div>
           </div>
+
+          <div className="control-group">
+            <label className="control-label">Border Length</label>
+            <input
+              type="range"
+              min="20"
+              max="100"
+              value={borderLength}
+              onChange={(e) => handleBorderLengthChange(parseInt(e.target.value))}
+              className="length-slider"
+            />
+            <div className="control-value">{borderLength}% width</div>
+          </div>
+
           <button
             onClick={() => setShowBorderEditor(false)}
             className="btn-secondary"
@@ -269,21 +349,27 @@ Click OK to open font & color selector...`);
         </div>
       )}
 
-      {/* Header - NOT STICKY, SHORTER BORDER */}
-      <header className="navigation-bar">
+      {/* Header - EXTENDED BORDER WITH CLICK FUNCTIONALITY */}
+      <header className="navigation-bar" onClick={handleBorderLineClick}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between">
             <div className="logo-text-container">
               <div 
                 className="w-10 h-10 rounded-full bg-gradient-to-r from-white to-gray-100 flex items-center justify-center editable-logo mr-3"
-                onClick={() => handleEditClick('Logo', 'main-logo')}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleEditClick('Logo', 'main-logo');
+                }}
                 title="Click to edit logo"
               >
                 <BookOpen className="h-6 w-6 text-teal-600" />
               </div>
               <h1 
                 className="text-2xl font-bold header-text-light editable-text font-inter text-default"
-                onClick={() => handleFontColorEditClick('Site Title', 'site-title', 'Inter', 'Default Dark')}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleFontColorEditClick('Site Title', 'site-title', 'Inter', 'Default Dark');
+                }}
                 title="Click to edit site title, font & color"
               >
                 Ahlulbayt Studies
@@ -291,15 +377,21 @@ Click OK to open font & color selector...`);
             </div>
             <div className="flex items-center space-x-4">
               <button
-                onClick={() => setShowBorderEditor(!showBorderEditor)}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setShowBorderEditor(!showBorderEditor);
+                }}
                 className="flex items-center space-x-2 text-teal-700 text-sm hover:text-teal-800 transition-colors"
-                title="Adjust border thickness"
+                title="Adjust border thickness & length"
               >
                 <Sliders className="h-4 w-4" />
                 <span>Borders</span>
               </button>
               <button
-                onClick={() => setShowBgEditor(!showBgEditor)}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setShowBgEditor(!showBgEditor);
+                }}
                 className="flex items-center space-x-2 text-teal-700 text-sm hover:text-teal-800 transition-colors"
                 title="Change background color"
               >
