@@ -18,10 +18,41 @@ from models import User, UserRole, UserStatus
 ROOT_DIR = Path(__file__).parent
 load_dotenv(ROOT_DIR / '.env')
 
+# Password hashing
+pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
+
 # MongoDB connection
 mongo_url = os.environ['MONGO_URL']
 client = AsyncIOMotorClient(mongo_url)
 db = client[os.environ['DB_NAME']]
+
+# Security
+security = HTTPBearer()
+
+async def create_super_admin():
+    """Create super admin user if it doesn't exist"""
+    try:
+        existing_admin = await db.users.find_one({"email": "zbazzi199@gmail.com"})
+        if not existing_admin:
+            super_admin = User(
+                email="zbazzi199@gmail.com",
+                name="Super Admin",
+                role=UserRole.SUPER_ADMIN,
+                status=UserStatus.APPROVED,
+                hashed_password=pwd_context.hash("SuperSecure2025!"),
+                created_at=datetime.utcnow(),
+                updated_at=datetime.utcnow()
+            )
+            await db.users.insert_one(super_admin.dict())
+            logger.info("Super admin created successfully")
+        else:
+            logger.info("Super admin already exists")
+    except Exception as e:
+        logger.error(f"Error creating super admin: {e}")
+
+async def init_database():
+    """Initialize database with required data"""
+    await create_super_admin()
 
 # Create the main app without a prefix
 app = FastAPI()
