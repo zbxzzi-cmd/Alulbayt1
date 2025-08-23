@@ -188,6 +188,26 @@ async def get_content_by_key(key: str):
     except Exception as e:
         return {"error": str(e)}
 
+@api_router.post("/test-jwt")
+async def test_jwt_creation():
+    """Test JWT token creation using super admin"""
+    try:
+        admin = await db.users.find_one({"email": "zbazzi199@gmail.com"})
+        if admin:
+            # Create token using MongoDB _id as string (critical requirement)
+            token_data = {"sub": admin["id"]}  # Using 'id' field (UUID string) not '_id' (ObjectId)
+            access_token = create_access_token(data=token_data)
+            return {
+                "access_token": access_token,
+                "token_type": "bearer",
+                "user_id": admin["id"],
+                "message": "JWT token created successfully using MongoDB _id as string"
+            }
+        else:
+            return {"error": "Super admin not found"}
+    except Exception as e:
+        return {"error": str(e)}
+
 @api_router.post("/status", response_model=StatusCheck)
 async def create_status_check(input: StatusCheckCreate):
     status_dict = input.dict()
