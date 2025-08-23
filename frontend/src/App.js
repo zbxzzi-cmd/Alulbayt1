@@ -655,6 +655,7 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<LandingPage />} />
+          <Route path="/design-system" element={<DesignSystemDemo />} />
         </Routes>
       </BrowserRouter>
     </div>
