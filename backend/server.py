@@ -105,6 +105,69 @@ async def create_default_content():
                 "title": "Add Program Button",
                 "content": "Add New Program",
                 "description": "Button text for adding new programs"
+            },
+            {
+                "key": "login_page_title",
+                "content_type": ContentType.PAGE_TITLE,
+                "title": "Login Page Title",
+                "content": "Welcome Back",
+                "description": "Title for the login page"
+            },
+            {
+                "key": "login_page_subtitle",
+                "content_type": ContentType.LANDING_PAGE,
+                "title": "Login Page Subtitle",
+                "content": "Sign in to access your Ahlulbayt Studies account",
+                "description": "Subtitle text for the login page"
+            },
+            {
+                "key": "signup_page_title",
+                "content_type": ContentType.PAGE_TITLE,
+                "title": "Sign Up Page Title",
+                "content": "Join Ahlulbayt Studies",
+                "description": "Title for the signup page"
+            },
+            {
+                "key": "signup_page_subtitle",
+                "content_type": ContentType.LANDING_PAGE,
+                "title": "Sign Up Page Subtitle",
+                "content": "Create your account to begin your Islamic education journey",
+                "description": "Subtitle text for the signup page"
+            },
+            {
+                "key": "login_button",
+                "content_type": ContentType.BUTTON_LABEL,
+                "title": "Login Button",
+                "content": "Sign In",
+                "description": "Text for the login button"
+            },
+            {
+                "key": "signup_button",
+                "content_type": ContentType.BUTTON_LABEL,
+                "title": "Sign Up Button",
+                "content": "Create Account",
+                "description": "Text for the signup button"
+            },
+            {
+                "key": "forgot_password_link",
+                "content_type": ContentType.NAVIGATION,
+                "title": "Forgot Password Link",
+                "content": "Forgot your password?",
+                "description": "Link text for password recovery"
+            },
+            {
+                "key": "switch_to_signup",
+                "content_type": ContentType.NAVIGATION,
+                "title": "Switch to Sign Up",
+                "content": "Don't have an account? Sign up here",
+                "description": "Link to switch from login to signup"
+            },
+            {
+                "key": "switch_to_login",
+                "content_type": ContentType.NAVIGATION,
+                "title": "Switch to Login",
+                "content": "Already have an account? Sign in here",
+                "description": "Link to switch from signup to login"
             }
         ]
         
