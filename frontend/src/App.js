@@ -34,37 +34,40 @@ const LandingPage = () => {
     } : null;
   };
 
-  // Helper function to calculate complementary darker color - FIXED
+  // Helper function to calculate complementary darker color - PROPERLY FIXED
   const calculateBorderColor = (bgColor) => {
     const rgb = hexToRgb(bgColor);
     if (!rgb) return "#4dd6d6";
     
-    // Calculate a MUCH darker version with guaranteed contrast
-    const darkenFactor = 0.3; // Make it 70% darker (more aggressive)
+    // Calculate darker version while PRESERVING the color hue
+    let r = rgb.r;
+    let g = rgb.g;
+    let b = rgb.b;
     
-    let r = Math.floor(rgb.r * darkenFactor);
-    let g = Math.floor(rgb.g * darkenFactor);
-    let b = Math.floor(rgb.b * darkenFactor);
+    // Find the dominant color channel to preserve the hue
+    const max = Math.max(r, g, b);
+    const min = Math.min(r, g, b);
     
-    // Ensure minimum darkness for visibility
-    const minDarkness = 60; // Minimum RGB value for visibility
-    r = Math.max(minDarkness, r);
-    g = Math.max(minDarkness, g);
-    b = Math.max(minDarkness, b);
+    // Reduce brightness by 50% while maintaining color relationships
+    const brightnessReduction = 0.5;
+    r = Math.floor(r * brightnessReduction);
+    g = Math.floor(g * brightnessReduction);
+    b = Math.floor(b * brightnessReduction);
     
-    // For very light backgrounds, ensure even more contrast
-    const brightness = (rgb.r + rgb.g + rgb.b) / 3;
-    if (brightness > 200) {
-      // Very light background - make border much darker
-      r = Math.max(40, Math.floor(r * 0.5));
-      g = Math.max(40, Math.floor(g * 0.5));
-      b = Math.max(40, Math.floor(b * 0.5));
+    // Ensure the border isn't too light (minimum darkness of 80 for visibility)
+    const minValue = 80;
+    if (r < minValue && g < minValue && b < minValue) {
+      // If all values are too light, darken proportionally
+      const scale = minValue / Math.max(r, g, b, 1);
+      r = Math.floor(r * scale);
+      g = Math.floor(g * scale);
+      b = Math.floor(b * scale);
     }
     
-    // Ensure RGB values are valid
-    r = Math.min(255, Math.max(0, r));
-    g = Math.min(255, Math.max(0, g));
-    b = Math.min(255, Math.max(0, b));
+    // Ensure values are within valid range
+    r = Math.min(255, Math.max(30, r));
+    g = Math.min(255, Math.max(30, g));
+    b = Math.min(255, Math.max(30, b));
     
     return `#${r.toString(16).padStart(2, '0')}${g.toString(16).padStart(2, '0')}${b.toString(16).padStart(2, '0')}`;
   };
