@@ -5,7 +5,7 @@ import axios from "axios";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "./components/ui/card";
 import { Button } from "./components/ui/button";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "./components/ui/dialog";
-import { BookOpen, Users, Scale, Clock, Edit3, Type } from "lucide-react";
+import { BookOpen, Users, Scale, Clock, Type, Palette } from "lucide-react";
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
@@ -18,14 +18,49 @@ const LandingPage = () => {
     overview_button: "Program Overview"
   });
 
-  // Available font options
+  const [showBgEditor, setShowBgEditor] = useState(false);
+  const [currentBgColor, setCurrentBgColor] = useState("#c3ffff");
+
+  // Expanded font options with new fonts
   const fontOptions = [
     { name: "Inter", class: "font-inter", style: "Modern & Clean" },
     { name: "Playfair Display", class: "font-playfair", style: "Elegant & Serif" },
     { name: "Roboto", class: "font-roboto", style: "Professional" },
     { name: "Open Sans", class: "font-opensans", style: "Friendly & Readable" },
     { name: "Lato", class: "font-lato", style: "Humanist" },
-    { name: "Montserrat", class: "font-montserrat", style: "Contemporary" }
+    { name: "Montserrat", class: "font-montserrat", style: "Contemporary" },
+    { name: "Calibri", class: "font-calibri", style: "Clean & Modern" },
+    { name: "Oswald", class: "font-oswald", style: "Bold & Strong" },
+    { name: "Trebuchet MS", class: "font-trebuchet", style: "Friendly & Rounded" },
+    { name: "Nunito", class: "font-nunito", style: "Soft & Rounded" }
+  ];
+
+  // Text color options
+  const colorOptions = [
+    { name: "Default Dark", class: "text-default", hex: "#2C3E50" },
+    { name: "Charcoal", class: "text-dark", hex: "#1a202c" },
+    { name: "Gray", class: "text-gray", hex: "#4a5568" },
+    { name: "Blue", class: "text-blue", hex: "#2563eb" },
+    { name: "Green", class: "text-green", hex: "#059669" },
+    { name: "Purple", class: "text-purple", hex: "#7c3aed" },
+    { name: "Red", class: "text-red", hex: "#dc2626" },
+    { name: "Orange", class: "text-orange", hex: "#ea580c" },
+    { name: "Teal", class: "text-teal", hex: "#0891b2" },
+    { name: "Pink", class: "text-pink", hex: "#db2777" },
+    { name: "Indigo", class: "text-indigo", hex: "#4338ca" },
+    { name: "White", class: "text-white", hex: "#ffffff" }
+  ];
+
+  // Background color presets
+  const bgColorPresets = [
+    { name: "Light Cyan", color: "#c3ffff" },
+    { name: "Soft Blue", color: "#b3e5fc" },
+    { name: "Mint Green", color: "#b3f0b3" },
+    { name: "Lavender", color: "#e1bee7" },
+    { name: "Peach", color: "#ffccbc" },
+    { name: "Light Pink", color: "#f8bbd9" },
+    { name: "Soft Yellow", color: "#fff9c4" },
+    { name: "Light Gray", color: "#f5f5f5" }
   ];
 
   // Sample programs data - ALL CONTENT IS EDITABLE
@@ -68,11 +103,11 @@ const LandingPage = () => {
     }
   ];
 
-  // EDITABLE STATS DATA - REDUCED TO 3 CARDS
+  // EDITABLE STATS DATA - 3 CARDS
   const statsData = [
     { number: "4", label: "Programs Available", type: "a" }, // EDITABLE
     { number: "50+", label: "Students Enrolled", type: "b" }, // EDITABLE
-    { number: "95%", label: "Completion Rate", type: "c" } // EDITABLE - REMOVED "Expert Teachers"
+    { number: "95%", label: "Completion Rate", type: "c" } // EDITABLE
   ];
 
   useEffect(() => {
@@ -97,6 +132,31 @@ const LandingPage = () => {
     fetchContent();
   }, []);
 
+  // Update CSS custom properties when background color changes
+  useEffect(() => {
+    const root = document.documentElement;
+    const lighterColor = adjustColorBrightness(currentBgColor, 20);
+    const darkerColor = adjustColorBrightness(currentBgColor, -10);
+    
+    root.style.setProperty('--custom-bg-color', currentBgColor);
+    root.style.setProperty('--custom-bg-secondary', darkerColor);
+    root.style.setProperty('--custom-bg-tertiary', lighterColor);
+  }, [currentBgColor]);
+
+  // Helper function to adjust color brightness
+  const adjustColorBrightness = (color, amount) => {
+    const usePound = color[0] === "#";
+    const col = usePound ? color.slice(1) : color;
+    const num = parseInt(col, 16);
+    let r = (num >> 16) + amount;
+    let g = (num >> 8 & 0x00FF) + amount;
+    let b = (num & 0x0000FF) + amount;
+    r = r > 255 ? 255 : r < 0 ? 0 : r;
+    g = g > 255 ? 255 : g < 0 ? 0 : g;
+    b = b > 255 ? 255 : b < 0 ? 0 : b;
+    return (usePound ? "#" : "") + (g | (b << 8) | (r << 16)).toString(16);
+  };
+
   const handleEnrollClick = (programName) => {
     // In next step, this will redirect to login/signup
     alert(`Enrollment for ${programName} - Login/Signup will be implemented in next step`);
@@ -106,28 +166,35 @@ const LandingPage = () => {
     let editOptions = "";
     
     if (elementType.includes("text") || elementType === "Hero Title" || elementType === "Section Title") {
-      editOptions = `\n\nFont Options Available:
-      • Inter - Modern & Clean
-      • Playfair Display - Elegant & Serif  
-      • Roboto - Professional
-      • Open Sans - Friendly & Readable
-      • Lato - Humanist
-      • Montserrat - Contemporary`;
+      const fontList = fontOptions.map(font => `• ${font.name} (${font.style})`).join('\n');
+      const colorList = colorOptions.map(color => `• ${color.name} (${color.hex})`).join('\n');
+      
+      editOptions = `\n\nFont Options Available:\n${fontList}\n\nColor Options Available:\n${colorList}`;
     }
 
     alert(`Edit ${elementType}: ${elementId}\n\nIn a real CMS, this would open an editor for:\n- Text content\n- Images\n- Colors\n- Layout options${editOptions}`);
   };
 
-  const handleFontEditClick = (elementType, elementId, currentFont = "Inter") => {
+  const handleFontColorEditClick = (elementType, elementId, currentFont = "Inter", currentColor = "Default Dark") => {
     const fontList = fontOptions.map(font => `• ${font.name} (${font.style})`).join('\n');
-    alert(`Font Editor for ${elementType}: ${elementId}
+    const colorList = colorOptions.map(color => `• ${color.name} (${color.hex})`).join('\n');
+    
+    alert(`Font & Color Editor for ${elementType}: ${elementId}
     
 Current Font: ${currentFont}
+Current Color: ${currentColor}
 
 Available Fonts:
 ${fontList}
 
-Click OK to open font selector...`);
+Available Colors:
+${colorList}
+
+Click OK to open font & color selector...`);
+  };
+
+  const handleBgColorChange = (color) => {
+    setCurrentBgColor(color);
   };
 
   const getCardClassName = (type) => {
@@ -152,7 +219,39 @@ Click OK to open font selector...`);
 
   return (
     <div className="app-background">
-      {/* Header - Direct on Cyan Background */}
+      {/* Background Color Editor */}
+      {showBgEditor && (
+        <div className="bg-color-editor">
+          <h3>🎨 Background Color</h3>
+          <input
+            type="color"
+            value={currentBgColor}
+            onChange={(e) => handleBgColorChange(e.target.value)}
+            className="color-input"
+            title="Choose custom background color"
+          />
+          <div className="color-presets">
+            {bgColorPresets.map((preset, index) => (
+              <div
+                key={index}
+                className={`color-preset ${currentBgColor === preset.color ? 'active' : ''}`}
+                style={{ backgroundColor: preset.color }}
+                onClick={() => handleBgColorChange(preset.color)}
+                title={preset.name}
+              />
+            ))}
+          </div>
+          <button
+            onClick={() => setShowBgEditor(false)}
+            className="btn-secondary"
+            style={{ width: '100%', padding: '8px' }}
+          >
+            Close
+          </button>
+        </div>
+      )}
+
+      {/* Header - NOT STICKY */}
       <header className="navigation-bar">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between">
@@ -165,16 +264,26 @@ Click OK to open font selector...`);
                 <BookOpen className="h-6 w-6 text-teal-600" />
               </div>
               <h1 
-                className="text-2xl font-bold header-text-light editable-text font-inter"
-                onClick={() => handleFontEditClick('Site Title', 'site-title', 'Inter')}
-                title="Click to edit site title & font"
+                className="text-2xl font-bold header-text-light editable-text font-inter text-default"
+                onClick={() => handleFontColorEditClick('Site Title', 'site-title', 'Inter', 'Default Dark')}
+                title="Click to edit site title, font & color"
               >
                 Ahlulbayt Studies
               </h1>
             </div>
-            <div className="text-teal-700 text-sm flex items-center">
-              <Type className="h-4 w-4 inline mr-1" />
-              Hover over content to edit text & fonts
+            <div className="flex items-center space-x-4">
+              <button
+                onClick={() => setShowBgEditor(!showBgEditor)}
+                className="flex items-center space-x-2 text-teal-700 text-sm hover:text-teal-800 transition-colors"
+                title="Change background color"
+              >
+                <Palette className="h-4 w-4" />
+                <span>Background</span>
+              </button>
+              <div className="text-teal-700 text-sm flex items-center">
+                <Type className="h-4 w-4 inline mr-1" />
+                Hover over content to edit text, fonts & colors
+              </div>
             </div>
           </div>
         </div>
@@ -184,16 +293,16 @@ Click OK to open font selector...`);
       <section className="hero-section">
         <div className="max-w-4xl mx-auto text-center">
           <h1 
-            className="text-5xl font-bold header-text-light mb-6 editable-text font-inter"
-            onClick={() => handleFontEditClick('Hero Title', 'hero-title', 'Inter')}
-            title="Click to edit hero title & font"
+            className="text-5xl font-bold header-text-light mb-6 editable-text font-inter text-default"
+            onClick={() => handleFontColorEditClick('Hero Title', 'hero-title', 'Inter', 'Default Dark')}
+            title="Click to edit hero title, font & color"
           >
             {content.landing_hero_title}
           </h1>
           <p 
-            className="text-xl body-text-light mb-8 max-w-2xl mx-auto editable-text font-inter"
-            onClick={() => handleFontEditClick('Hero Subtitle', 'hero-subtitle', 'Inter')}
-            title="Click to edit hero subtitle & font"
+            className="text-xl body-text-light mb-8 max-w-2xl mx-auto editable-text font-inter text-gray"
+            onClick={() => handleFontColorEditClick('Hero Subtitle', 'hero-subtitle', 'Inter', 'Gray')}
+            title="Click to edit hero subtitle, font & color"
           >
             {content.landing_hero_subtitle}
           </p>
@@ -205,16 +314,16 @@ Click OK to open font selector...`);
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-12">
             <h2 
-              className="text-3xl font-bold header-text mb-4 editable-text editable-text-dark font-inter"
-              onClick={() => handleFontEditClick('Section Title', 'programs-title', 'Inter')}
-              title="Click to edit section title & font"
+              className="text-3xl font-bold header-text mb-4 editable-text editable-text-dark font-inter text-default"
+              onClick={() => handleFontColorEditClick('Section Title', 'programs-title', 'Inter', 'Default Dark')}
+              title="Click to edit section title, font & color"
             >
               Our Programs
             </h2>
             <p 
-              className="body-text editable-text editable-text-dark font-inter"
-              onClick={() => handleFontEditClick('Section Description', 'programs-desc', 'Inter')}
-              title="Click to edit section description & font"
+              className="body-text editable-text editable-text-dark font-inter text-gray"
+              onClick={() => handleFontColorEditClick('Section Description', 'programs-desc', 'Inter', 'Gray')}
+              title="Click to edit section description, font & color"
             >
               Choose from our comprehensive Islamic education programs designed for all levels of learning.
             </p>
@@ -243,16 +352,16 @@ Click OK to open font selector...`);
                   
                   <CardHeader className="pb-3">
                     <CardTitle 
-                      className="text-2xl font-bold header-text editable-text editable-text-dark font-inter"
-                      onClick={() => handleFontEditClick('Program Name', `program-name-${program.id}`, 'Inter')}
-                      title="Click to edit program name & font"
+                      className="text-2xl font-bold header-text editable-text editable-text-dark font-inter text-default"
+                      onClick={() => handleFontColorEditClick('Program Name', `program-name-${program.id}`, 'Inter', 'Default Dark')}
+                      title="Click to edit program name, font & color"
                     >
                       {program.name}
                     </CardTitle>
                     <CardDescription 
-                      className="body-text text-base editable-text editable-text-dark font-inter"
-                      onClick={() => handleFontEditClick('Program Tagline', `program-tagline-${program.id}`, 'Inter')}
-                      title="Click to edit program tagline & font"
+                      className="body-text text-base editable-text editable-text-dark font-inter text-gray"
+                      onClick={() => handleFontColorEditClick('Program Tagline', `program-tagline-${program.id}`, 'Inter', 'Gray')}
+                      title="Click to edit program tagline, font & color"
                     >
                       {program.tagline}
                     </CardDescription>
@@ -265,7 +374,7 @@ Click OK to open font selector...`);
                           <Button 
                             variant="outline" 
                             className="btn-secondary flex-1 editable-text font-inter"
-                            title="Click to edit button text & font"
+                            title="Click to edit button text, font & color"
                           >
                             {content.overview_button}
                           </Button>
@@ -273,16 +382,16 @@ Click OK to open font selector...`);
                         <DialogContent className="modal-content max-w-2xl">
                           <DialogHeader>
                             <DialogTitle 
-                              className="text-2xl header-text editable-text editable-text-dark font-inter"
-                              onClick={() => handleFontEditClick('Modal Title', `modal-title-${program.id}`, 'Inter')}
-                              title="Click to edit modal title & font"
+                              className="text-2xl header-text editable-text editable-text-dark font-inter text-default"
+                              onClick={() => handleFontColorEditClick('Modal Title', `modal-title-${program.id}`, 'Inter', 'Default Dark')}
+                              title="Click to edit modal title, font & color"
                             >
                               {program.name}
                             </DialogTitle>
                             <DialogDescription 
-                              className="body-text text-base pt-2 editable-text editable-text-dark font-inter"
-                              onClick={() => handleFontEditClick('Program Description', `program-desc-${program.id}`, 'Inter')}
-                              title="Click to edit program description & font"
+                              className="body-text text-base pt-2 editable-text editable-text-dark font-inter text-gray"
+                              onClick={() => handleFontColorEditClick('Program Description', `program-desc-${program.id}`, 'Inter', 'Gray')}
+                              title="Click to edit program description, font & color"
                             >
                               {program.description}
                             </DialogDescription>
@@ -293,7 +402,7 @@ Click OK to open font selector...`);
                       <Button 
                         onClick={() => handleEnrollClick(program.name)}
                         className="btn-primary flex-1 editable-text font-inter"
-                        title="Click to edit button text & font"
+                        title="Click to edit button text, font & color"
                       >
                         {content.enroll_button}
                       </Button>
@@ -311,16 +420,16 @@ Click OK to open font selector...`);
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-8">
             <h2 
-              className="text-3xl font-bold header-text mb-4 editable-text editable-text-dark font-inter"
-              onClick={() => handleFontEditClick('Section Title', 'impact-title', 'Inter')}
-              title="Click to edit section title & font"
+              className="text-3xl font-bold header-text mb-4 editable-text editable-text-dark font-inter text-default"
+              onClick={() => handleFontColorEditClick('Section Title', 'impact-title', 'Inter', 'Default Dark')}
+              title="Click to edit section title, font & color"
             >
               Our Impact
             </h2>
             <p 
-              className="body-text editable-text editable-text-dark font-inter"
-              onClick={() => handleFontEditClick('Section Description', 'impact-desc', 'Inter')}
-              title="Click to edit section description & font"
+              className="body-text editable-text editable-text-dark font-inter text-gray"
+              onClick={() => handleFontColorEditClick('Section Description', 'impact-desc', 'Inter', 'Gray')}
+              title="Click to edit section description, font & color"
             >
               Building a strong community of Islamic scholars and learners
             </p>
@@ -329,16 +438,16 @@ Click OK to open font selector...`);
             {statsData.map((stat, index) => (
               <div key={index} className={getStatsClassName(stat.type)}>
                 <div 
-                  className="text-3xl font-bold header-text mb-2 editable-text editable-text-dark font-inter"
-                  onClick={() => handleFontEditClick('Stat Number', `stat-number-${index}`, 'Inter')}
-                  title="Click to edit stat number & font"
+                  className="text-3xl font-bold header-text mb-2 editable-text editable-text-dark font-inter text-default"
+                  onClick={() => handleFontColorEditClick('Stat Number', `stat-number-${index}`, 'Inter', 'Default Dark')}
+                  title="Click to edit stat number, font & color"
                 >
                   {stat.number}
                 </div>
                 <div 
-                  className="body-text editable-text editable-text-dark font-inter"
-                  onClick={() => handleFontEditClick('Stat Label', `stat-label-${index}`, 'Inter')}
-                  title="Click to edit stat label & font"
+                  className="body-text editable-text editable-text-dark font-inter text-gray"
+                  onClick={() => handleFontColorEditClick('Stat Label', `stat-label-${index}`, 'Inter', 'Gray')}
+                  title="Click to edit stat label, font & color"
                 >
                   {stat.label}
                 </div>
@@ -361,17 +470,17 @@ Click OK to open font selector...`);
                 <BookOpen className="h-5 w-5 text-white" />
               </div>
               <h3 
-                className="text-lg font-semibold header-text editable-text editable-text-dark font-inter"
-                onClick={() => handleFontEditClick('Footer Title', 'footer-title', 'Inter')}
-                title="Click to edit footer title & font"
+                className="text-lg font-semibold header-text editable-text editable-text-dark font-inter text-default"
+                onClick={() => handleFontColorEditClick('Footer Title', 'footer-title', 'Inter', 'Default Dark')}
+                title="Click to edit footer title, font & color"
               >
                 Ahlulbayt Studies
               </h3>
             </div>
             <p 
-              className="body-text editable-text editable-text-dark font-inter"
-              onClick={() => handleFontEditClick('Footer Copyright', 'footer-copyright', 'Inter')}
-              title="Click to edit footer copyright & font"
+              className="body-text editable-text editable-text-dark font-inter text-gray"
+              onClick={() => handleFontColorEditClick('Footer Copyright', 'footer-copyright', 'Inter', 'Gray')}
+              title="Click to edit footer copyright, font & color"
             >
               © 2025 Ahlulbayt Studies. All rights reserved.
             </p>
