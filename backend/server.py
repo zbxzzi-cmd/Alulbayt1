@@ -170,6 +170,23 @@ async def check_super_admin():
     except Exception as e:
         return {"exists": False, "error": str(e)}
 
+@api_router.get("/content/{key}")
+async def get_content_by_key(key: str):
+    """Get content item by key"""
+    try:
+        content = await db.content_items.find_one({"key": key})
+        if content:
+            return {
+                "key": content["key"],
+                "content": content["content"],
+                "title": content["title"],
+                "content_type": content["content_type"]
+            }
+        else:
+            return {"error": f"Content with key '{key}' not found"}
+    except Exception as e:
+        return {"error": str(e)}
+
 @api_router.post("/status", response_model=StatusCheck)
 async def create_status_check(input: StatusCheckCreate):
     status_dict = input.dict()
