@@ -12,7 +12,7 @@ import uuid
 from datetime import datetime
 from passlib.context import CryptContext
 import asyncio
-from models import User, UserRole, UserStatus, ContentItem, ContentType, Token, UserCreate, UserLogin, UserResponse
+from models import User, UserRole, UserStatus, ContentItem, ContentType, Token, UserCreate, UserLogin, UserResponse, PasswordResetRequest, PasswordReset
 from auth import create_access_token, verify_password, get_current_user, verify_token, get_password_hash
 
 
