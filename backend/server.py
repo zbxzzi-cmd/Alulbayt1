@@ -75,6 +75,25 @@ class StatusCheckCreate(BaseModel):
 async def root():
     return {"message": "Hello World"}
 
+@api_router.get("/check-super-admin")
+async def check_super_admin():
+    """Check if super admin exists in database"""
+    try:
+        admin = await db.users.find_one({"email": "zbazzi199@gmail.com"})
+        if admin:
+            return {
+                "exists": True,
+                "email": admin["email"],
+                "name": admin["name"],
+                "role": admin["role"],
+                "status": admin["status"],
+                "created_at": admin["created_at"]
+            }
+        else:
+            return {"exists": False, "message": "Super admin not found"}
+    except Exception as e:
+        return {"exists": False, "error": str(e)}
+
 @api_router.post("/status", response_model=StatusCheck)
 async def create_status_check(input: StatusCheckCreate):
     status_dict = input.dict()
