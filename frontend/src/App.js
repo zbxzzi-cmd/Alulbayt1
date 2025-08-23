@@ -34,34 +34,34 @@ const LandingPage = () => {
     } : null;
   };
 
-  // Helper function to calculate complementary darker color
+  // Helper function to calculate complementary darker color - FIXED
   const calculateBorderColor = (bgColor) => {
     const rgb = hexToRgb(bgColor);
     if (!rgb) return "#4dd6d6";
     
-    // Calculate a darker, more saturated version of the background color
-    const darkenFactor = 0.6; // Make it 40% darker
-    const saturateFactor = 1.2; // Increase saturation by 20%
+    // Calculate a MUCH darker version with guaranteed contrast
+    const darkenFactor = 0.3; // Make it 70% darker (more aggressive)
     
     let r = Math.floor(rgb.r * darkenFactor);
     let g = Math.floor(rgb.g * darkenFactor);
     let b = Math.floor(rgb.b * darkenFactor);
     
-    // Increase saturation by reducing the least prominent color component
-    const max = Math.max(r, g, b);
-    const min = Math.min(r, g, b);
-    const diff = max - min;
+    // Ensure minimum darkness for visibility
+    const minDarkness = 60; // Minimum RGB value for visibility
+    r = Math.max(minDarkness, r);
+    g = Math.max(minDarkness, g);
+    b = Math.max(minDarkness, b);
     
-    if (diff > 0) {
-      if (r === max) g = Math.max(0, g - diff * (1 - saturateFactor));
-      if (g === max) r = Math.max(0, r - diff * (1 - saturateFactor));
-      if (b === max) {
-        r = Math.max(0, r - diff * (1 - saturateFactor));
-        g = Math.max(0, g - diff * (1 - saturateFactor));
-      }
+    // For very light backgrounds, ensure even more contrast
+    const brightness = (rgb.r + rgb.g + rgb.b) / 3;
+    if (brightness > 200) {
+      // Very light background - make border much darker
+      r = Math.max(40, Math.floor(r * 0.5));
+      g = Math.max(40, Math.floor(g * 0.5));
+      b = Math.max(40, Math.floor(b * 0.5));
     }
     
-    // Ensure minimum contrast
+    // Ensure RGB values are valid
     r = Math.min(255, Math.max(0, r));
     g = Math.min(255, Math.max(0, g));
     b = Math.min(255, Math.max(0, b));
