@@ -294,6 +294,54 @@ async def register_user(user_data: UserCreate):
             detail=f"Registration failed: {str(e)}"
         )
 
+@api_router.post("/login", response_model=dict)
+async def login_user(user_credentials: UserLogin):
+    """Login user and return JWT token"""
+    try:
+        # Find user by email
+        user = await db.users.find_one({"email": user_credentials.email})
+        if not user:
+            raise HTTPException(
+                status_code=status.HTTP_401_UNAUTHORIZED,
+                detail="Invalid email or password"
+            )
+        
+        # Verify password
+        if not verify_password(user_credentials.password, user["hashed_password"]):
+            raise HTTPException(
+                status_code=status.HTTP_401_UNAUTHORIZED,
+                detail="Invalid email or password"
+            )
+        
+        # Check if user is approved (students need approval, admins are auto-approved)
+        if user["status"] != UserStatus.APPROVED:
+            raise HTTPException(
+                status_code=status.HTTP_403_FORBIDDEN,
+                detail="Account is pending approval. Please wait for admin approval."
+            )
+        
+        # Create JWT token using user ID (UUID string as required)
+        token_data = {"sub": user["id"]}
+        access_token = create_access_token(data=token_data)
+        
+        # Return user info and token
+        user_response = UserResponse(**user)
+        
+        return {
+            "message": "Login successful",
+            "user": user_response.dict(),
+            "access_token": access_token,
+            "token_type": "bearer"
+        }
+        
+    except HTTPException:
+        raise
+    except Exception as e:
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"Login failed: {str(e)}"
+        )
+
 @api_router.get("/users/{user_id}")
 async def get_user_by_id(user_id: str):
     """Get user by ID (for testing purposes)"""
