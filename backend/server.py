@@ -344,6 +344,103 @@ async def login_user(user_credentials: UserLogin):
             detail=f"Login failed: {str(e)}"
         )
 
+@api_router.post("/request-password-reset", response_model=dict)
+async def request_password_reset(reset_request: PasswordResetRequest):
+    """Request password reset - generates and stores reset token"""
+    try:
+        # Find user by email
+        user = await db.users.find_one({"email": reset_request.email})
+        if not user:
+            # For security, don't reveal if email exists or not
+            return {
+                "message": "If an account with that email exists, a password reset link has been sent.",
+                "success": True
+            }
+        
+        # Generate secure reset token
+        reset_token = secrets.token_urlsafe(32)
+        token_hash = hashlib.sha256(reset_token.encode()).hexdigest()
+        
+        # Set expiration time (1 hour from now)
+        from datetime import timedelta
+        expires_at = datetime.utcnow() + timedelta(hours=1)
+        
+        # Store hashed token in database
+        await db.users.update_one(
+            {"id": user["id"]},
+            {
+                "$set": {
+                    "password_reset_token": token_hash,
+                    "password_reset_expires": expires_at,
+                    "updated_at": datetime.utcnow()
+                }
+            }
+        )
+        
+        # In a real app, you would send an email with the reset_token
+        # For MVP testing, we'll return the token (remove this in production)
+        return {
+            "message": "If an account with that email exists, a password reset link has been sent.",
+            "success": True,
+            "reset_token": reset_token  # REMOVE THIS IN PRODUCTION
+        }
+        
+    except Exception as e:
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"Password reset request failed: {str(e)}"
+        )
+
+@api_router.post("/reset-password", response_model=dict)
+async def reset_password(reset_data: PasswordReset):
+    """Reset password using valid reset token"""
+    try:
+        # Hash the provided token to match stored hash
+        token_hash = hashlib.sha256(reset_data.token.encode()).hexdigest()
+        
+        # Find user with matching token that hasn't expired
+        user = await db.users.find_one({
+            "password_reset_token": token_hash,
+            "password_reset_expires": {"$gt": datetime.utcnow()}
+        })
+        
+        if not user:
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail="Invalid or expired reset token"
+            )
+        
+        # Hash the new password
+        new_hashed_password = get_password_hash(reset_data.new_password)
+        
+        # Update password and clear reset token
+        await db.users.update_one(
+            {"id": user["id"]},
+            {
+                "$set": {
+                    "hashed_password": new_hashed_password,
+                    "updated_at": datetime.utcnow()
+                },
+                "$unset": {
+                    "password_reset_token": "",
+                    "password_reset_expires": ""
+                }
+            }
+        )
+        
+        return {
+            "message": "Password has been successfully reset. You can now login with your new password.",
+            "success": True
+        }
+        
+    except HTTPException:
+        raise
+    except Exception as e:
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"Password reset failed: {str(e)}"
+        )
+
 @api_router.get("/users/{user_id}")
 async def get_user_by_id(user_id: str):
     """Get user by ID (for testing purposes)"""
