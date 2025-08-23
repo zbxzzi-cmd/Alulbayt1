@@ -5,7 +5,7 @@ import axios from "axios";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "./components/ui/card";
 import { Button } from "./components/ui/button";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "./components/ui/dialog";
-import { BookOpen, Users, Scale, Clock, Type, Palette } from "lucide-react";
+import { BookOpen, Users, Scale, Clock, Type, Palette, Sliders } from "lucide-react";
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
@@ -19,7 +19,9 @@ const LandingPage = () => {
   });
 
   const [showBgEditor, setShowBgEditor] = useState(false);
+  const [showBorderEditor, setShowBorderEditor] = useState(false);
   const [currentBgColor, setCurrentBgColor] = useState("#c3ffff");
+  const [borderThickness, setBorderThickness] = useState(18);
 
   // Expanded font options with new fonts
   const fontOptions = [
@@ -132,30 +134,17 @@ const LandingPage = () => {
     fetchContent();
   }, []);
 
-  // Update CSS custom properties when background color changes
+  // Update CSS custom properties when background color changes - FIXED FOR SOLID COLOR
   useEffect(() => {
     const root = document.documentElement;
-    const lighterColor = adjustColorBrightness(currentBgColor, 20);
-    const darkerColor = adjustColorBrightness(currentBgColor, -10);
-    
     root.style.setProperty('--custom-bg-color', currentBgColor);
-    root.style.setProperty('--custom-bg-secondary', darkerColor);
-    root.style.setProperty('--custom-bg-tertiary', lighterColor);
   }, [currentBgColor]);
 
-  // Helper function to adjust color brightness
-  const adjustColorBrightness = (color, amount) => {
-    const usePound = color[0] === "#";
-    const col = usePound ? color.slice(1) : color;
-    const num = parseInt(col, 16);
-    let r = (num >> 16) + amount;
-    let g = (num >> 8 & 0x00FF) + amount;
-    let b = (num & 0x0000FF) + amount;
-    r = r > 255 ? 255 : r < 0 ? 0 : r;
-    g = g > 255 ? 255 : g < 0 ? 0 : g;
-    b = b > 255 ? 255 : b < 0 ? 0 : b;
-    return (usePound ? "#" : "") + (g | (b << 8) | (r << 16)).toString(16);
-  };
+  // Update border thickness when it changes
+  useEffect(() => {
+    const root = document.documentElement;
+    root.style.setProperty('--border-thickness', `${borderThickness}px`);
+  }, [borderThickness]);
 
   const handleEnrollClick = (programName) => {
     // In next step, this will redirect to login/signup
@@ -195,6 +184,10 @@ Click OK to open font & color selector...`);
 
   const handleBgColorChange = (color) => {
     setCurrentBgColor(color);
+  };
+
+  const handleBorderThicknessChange = (thickness) => {
+    setBorderThickness(thickness);
   };
 
   const getCardClassName = (type) => {
@@ -251,13 +244,38 @@ Click OK to open font & color selector...`);
         </div>
       )}
 
-      {/* Header - NOT STICKY */}
+      {/* Border Thickness Editor */}
+      {showBorderEditor && (
+        <div className="border-thickness-editor">
+          <h3>📏 Border Thickness</h3>
+          <input
+            type="range"
+            min="5"
+            max="30"
+            value={borderThickness}
+            onChange={(e) => handleBorderThicknessChange(parseInt(e.target.value))}
+            className="thickness-slider"
+          />
+          <div className="thickness-value">
+            {borderThickness}px
+          </div>
+          <button
+            onClick={() => setShowBorderEditor(false)}
+            className="btn-secondary"
+            style={{ width: '100%', padding: '8px' }}
+          >
+            Close
+          </button>
+        </div>
+      )}
+
+      {/* Header - NOT STICKY, SHORTER BORDER */}
       <header className="navigation-bar">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-3">
+            <div className="logo-text-container">
               <div 
-                className="w-10 h-10 rounded-full bg-gradient-to-r from-white to-gray-100 flex items-center justify-center editable-logo"
+                className="w-10 h-10 rounded-full bg-gradient-to-r from-white to-gray-100 flex items-center justify-center editable-logo mr-3"
                 onClick={() => handleEditClick('Logo', 'main-logo')}
                 title="Click to edit logo"
               >
@@ -272,6 +290,14 @@ Click OK to open font & color selector...`);
               </h1>
             </div>
             <div className="flex items-center space-x-4">
+              <button
+                onClick={() => setShowBorderEditor(!showBorderEditor)}
+                className="flex items-center space-x-2 text-teal-700 text-sm hover:text-teal-800 transition-colors"
+                title="Adjust border thickness"
+              >
+                <Sliders className="h-4 w-4" />
+                <span>Borders</span>
+              </button>
               <button
                 onClick={() => setShowBgEditor(!showBgEditor)}
                 className="flex items-center space-x-2 text-teal-700 text-sm hover:text-teal-800 transition-colors"
@@ -289,7 +315,7 @@ Click OK to open font & color selector...`);
         </div>
       </header>
 
-      {/* Hero Section - Direct on Cyan Background */}
+      {/* Hero Section - Direct on Background */}
       <section className="hero-section">
         <div className="max-w-4xl mx-auto text-center">
           <h1 
