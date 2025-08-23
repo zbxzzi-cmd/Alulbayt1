@@ -1,5 +1,5 @@
 from pydantic import BaseModel, Field, EmailStr
-from typing import List, Optional
+from typing import List, Optional, Dict, Any
 from datetime import datetime
 from enum import Enum
 import uuid
@@ -108,9 +108,61 @@ class EnrollmentResponse(BaseModel):
     student_name: str
     program_name: str
 
+# Content Management System Models
+class ContentType(str, Enum):
+    LANDING_PAGE = "landing_page"
+    BUTTON_LABEL = "button_label"
+    PAGE_TITLE = "page_title"
+    NAVIGATION = "navigation"
+    PROGRAM_CONTENT = "program_content"
+    GENERAL_TEXT = "general_text"
+
+class ContentItem(BaseModel):
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    key: str  # Unique identifier for the content (e.g., "hero_title", "enroll_button")
+    content_type: ContentType
+    title: str  # Human-readable title for admin interface
+    content: str  # The actual text content
+    description: Optional[str] = None  # Description for admin reference
+    context: Optional[Dict[str, Any]] = None  # Additional context (e.g., program_id)
+    created_at: datetime = Field(default_factory=lambda: datetime.utcnow())
+    updated_at: datetime = Field(default_factory=lambda: datetime.utcnow())
+    updated_by: str  # Admin user ID
+
+class ContentItemCreate(BaseModel):
+    key: str
+    content_type: ContentType
+    title: str
+    content: str
+    description: Optional[str] = None
+    context: Optional[Dict[str, Any]] = None
+
+class ContentItemUpdate(BaseModel):
+    content: str
+    updated_at: datetime = Field(default_factory=lambda: datetime.utcnow())
+
+class ContentItemResponse(BaseModel):
+    id: str
+    key: str
+    content_type: ContentType
+    title: str
+    content: str
+    description: Optional[str] = None
+    context: Optional[Dict[str, Any]] = None
+    updated_at: datetime
+
+# Authentication Models
 class Token(BaseModel):
     access_token: str
     token_type: str
 
 class TokenData(BaseModel):
     user_id: Optional[str] = None
+
+# Password Reset Models
+class PasswordResetRequest(BaseModel):
+    email: EmailStr
+
+class PasswordReset(BaseModel):
+    token: str
+    new_password: str
