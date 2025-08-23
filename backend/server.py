@@ -12,7 +12,7 @@ import uuid
 from datetime import datetime
 from passlib.context import CryptContext
 import asyncio
-from models import User, UserRole, UserStatus
+from models import User, UserRole, UserStatus, ContentItem, ContentType
 
 
 ROOT_DIR = Path(__file__).parent
