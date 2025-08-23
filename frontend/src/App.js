@@ -18,44 +18,52 @@ const LandingPage = () => {
     overview_button: "Program Overview"
   });
 
-  // Sample programs data - in real app this would come from backend
+  // Sample programs data - ALL CONTENT IS EDITABLE
   const programs = [
     {
       id: 1,
-      name: "Quran Studies",
-      tagline: "Deep dive into the Holy Quran with expert guidance",
-      description: "Comprehensive study of the Quran including recitation, interpretation (Tafseer), and memorization (Hifz). Our expert teachers guide students through proper pronunciation, understanding of verses, and practical application in daily life.",
-      image: "https://images.unsplash.com/photo-1694758375810-2d7c7bc3e84e",
+      name: "Quran Studies", // EDITABLE
+      tagline: "Deep dive into the Holy Quran with expert guidance", // EDITABLE
+      description: "Comprehensive study of the Quran including recitation, interpretation (Tafseer), and memorization (Hifz). Our expert teachers guide students through proper pronunciation, understanding of verses, and practical application in daily life.", // EDITABLE
+      image: "https://images.unsplash.com/photo-1694758375810-2d7c7bc3e84e", // EDITABLE/REPLACEABLE
       icon: BookOpen,
       type: "informational" // Type A - Informational/Cool Cards
     },
     {
       id: 2,
-      name: "Hadith Studies", 
-      tagline: "Learn the teachings and traditions of Prophet Muhammad (PBUH)",
-      description: "Study the authentic sayings, actions, and approvals of Prophet Muhammad (PBUH). Learn to identify authentic narrations, understand their contexts, and apply their teachings in contemporary Islamic life.",
-      image: "https://images.unsplash.com/photo-1714746643489-a893ada081f5",
+      name: "Hadith Studies", // EDITABLE
+      tagline: "Learn the teachings and traditions of Prophet Muhammad (PBUH)", // EDITABLE
+      description: "Study the authentic sayings, actions, and approvals of Prophet Muhammad (PBUH). Learn to identify authentic narrations, understand their contexts, and apply their teachings in contemporary Islamic life.", // EDITABLE
+      image: "https://images.unsplash.com/photo-1714746643489-a893ada081f5", // EDITABLE/REPLACEABLE
       icon: Users,
       type: "interactive" // Type B - Interactive/Attention Cards
     },
     {
       id: 3,
-      name: "Islamic Jurisprudence (Fiqh)",
-      tagline: "Master Islamic law and jurisprudence principles",
-      description: "Comprehensive study of Islamic legal theory and practice. Learn the principles of Islamic jurisprudence, comparative Fiqh, and how to derive rulings from primary sources according to Shia Ithna Ashari methodology.",
-      image: "https://images.unsplash.com/photo-1626553261684-68f25328988f",
+      name: "Islamic Jurisprudence (Fiqh)", // EDITABLE
+      tagline: "Master Islamic law and jurisprudence principles", // EDITABLE
+      description: "Comprehensive study of Islamic legal theory and practice. Learn the principles of Islamic jurisprudence, comparative Fiqh, and how to derive rulings from primary sources according to Shia Ithna Ashari methodology.", // EDITABLE
+      image: "https://images.unsplash.com/photo-1626553261684-68f25328988f", // EDITABLE/REPLACEABLE
       icon: Scale,
       type: "warning" // Type C - Warning/Highlight Cards
     },
     {
       id: 4,
-      name: "Islamic History",
-      tagline: "Explore the rich history of Islam and its civilizations",
-      description: "Journey through Islamic history from the time of Prophet Muhammad (PBUH) to the present day. Study the lives of the Imams, Islamic golden age, and the development of Islamic societies and cultures.",
-      image: "https://images.unsplash.com/photo-1660674807706-49e85f121c59",
+      name: "Islamic History", // EDITABLE
+      tagline: "Explore the rich history of Islam and its civilizations", // EDITABLE
+      description: "Journey through Islamic history from the time of Prophet Muhammad (PBUH) to the present day. Study the lives of the Imams, Islamic golden age, and the development of Islamic societies and cultures.", // EDITABLE
+      image: "https://images.unsplash.com/photo-1660674807706-49e85f121c59", // EDITABLE/REPLACEABLE
       icon: Clock,
       type: "success" // Type D - Success/Positive Cards
     }
+  ];
+
+  // EDITABLE STATS DATA
+  const statsData = [
+    { number: "4", label: "Programs Available", type: "a" }, // EDITABLE
+    { number: "50+", label: "Students Enrolled", type: "b" }, // EDITABLE
+    { number: "10+", label: "Expert Teachers", type: "c" }, // EDITABLE
+    { number: "95%", label: "Completion Rate", type: "d" } // EDITABLE
   ];
 
   useEffect(() => {
@@ -101,6 +109,10 @@ const LandingPage = () => {
     }
   };
 
+  const getStatsClassName = (type) => {
+    return `stats-widget stats-type-${type}`;
+  };
+
   return (
     <div className="app-background">
       {/* Header */}
@@ -111,32 +123,32 @@ const LandingPage = () => {
               <div className="w-10 h-10 rounded-full bg-gradient-to-r from-blue-500 to-green-500 flex items-center justify-center">
                 <BookOpen className="h-6 w-6 text-white" />
               </div>
-              <h1 className="text-2xl font-bold header-text">Ahlulbayt Studies</h1>
+              <h1 className="text-2xl font-bold header-text editable-text">Ahlulbayt Studies</h1>
             </div>
           </div>
         </div>
       </header>
 
-      {/* Hero Section */}
-      <section className="py-16 px-4 sm:px-6 lg:px-8">
+      {/* Hero Section - Enhanced White Background */}
+      <section className="hero-section">
         <div className="max-w-4xl mx-auto text-center">
-          <h1 className="text-5xl font-bold header-text mb-6">
+          <h1 className="text-5xl font-bold header-text mb-6 editable-text">
             {content.landing_hero_title}
           </h1>
-          <p className="text-xl body-text mb-8 max-w-2xl mx-auto">
+          <p className="text-xl body-text mb-8 max-w-2xl mx-auto editable-text">
             {content.landing_hero_subtitle}
           </p>
         </div>
       </section>
 
-      {/* Programs Grid */}
-      <section className="py-16 px-4 sm:px-6 lg:px-8">
+      {/* Programs Section - Enhanced White Background */}
+      <section className="main-content-area">
         <div className="max-w-7xl mx-auto">
-          <div className="main-content-area mb-12 text-center">
-            <h2 className="text-3xl font-bold header-text mb-4">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-bold header-text mb-4 editable-text">
               Our Programs
             </h2>
-            <p className="body-text">
+            <p className="body-text editable-text">
               Choose from our comprehensive Islamic education programs designed for all levels of learning.
             </p>
           </div>
@@ -153,7 +165,7 @@ const LandingPage = () => {
                     <img 
                       src={program.image} 
                       alt={program.name}
-                      className="w-full h-48 object-cover rounded-t-2xl"
+                      className="w-full h-48 object-cover rounded-t-2xl editable-image"
                     />
                     <div className="absolute top-4 left-4 bg-white/90 backdrop-blur-sm rounded-2xl p-3">
                       <IconComponent className="h-6 w-6 text-gray-700" />
@@ -161,10 +173,10 @@ const LandingPage = () => {
                   </div>
                   
                   <CardHeader className="pb-3">
-                    <CardTitle className="text-2xl font-bold header-text">
+                    <CardTitle className="text-2xl font-bold header-text editable-text">
                       {program.name}
                     </CardTitle>
-                    <CardDescription className="body-text text-base">
+                    <CardDescription className="body-text text-base editable-text">
                       {program.tagline}
                     </CardDescription>
                   </CardHeader>
@@ -175,15 +187,15 @@ const LandingPage = () => {
                         <DialogTrigger asChild>
                           <Button 
                             variant="outline" 
-                            className="btn-secondary flex-1"
+                            className="btn-secondary flex-1 editable-text"
                           >
                             {content.overview_button}
                           </Button>
                         </DialogTrigger>
                         <DialogContent className="modal-content max-w-2xl">
                           <DialogHeader>
-                            <DialogTitle className="text-2xl header-text">{program.name}</DialogTitle>
-                            <DialogDescription className="body-text text-base pt-2">
+                            <DialogTitle className="text-2xl header-text editable-text">{program.name}</DialogTitle>
+                            <DialogDescription className="body-text text-base pt-2 editable-text">
                               {program.description}
                             </DialogDescription>
                           </DialogHeader>
@@ -192,7 +204,7 @@ const LandingPage = () => {
                       
                       <Button 
                         onClick={() => handleEnrollClick(program.name)}
-                        className="btn-primary flex-1"
+                        className="btn-primary flex-1 editable-text"
                       >
                         {content.enroll_button}
                       </Button>
@@ -205,41 +217,39 @@ const LandingPage = () => {
         </div>
       </section>
 
-      {/* Stats Section */}
-      <section className="py-16 px-4 sm:px-6 lg:px-8">
+      {/* Stats Section - Enhanced White Background */}
+      <section className="main-content-area">
         <div className="max-w-7xl mx-auto">
+          <div className="text-center mb-8">
+            <h2 className="text-3xl font-bold header-text mb-4 editable-text">
+              Our Impact
+            </h2>
+            <p className="body-text editable-text">
+              Building a strong community of Islamic scholars and learners
+            </p>
+          </div>
           <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-            <div className="stats-widget stats-type-a">
-              <div className="text-3xl font-bold header-text mb-2">4</div>
-              <div className="body-text">Programs Available</div>
-            </div>
-            <div className="stats-widget stats-type-b">
-              <div className="text-3xl font-bold header-text mb-2">50+</div>
-              <div className="body-text">Students Enrolled</div>
-            </div>
-            <div className="stats-widget stats-type-c">
-              <div className="text-3xl font-bold header-text mb-2">10+</div>
-              <div className="body-text">Expert Teachers</div>
-            </div>
-            <div className="stats-widget stats-type-d">
-              <div className="text-3xl font-bold header-text mb-2">95%</div>
-              <div className="body-text">Completion Rate</div>
-            </div>
+            {statsData.map((stat, index) => (
+              <div key={index} className={getStatsClassName(stat.type)}>
+                <div className="text-3xl font-bold header-text mb-2 editable-text">{stat.number}</div>
+                <div className="body-text editable-text">{stat.label}</div>
+              </div>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* Footer */}
-      <footer className="main-content-area mx-4 sm:mx-6 lg:mx-8 mb-8">
+      {/* Footer - Enhanced White Background */}
+      <footer className="footer-content mx-6 mb-8">
         <div className="max-w-7xl mx-auto px-6 py-8">
           <div className="text-center">
             <div className="flex items-center justify-center space-x-3 mb-4">
               <div className="w-8 h-8 rounded-full bg-gradient-to-r from-blue-500 to-green-500 flex items-center justify-center">
                 <BookOpen className="h-5 w-5 text-white" />
               </div>
-              <h3 className="text-lg font-semibold header-text">Ahlulbayt Studies</h3>
+              <h3 className="text-lg font-semibold header-text editable-text">Ahlulbayt Studies</h3>
             </div>
-            <p className="body-text">
+            <p className="body-text editable-text">
               © 2025 Ahlulbayt Studies. All rights reserved.
             </p>
           </div>
