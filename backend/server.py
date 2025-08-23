@@ -12,8 +12,8 @@ import uuid
 from datetime import datetime
 from passlib.context import CryptContext
 import asyncio
-from models import User, UserRole, UserStatus, ContentItem, ContentType, Token
-from auth import create_access_token, verify_password, get_current_user, verify_token
+from models import User, UserRole, UserStatus, ContentItem, ContentType, Token, UserCreate, UserResponse
+from auth import create_access_token, verify_password, get_current_user, verify_token, get_password_hash
 
 
 ROOT_DIR = Path(__file__).parent
