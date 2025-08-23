@@ -13,7 +13,7 @@ from datetime import datetime
 from passlib.context import CryptContext
 import asyncio
 from models import User, UserRole, UserStatus, ContentItem, ContentType, Token
-from auth import create_access_token, verify_password
+from auth import create_access_token, verify_password, get_current_user, verify_token
 
 
 ROOT_DIR = Path(__file__).parent
