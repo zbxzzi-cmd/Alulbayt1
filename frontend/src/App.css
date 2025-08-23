@@ -1,5 +1,5 @@
 /* Global Styles with Enhanced Design System */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:wght@300;400;500;600;700;800;900&family=Roboto:wght@300;400;500;700;900&family=Open+Sans:wght@300;400;500;600;700;800&family=Lato:wght@300;400;700;900&family=Montserrat:wght@300;400;500;600;700;800;900&display=swap');
 
 * {
   margin: 0;
@@ -25,21 +25,29 @@ code {
   min-height: 100vh;
 }
 
-/* 1. GLOBAL STYLING RULES - ENHANCED WITH VIBRANT BLUE */
+/* FONT FAMILY OPTIONS */
+.font-inter { font-family: 'Inter', sans-serif; }
+.font-playfair { font-family: 'Playfair Display', serif; }
+.font-roboto { font-family: 'Roboto', sans-serif; }
+.font-opensans { font-family: 'Open Sans', sans-serif; }
+.font-lato { font-family: 'Lato', sans-serif; }
+.font-montserrat { font-family: 'Montserrat', sans-serif; }
 
-/* Application Background - Vibrant Blue Gradient */
+/* 1. GLOBAL STYLING RULES - LIGHT CYAN BACKGROUND */
+
+/* Application Background - Light Cyan Gradient */
 .app-background {
   min-height: 100vh;
-  background: linear-gradient(135deg, #6BB6FF 0%, #4A90E2 50%, #5BA3F5 100%);
+  background: linear-gradient(135deg, #b3ffff 0%, #80e6e6 35%, #99f2f2 70%, #b3ffff 100%);
   background-attachment: fixed;
 }
 
-/* Navigation Bar - Transparent on Blue Background */
+/* Navigation Bar - Transparent on Cyan Background */
 .navigation-bar {
   background: transparent;
   backdrop-filter: none;
   -webkit-backdrop-filter: none;
-  border-bottom: 10px solid #4A90E2;
+  border-bottom: 10px solid #4dd6d6;
   border-radius: 0;
   margin: 0;
   position: sticky;
@@ -48,7 +56,7 @@ code {
   padding: 24px 0;
 }
 
-/* Hero Section - Direct on Blue Background */
+/* Hero Section - Direct on Cyan Background */
 .hero-section {
   background: transparent;
   backdrop-filter: none;
@@ -72,14 +80,15 @@ code {
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.06), 0 2px 8px rgba(0, 0, 0, 0.04);
 }
 
-/* Typography - Light Text for Blue Background */
+/* Typography - Dark Text for Cyan Background */
 .header-text {
   color: #2C3E50;
 }
 
 .header-text-light {
-  color: #FFFFFF;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  color: #1a4d4d;
+  text-shadow: 0 1px 2px rgba(255, 255, 255, 0.3);
+  font-weight: 700;
 }
 
 .body-text {
@@ -87,8 +96,9 @@ code {
 }
 
 .body-text-light {
-  color: rgba(255, 255, 255, 0.9);
-  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  color: #2d5555;
+  text-shadow: 0 1px 2px rgba(255, 255, 255, 0.2);
+  font-weight: 500;
 }
 
 /* 2. UI COMPONENT COLOR SYSTEM - UPDATED THICKNESSES */
@@ -273,7 +283,7 @@ code {
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.06), 0 2px 8px rgba(0, 0, 0, 0.04);
 }
 
-/* EDITABLE CONTENT INDICATORS */
+/* EDITABLE CONTENT INDICATORS WITH FONT OPTIONS */
 .editable-text {
   position: relative;
   transition: all 0.2s ease;
@@ -281,17 +291,47 @@ code {
 }
 
 .editable-text:hover {
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.2);
   border-radius: 4px;
   padding: 2px 4px;
-  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.3);
+  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.4);
+}
+
+.editable-text:hover::after {
+  content: "✏️ Click to edit text & font";
+  position: absolute;
+  bottom: -25px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0, 0, 0, 0.8);
+  color: white;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  white-space: nowrap;
+  z-index: 1000;
 }
 
 .editable-text-dark:hover {
-  background: rgba(224, 247, 250, 0.1);
+  background: rgba(224, 247, 250, 0.2);
   border-radius: 4px;
   padding: 2px 4px;
-  box-shadow: 0 0 0 2px rgba(224, 247, 250, 0.3);
+  box-shadow: 0 0 0 2px rgba(77, 214, 214, 0.4);
+}
+
+.editable-text-dark:hover::after {
+  content: "✏️ Click to edit text & font";
+  position: absolute;
+  bottom: -25px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0, 0, 0, 0.8);
+  color: white;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  white-space: nowrap;
+  z-index: 1000;
 }
 
 .editable-image {
@@ -307,6 +347,21 @@ code {
   border-radius: 8px;
 }
 
+.editable-image:hover::after {
+  content: "🖼️ Click to replace image";
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0, 0, 0, 0.8);
+  color: white;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  white-space: nowrap;
+  z-index: 1000;
+}
+
 .editable-logo {
   position: relative;
   transition: all 0.2s ease;
@@ -319,12 +374,55 @@ code {
   border-radius: 50%;
 }
 
+.editable-logo:hover::after {
+  content: "🎨 Click to edit logo";
+  position: absolute;
+  bottom: -25px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0, 0, 0, 0.8);
+  color: white;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  white-space: nowrap;
+  z-index: 1000;
+}
+
+/* FONT SELECTOR MODAL */
+.font-selector {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: white;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  z-index: 10000;
+  min-width: 300px;
+}
+
+.font-option {
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  margin: 5px 0;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.font-option:hover {
+  background: #f0f9ff;
+  border-color: #3b82f6;
+}
+
 /* INCREASED SPACING */
 .hero-to-content-spacing {
   margin-top: 60px;
 }
 
-/* Custom scrollbar - Light theme */
+/* Custom scrollbar - Cyan theme */
 ::-webkit-scrollbar {
   width: 8px;
 }
@@ -335,12 +433,12 @@ code {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: linear-gradient(135deg, #4A90E2, #6BB6FF);
+  background: linear-gradient(135deg, #4dd6d6, #66e6e6);
   border-radius: 10px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(135deg, #3A7BC8, #5BA3F5);
+  background: linear-gradient(135deg, #33cccc, #4dd6d6);
 }
 
 /* Focus states - Enhanced */
@@ -348,7 +446,7 @@ button:focus,
 input:focus,
 textarea:focus {
   outline: none;
-  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.5);
+  box-shadow: 0 0 0 3px rgba(77, 214, 214, 0.5);
 }
 
 /* Responsive Design - Enhanced */
@@ -398,6 +496,13 @@ textarea:focus {
   .stats-type-c,
   .stats-type-d {
     border-top-width: 10px;
+  }
+  
+  .editable-text:hover::after,
+  .editable-text-dark:hover::after,
+  .editable-image:hover::after,
+  .editable-logo:hover::after {
+    display: none;
   }
 }
 
