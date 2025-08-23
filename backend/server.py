@@ -294,6 +294,48 @@ async def register_user(user_data: UserCreate):
             detail=f"Registration failed: {str(e)}"
         )
 
+@api_router.get("/users/{user_id}")
+async def get_user_by_id(user_id: str):
+    """Get user by ID (for testing purposes)"""
+    try:
+        user = await db.users.find_one({"id": user_id})
+        if user:
+            user_response = UserResponse(**user)
+            return user_response.dict()
+        else:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail="User not found"
+            )
+    except HTTPException:
+        raise
+    except Exception as e:
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=str(e)
+        )
+
+@api_router.get("/users/pending/list")
+async def get_pending_users():
+    """Get list of pending users (for admin approval testing)"""
+    try:
+        pending_users = await db.users.find({"status": "pending"}).to_list(100)
+        return {
+            "pending_users": [
+                {
+                    "id": user["id"],
+                    "email": user["email"],
+                    "name": user["name"],
+                    "role": user["role"],
+                    "created_at": user["created_at"]
+                }
+                for user in pending_users
+            ],
+            "count": len(pending_users)
+        }
+    except Exception as e:
+        return {"error": str(e)}
+
 @api_router.post("/status", response_model=StatusCheck)
 async def create_status_check(input: StatusCheckCreate):
     status_dict = input.dict()
