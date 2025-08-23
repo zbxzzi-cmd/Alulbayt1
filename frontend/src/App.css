@@ -25,27 +25,39 @@ code {
   min-height: 100vh;
 }
 
-/* 1. GLOBAL STYLING RULES - ENHANCED */
+/* 1. GLOBAL STYLING RULES - ENHANCED WITH VIBRANT BLUE */
 
-/* Application Background - Subtle Light Gradient */
+/* Application Background - Vibrant Blue Gradient */
 .app-background {
   min-height: 100vh;
-  background: linear-gradient(135deg, #e8f0f2 0%, #d4e8f0 35%, #ddeef2 70%, #e8f0f2 100%);
+  background: linear-gradient(135deg, #6BB6FF 0%, #4A90E2 50%, #5BA3F5 100%);
   background-attachment: fixed;
 }
 
-/* Navigation Bar - Enhanced */
+/* Navigation Bar - Transparent on Blue Background */
 .navigation-bar {
-  background: rgba(255, 255, 255, 0.9);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border-bottom: 2px solid #E0F7FA;
-  border-radius: 24px;
-  margin: 16px;
+  background: transparent;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  border-bottom: 10px solid #4A90E2;
+  border-radius: 0;
+  margin: 0;
   position: sticky;
-  top: 16px;
+  top: 0;
   z-index: 50;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  padding: 24px 0;
+}
+
+/* Hero Section - Direct on Blue Background */
+.hero-section {
+  background: transparent;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  border-radius: 0;
+  border: none;
+  margin: 0;
+  padding: 60px 32px 80px;
+  box-shadow: none;
 }
 
 /* Main Content Areas - Enhanced White Semi-Transparent Backgrounds */
@@ -60,13 +72,23 @@ code {
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.06), 0 2px 8px rgba(0, 0, 0, 0.04);
 }
 
-/* Typography - Exact Colors */
+/* Typography - Light Text for Blue Background */
 .header-text {
   color: #2C3E50;
 }
 
+.header-text-light {
+  color: #FFFFFF;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
 .body-text {
   color: #546E7A;
+}
+
+.body-text-light {
+  color: rgba(255, 255, 255, 0.9);
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
 /* 2. UI COMPONENT COLOR SYSTEM - UPDATED THICKNESSES */
@@ -241,18 +263,6 @@ code {
   transform: translateY(-6px) scale(1.01);
 }
 
-/* HERO SECTION - Enhanced White Background */
-.hero-section {
-  background: rgba(255, 255, 255, 0.85);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border-radius: 24px;
-  border: 1px solid rgba(255, 255, 255, 0.6);
-  margin: 24px;
-  padding: 48px 32px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.06), 0 2px 8px rgba(0, 0, 0, 0.04);
-}
-
 /* FOOTER - Enhanced */
 .footer-content {
   background: rgba(255, 255, 255, 0.85);
@@ -267,22 +277,51 @@ code {
 .editable-text {
   position: relative;
   transition: all 0.2s ease;
+  cursor: pointer;
 }
 
 .editable-text:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+  padding: 2px 4px;
+  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.3);
+}
+
+.editable-text-dark:hover {
   background: rgba(224, 247, 250, 0.1);
   border-radius: 4px;
   padding: 2px 4px;
+  box-shadow: 0 0 0 2px rgba(224, 247, 250, 0.3);
 }
 
 .editable-image {
   position: relative;
   transition: all 0.2s ease;
+  cursor: pointer;
 }
 
 .editable-image:hover {
   opacity: 0.9;
   filter: brightness(1.05);
+  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.5);
+  border-radius: 8px;
+}
+
+.editable-logo {
+  position: relative;
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+.editable-logo:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.5);
+  border-radius: 50%;
+}
+
+/* INCREASED SPACING */
+.hero-to-content-spacing {
+  margin-top: 60px;
 }
 
 /* Custom scrollbar - Light theme */
@@ -296,12 +335,12 @@ code {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: linear-gradient(135deg, #E0F7FA, #B2EBF2);
+  background: linear-gradient(135deg, #4A90E2, #6BB6FF);
   border-radius: 10px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(135deg, #B2EBF2, #80DEEA);
+  background: linear-gradient(135deg, #3A7BC8, #5BA3F5);
 }
 
 /* Focus states - Enhanced */
@@ -309,14 +348,17 @@ button:focus,
 input:focus,
 textarea:focus {
   outline: none;
-  box-shadow: 0 0 0 3px rgba(224, 247, 250, 0.5);
+  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.5);
 }
 
 /* Responsive Design - Enhanced */
 @media (max-width: 768px) {
   .navigation-bar {
-    margin: 8px;
-    border-radius: 16px;
+    padding: 16px 0;
+  }
+  
+  .hero-section {
+    padding: 40px 20px 60px;
   }
   
   .main-content-area {
@@ -324,9 +366,8 @@ textarea:focus {
     padding: 20px;
   }
   
-  .hero-section {
-    margin: 12px;
-    padding: 32px 20px;
+  .hero-to-content-spacing {
+    margin-top: 40px;
   }
   
   h1 {

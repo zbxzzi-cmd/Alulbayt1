@@ -5,7 +5,7 @@ import axios from "axios";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "./components/ui/card";
 import { Button } from "./components/ui/button";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "./components/ui/dialog";
-import { BookOpen, Users, Scale, Clock } from "lucide-react";
+import { BookOpen, Users, Scale, Clock, Edit3 } from "lucide-react";
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
@@ -93,6 +93,10 @@ const LandingPage = () => {
     alert(`Enrollment for ${programName} - Login/Signup will be implemented in next step`);
   };
 
+  const handleEditClick = (elementType, elementId) => {
+    alert(`Edit ${elementType}: ${elementId}\n\nIn a real CMS, this would open an editor for:\n- Text content\n- Images\n- Colors\n- Layout options`);
+  };
+
   const getCardClassName = (type) => {
     const baseClasses = "program-card base-card";
     switch (type) {
@@ -115,40 +119,70 @@ const LandingPage = () => {
 
   return (
     <div className="app-background">
-      {/* Header */}
+      {/* Header - Direct on Blue Background */}
       <header className="navigation-bar">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-3">
-              <div className="w-10 h-10 rounded-full bg-gradient-to-r from-blue-500 to-green-500 flex items-center justify-center">
-                <BookOpen className="h-6 w-6 text-white" />
+              <div 
+                className="w-10 h-10 rounded-full bg-gradient-to-r from-white to-gray-100 flex items-center justify-center editable-logo"
+                onClick={() => handleEditClick('Logo', 'main-logo')}
+                title="Click to edit logo"
+              >
+                <BookOpen className="h-6 w-6 text-blue-600" />
               </div>
-              <h1 className="text-2xl font-bold header-text editable-text">Ahlulbayt Studies</h1>
+              <h1 
+                className="text-2xl font-bold header-text-light editable-text"
+                onClick={() => handleEditClick('Site Title', 'site-title')}
+                title="Click to edit site title"
+              >
+                Ahlulbayt Studies
+              </h1>
+            </div>
+            <div className="text-white/70 text-sm">
+              <Edit3 className="h-4 w-4 inline mr-1" />
+              Hover over content to see editable areas
             </div>
           </div>
         </div>
       </header>
 
-      {/* Hero Section - Enhanced White Background */}
+      {/* Hero Section - Direct on Blue Background */}
       <section className="hero-section">
         <div className="max-w-4xl mx-auto text-center">
-          <h1 className="text-5xl font-bold header-text mb-6 editable-text">
+          <h1 
+            className="text-5xl font-bold header-text-light mb-6 editable-text"
+            onClick={() => handleEditClick('Hero Title', 'hero-title')}
+            title="Click to edit hero title"
+          >
             {content.landing_hero_title}
           </h1>
-          <p className="text-xl body-text mb-8 max-w-2xl mx-auto editable-text">
+          <p 
+            className="text-xl body-text-light mb-8 max-w-2xl mx-auto editable-text"
+            onClick={() => handleEditClick('Hero Subtitle', 'hero-subtitle')}
+            title="Click to edit hero subtitle"
+          >
             {content.landing_hero_subtitle}
           </p>
         </div>
       </section>
 
-      {/* Programs Section - Enhanced White Background */}
-      <section className="main-content-area">
+      {/* Programs Section - Enhanced White Background with Increased Spacing */}
+      <section className="main-content-area hero-to-content-spacing">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold header-text mb-4 editable-text">
+            <h2 
+              className="text-3xl font-bold header-text mb-4 editable-text editable-text-dark"
+              onClick={() => handleEditClick('Section Title', 'programs-title')}
+              title="Click to edit section title"
+            >
               Our Programs
             </h2>
-            <p className="body-text editable-text">
+            <p 
+              className="body-text editable-text editable-text-dark"
+              onClick={() => handleEditClick('Section Description', 'programs-desc')}
+              title="Click to edit section description"
+            >
               Choose from our comprehensive Islamic education programs designed for all levels of learning.
             </p>
           </div>
@@ -166,6 +200,8 @@ const LandingPage = () => {
                       src={program.image} 
                       alt={program.name}
                       className="w-full h-48 object-cover rounded-t-2xl editable-image"
+                      onClick={() => handleEditClick('Program Image', `program-image-${program.id}`)}
+                      title="Click to replace image"
                     />
                     <div className="absolute top-4 left-4 bg-white/90 backdrop-blur-sm rounded-2xl p-3">
                       <IconComponent className="h-6 w-6 text-gray-700" />
@@ -173,10 +209,18 @@ const LandingPage = () => {
                   </div>
                   
                   <CardHeader className="pb-3">
-                    <CardTitle className="text-2xl font-bold header-text editable-text">
+                    <CardTitle 
+                      className="text-2xl font-bold header-text editable-text editable-text-dark"
+                      onClick={() => handleEditClick('Program Name', `program-name-${program.id}`)}
+                      title="Click to edit program name"
+                    >
                       {program.name}
                     </CardTitle>
-                    <CardDescription className="body-text text-base editable-text">
+                    <CardDescription 
+                      className="body-text text-base editable-text editable-text-dark"
+                      onClick={() => handleEditClick('Program Tagline', `program-tagline-${program.id}`)}
+                      title="Click to edit program tagline"
+                    >
                       {program.tagline}
                     </CardDescription>
                   </CardHeader>
@@ -187,15 +231,26 @@ const LandingPage = () => {
                         <DialogTrigger asChild>
                           <Button 
                             variant="outline" 
-                            className="btn-secondary flex-1 editable-text"
+                            className="btn-secondary flex-1 editable-text editable-text-dark"
+                            title="Click to edit button text"
                           >
                             {content.overview_button}
                           </Button>
                         </DialogTrigger>
                         <DialogContent className="modal-content max-w-2xl">
                           <DialogHeader>
-                            <DialogTitle className="text-2xl header-text editable-text">{program.name}</DialogTitle>
-                            <DialogDescription className="body-text text-base pt-2 editable-text">
+                            <DialogTitle 
+                              className="text-2xl header-text editable-text editable-text-dark"
+                              onClick={() => handleEditClick('Modal Title', `modal-title-${program.id}`)}
+                              title="Click to edit modal title"
+                            >
+                              {program.name}
+                            </DialogTitle>
+                            <DialogDescription 
+                              className="body-text text-base pt-2 editable-text editable-text-dark"
+                              onClick={() => handleEditClick('Program Description', `program-desc-${program.id}`)}
+                              title="Click to edit program description"
+                            >
                               {program.description}
                             </DialogDescription>
                           </DialogHeader>
@@ -205,6 +260,7 @@ const LandingPage = () => {
                       <Button 
                         onClick={() => handleEnrollClick(program.name)}
                         className="btn-primary flex-1 editable-text"
+                        title="Click to edit button text"
                       >
                         {content.enroll_button}
                       </Button>
@@ -221,18 +277,38 @@ const LandingPage = () => {
       <section className="main-content-area">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-8">
-            <h2 className="text-3xl font-bold header-text mb-4 editable-text">
+            <h2 
+              className="text-3xl font-bold header-text mb-4 editable-text editable-text-dark"
+              onClick={() => handleEditClick('Section Title', 'impact-title')}
+              title="Click to edit section title"
+            >
               Our Impact
             </h2>
-            <p className="body-text editable-text">
+            <p 
+              className="body-text editable-text editable-text-dark"
+              onClick={() => handleEditClick('Section Description', 'impact-desc')}
+              title="Click to edit section description"
+            >
               Building a strong community of Islamic scholars and learners
             </p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
             {statsData.map((stat, index) => (
               <div key={index} className={getStatsClassName(stat.type)}>
-                <div className="text-3xl font-bold header-text mb-2 editable-text">{stat.number}</div>
-                <div className="body-text editable-text">{stat.label}</div>
+                <div 
+                  className="text-3xl font-bold header-text mb-2 editable-text editable-text-dark"
+                  onClick={() => handleEditClick('Stat Number', `stat-number-${index}`)}
+                  title="Click to edit stat number"
+                >
+                  {stat.number}
+                </div>
+                <div 
+                  className="body-text editable-text editable-text-dark"
+                  onClick={() => handleEditClick('Stat Label', `stat-label-${index}`)}
+                  title="Click to edit stat label"
+                >
+                  {stat.label}
+                </div>
               </div>
             ))}
           </div>
@@ -244,12 +320,26 @@ const LandingPage = () => {
         <div className="max-w-7xl mx-auto px-6 py-8">
           <div className="text-center">
             <div className="flex items-center justify-center space-x-3 mb-4">
-              <div className="w-8 h-8 rounded-full bg-gradient-to-r from-blue-500 to-green-500 flex items-center justify-center">
+              <div 
+                className="w-8 h-8 rounded-full bg-gradient-to-r from-blue-500 to-green-500 flex items-center justify-center editable-logo"
+                onClick={() => handleEditClick('Footer Logo', 'footer-logo')}
+                title="Click to edit footer logo"
+              >
                 <BookOpen className="h-5 w-5 text-white" />
               </div>
-              <h3 className="text-lg font-semibold header-text editable-text">Ahlulbayt Studies</h3>
+              <h3 
+                className="text-lg font-semibold header-text editable-text editable-text-dark"
+                onClick={() => handleEditClick('Footer Title', 'footer-title')}
+                title="Click to edit footer title"
+              >
+                Ahlulbayt Studies
+              </h3>
             </div>
-            <p className="body-text editable-text">
+            <p 
+              className="body-text editable-text editable-text-dark"
+              onClick={() => handleEditClick('Footer Copyright', 'footer-copyright')}
+              title="Click to edit footer copyright"
+            >
               © 2025 Ahlulbayt Studies. All rights reserved.
             </p>
           </div>
