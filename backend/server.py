@@ -208,6 +208,27 @@ async def test_jwt_creation():
     except Exception as e:
         return {"error": str(e)}
 
+@api_router.post("/test-jwt-verify")
+async def test_jwt_verification(credentials: HTTPAuthorizationCredentials = Depends(security)):
+    """Test JWT token verification"""
+    try:
+        token_data = verify_token(credentials)
+        user = await db.users.find_one({"id": token_data.user_id})
+        if user:
+            return {
+                "token_valid": True,
+                "user_id": user["id"],
+                "email": user["email"],
+                "role": user["role"],
+                "message": "JWT token verified successfully"
+            }
+        else:
+            return {"token_valid": False, "error": "User not found"}
+    except HTTPException as e:
+        return {"token_valid": False, "error": e.detail}
+    except Exception as e:
+        return {"token_valid": False, "error": str(e)}
+
 @api_router.post("/status", response_model=StatusCheck)
 async def create_status_check(input: StatusCheckCreate):
     status_dict = input.dict()
