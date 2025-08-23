@@ -63,6 +63,415 @@ code {
   --border-color: #4dd6d6; /* Will be auto-calculated */
 }
 
+/* ========================================
+   AHLULBAYT STUDIES DESIGN SYSTEM
+   ======================================== */
+
+/* Design System Variables */
+:root {
+  /* Primary Color Palette - Light & Soft Colors */
+  --primary-light-cyan: #c3ffff;
+  --primary-light-blue: #b3e5fc;
+  --primary-mint-green: #b3f0b3;
+  --primary-lavender: #e1bee7;
+  --primary-peach: #ffccbc;
+  --primary-light-pink: #f8bbd9;
+  --primary-soft-yellow: #fff9c4;
+  --primary-light-gray: #f5f5f5;
+  
+  /* Border Colors (Auto-calculated from backgrounds) */
+  --border-cyan: #4dd6d6;
+  --border-blue: #81d4fa;
+  --border-green: #8bc34a;
+  --border-purple: #ce93d8;
+  --border-orange: #ffab91;
+  --border-pink: #f48fb1;
+  --border-yellow: #fff176;
+  --border-gray: #e0e0e0;
+  
+  /* Text Colors */
+  --text-primary: #2C3E50;
+  --text-secondary: #546E7A;
+  --text-light-on-bg: #1a4d4d;
+  --text-body-on-bg: #2d5555;
+  
+  /* Card Border Colors for Different Types */
+  --card-border-aqua: #E0F7FA;
+  --card-border-pink: #FCE4EC;
+  --card-border-orange: #FFF3E0;
+  --card-border-green: #E8F5E8;
+  
+  /* Spacing System */
+  --space-xs: 4px;
+  --space-sm: 8px;
+  --space-md: 16px;
+  --space-lg: 24px;
+  --space-xl: 32px;
+  --space-2xl: 48px;
+  --space-3xl: 64px;
+  
+  /* Border Radius System */
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 20px;
+  --radius-2xl: 24px;
+  --radius-full: 50%;
+  
+  /* Shadow System */
+  --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.04);
+  --shadow-md: 0 4px 8px rgba(0, 0, 0, 0.06);
+  --shadow-lg: 0 8px 16px rgba(0, 0, 0, 0.08);
+  --shadow-xl: 0 12px 24px rgba(0, 0, 0, 0.10);
+  --shadow-2xl: 0 20px 40px rgba(0, 0, 0, 0.12);
+  
+  /* Backdrop Filters */
+  --backdrop-light: blur(8px);
+  --backdrop-medium: blur(12px);
+  --backdrop-heavy: blur(20px);
+  
+  /* Transition System */
+  --transition-fast: 0.15s ease;
+  --transition-normal: 0.25s ease;
+  --transition-slow: 0.4s ease;
+  --transition-bounce: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Global Design System Classes */
+
+/* Background Containers */
+.ds-bg-main {
+  background: var(--custom-bg-color);
+  min-height: 100vh;
+  background-attachment: fixed;
+}
+
+.ds-bg-glass {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: var(--backdrop-medium);
+  -webkit-backdrop-filter: var(--backdrop-medium);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  box-shadow: var(--shadow-lg);
+}
+
+.ds-bg-glass-light {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: var(--backdrop-light);
+  -webkit-backdrop-filter: var(--backdrop-light);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  box-shadow: var(--shadow-md);
+}
+
+/* Card System */
+.ds-card-base {
+  background: #FFFFFF;
+  border: 1px solid #f0f0f0;
+  border-radius: var(--radius-lg);
+  transition: all var(--transition-bounce);
+  overflow: hidden;
+  box-shadow: var(--shadow-md);
+}
+
+.ds-card-base:hover {
+  transform: translateY(-6px);
+  cursor: pointer;
+  box-shadow: var(--shadow-xl);
+}
+
+.ds-card-aqua {
+  border-left: var(--border-thickness) solid var(--card-border-aqua);
+  box-shadow: -10px 0 25px rgba(224, 247, 250, 0.4), var(--shadow-md);
+}
+
+.ds-card-pink {
+  border-left: var(--border-thickness) solid var(--card-border-pink);
+  box-shadow: -10px 0 25px rgba(252, 228, 236, 0.4), var(--shadow-md);
+}
+
+.ds-card-orange {
+  border-left: var(--border-thickness) solid var(--card-border-orange);
+  box-shadow: -10px 0 25px rgba(255, 243, 224, 0.4), var(--shadow-md);
+}
+
+.ds-card-green {
+  border-left: var(--border-thickness) solid var(--card-border-green);
+  box-shadow: -10px 0 25px rgba(232, 245, 232, 0.4), var(--shadow-md);
+}
+
+/* Button System */
+.ds-btn-base {
+  border-radius: var(--radius-lg);
+  padding: 12px 24px;
+  font-weight: 600;
+  transition: all var(--transition-bounce);
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.ds-btn-primary {
+  background: linear-gradient(135deg, #3b82f6, #10b981);
+  color: white;
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+}
+
+.ds-btn-primary:hover {
+  background: linear-gradient(135deg, #2563eb, #059669);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4);
+}
+
+.ds-btn-secondary {
+  background: rgba(255, 255, 255, 0.95);
+  border: 2px solid var(--card-border-aqua);
+  color: var(--text-secondary);
+  backdrop-filter: var(--backdrop-light);
+  -webkit-backdrop-filter: var(--backdrop-light);
+}
+
+.ds-btn-secondary:hover {
+  background: rgba(224, 247, 250, 0.8);
+  border-color: #B2EBF2;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 16px rgba(224, 247, 250, 0.5);
+}
+
+/* Form System */
+.ds-form-container {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: var(--backdrop-medium);
+  -webkit-backdrop-filter: var(--backdrop-medium);
+  border-radius: var(--radius-2xl);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  box-shadow: var(--shadow-2xl);
+  padding: var(--space-2xl);
+}
+
+.ds-form-input {
+  width: 100%;
+  padding: 12px 16px;
+  border: 2px solid var(--card-border-aqua);
+  border-radius: var(--radius-md);
+  background: rgba(255, 255, 255, 0.9);
+  font-family: inherit;
+  transition: all var(--transition-normal);
+  font-size: 16px;
+}
+
+.ds-form-input:focus {
+  outline: none;
+  border-color: var(--border-cyan);
+  box-shadow: 0 0 0 3px rgba(77, 214, 214, 0.3);
+  background: rgba(255, 255, 255, 1);
+}
+
+.ds-form-input::placeholder {
+  color: var(--text-secondary);
+  opacity: 0.7;
+}
+
+.ds-form-label {
+  display: block;
+  margin-bottom: var(--space-sm);
+  color: var(--text-primary);
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.ds-form-error {
+  color: #dc2626;
+  font-size: 14px;
+  margin-top: var(--space-xs);
+  font-weight: 500;
+}
+
+.ds-form-success {
+  color: #059669;
+  font-size: 14px;
+  margin-top: var(--space-xs);
+  font-weight: 500;
+}
+
+/* Typography System */
+.ds-heading-xl {
+  font-size: 3rem;
+  font-weight: 700;
+  color: var(--text-light-on-bg);
+  text-shadow: 0 1px 2px rgba(255, 255, 255, 0.3);
+  line-height: 1.2;
+}
+
+.ds-heading-lg {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  line-height: 1.3;
+}
+
+.ds-heading-md {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  line-height: 1.4;
+}
+
+.ds-heading-sm {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  line-height: 1.4;
+}
+
+.ds-body-lg {
+  font-size: 1.125rem;
+  color: var(--text-body-on-bg);
+  text-shadow: 0 1px 2px rgba(255, 255, 255, 0.2);
+  font-weight: 500;
+  line-height: 1.6;
+}
+
+.ds-body-md {
+  font-size: 1rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+.ds-body-sm {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+
+/* Spacing Utilities */
+.ds-space-xs { margin: var(--space-xs); }
+.ds-space-sm { margin: var(--space-sm); }
+.ds-space-md { margin: var(--space-md); }
+.ds-space-lg { margin: var(--space-lg); }
+.ds-space-xl { margin: var(--space-xl); }
+.ds-space-2xl { margin: var(--space-2xl); }
+
+.ds-p-xs { padding: var(--space-xs); }
+.ds-p-sm { padding: var(--space-sm); }
+.ds-p-md { padding: var(--space-md); }
+.ds-p-lg { padding: var(--space-lg); }
+.ds-p-xl { padding: var(--space-xl); }
+.ds-p-2xl { padding: var(--space-2xl); }
+
+.ds-mb-xs { margin-bottom: var(--space-xs); }
+.ds-mb-sm { margin-bottom: var(--space-sm); }
+.ds-mb-md { margin-bottom: var(--space-md); }
+.ds-mb-lg { margin-bottom: var(--space-lg); }
+.ds-mb-xl { margin-bottom: var(--space-xl); }
+.ds-mb-2xl { margin-bottom: var(--space-2xl); }
+
+.ds-mt-xs { margin-top: var(--space-xs); }
+.ds-mt-sm { margin-top: var(--space-sm); }
+.ds-mt-md { margin-top: var(--space-md); }
+.ds-mt-lg { margin-top: var(--space-lg); }
+.ds-mt-xl { margin-top: var(--space-xl); }
+.ds-mt-2xl { margin-top: var(--space-2xl); }
+
+/* Animation System */
+.ds-animate-fade-in {
+  animation: dsAnimateFadeIn 0.6s ease-out;
+}
+
+.ds-animate-slide-up {
+  animation: dsAnimateSlideUp 0.6s ease-out;
+}
+
+.ds-animate-bounce-in {
+  animation: dsAnimateBounceIn 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes dsAnimateFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes dsAnimateSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes dsAnimateBounceIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.8) translateY(20px);
+  }
+  60% {
+    opacity: 1;
+    transform: scale(1.05) translateY(-5px);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+/* Responsive Design System */
+@media (max-width: 768px) {
+  :root {
+    --border-thickness: 12px;
+    --space-xl: 24px;
+    --space-2xl: 32px;
+  }
+  
+  .ds-heading-xl { font-size: 2.5rem; }
+  .ds-heading-lg { font-size: 1.75rem; }
+  .ds-heading-md { font-size: 1.25rem; }
+  
+  .ds-form-container {
+    padding: var(--space-lg);
+    margin: var(--space-sm);
+  }
+  
+  .ds-btn-base {
+    padding: 10px 20px;
+    width: 100%;
+  }
+}
+
+/* Content Management System Integration */
+.ds-editable {
+  position: relative;
+  transition: all var(--transition-fast);
+  cursor: pointer;
+}
+
+.ds-editable:hover {
+  background: rgba(224, 247, 250, 0.2);
+  border-radius: var(--radius-sm);
+  padding: 2px 4px;
+  box-shadow: 0 0 0 2px rgba(77, 214, 214, 0.4);
+}
+
+.ds-editable:hover::after {
+  content: "✏️ Click to edit";
+  position: absolute;
+  bottom: -25px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0, 0, 0, 0.8);
+  color: white;
+  padding: 4px 8px;
+  border-radius: var(--radius-sm);
+  font-size: 12px;
+  white-space: nowrap;
+  z-index: 1000;
+  pointer-events: none;
+}
+
+/* ========================================
+   END OF DESIGN SYSTEM
+   ======================================== */
+
 /* 1. GLOBAL STYLING RULES - FIXED SOLID BACKGROUND */
 
 /* Application Background - SOLID COLOR (NO GRADIENT) */
