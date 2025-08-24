@@ -640,6 +640,44 @@ code {
    END OF DESIGN SYSTEM
    ======================================== */
 
+/* CRITICAL FIX: Maximum Specificity CSS Rules to Win Cascade War */
+html[data-theme="dark"] .program-card,
+html[data-theme="dark"] .stats-card,
+html[data-theme="dark"] .base-card,
+html[data-theme="dark"] .stats-widget {
+  background: rgba(255, 255, 255, 0.06) !important;
+  backdrop-filter: blur(25px) !important;
+  -webkit-backdrop-filter: blur(25px) !important;
+}
+
+html[data-theme="dark"] .program-card {
+  border-width: 3px !important;
+  border-color: rgba(255, 255, 255, 0.18) !important;
+}
+
+html .program-card,
+html .base-card {
+  border-left-width: 15px !important;
+  border-left-style: solid !important;
+}
+
+html[data-theme="dark"] .app-background {
+  background: #1a2830 !important;
+}
+
+html[data-theme="light"] .app-background {
+  background: #c3ffff !important;
+}
+
+/* Force left border width control */
+html .card-type-a,
+html .card-type-b,
+html .card-type-c,
+html .card-type-d {
+  border-left-width: var(--left-border-width, 15px) !important;
+  border-left-style: solid !important;
+}
+
 /* Theme Toggle Component */
 .ds-theme-toggle {
   display: flex;
