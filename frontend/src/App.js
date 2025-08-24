@@ -280,6 +280,16 @@ Click OK to open font & color selector...`);
 
   const handleBgColorChange = (color) => {
     setCurrentBgColor(color);
+    // CRITICAL FIX: Theme-aware background color
+    const root = document.documentElement;
+    const theme = root.getAttribute('data-theme') || 'light';
+    if (theme === 'dark') {
+      root.style.setProperty('--custom-bg-color-dark', color);
+      root.style.setProperty('--main-bg-color', color);
+    } else {
+      root.style.setProperty('--custom-bg-color-light', color);
+      root.style.setProperty('--main-bg-color', color);
+    }
   };
 
   const handleBorderThicknessChange = (thickness) => {
