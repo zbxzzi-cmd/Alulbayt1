@@ -805,6 +805,20 @@ code {
   box-shadow: var(--program-card-hover-shadow);
 }
 
+/* CRITICAL FIX: Force Dark Mode Card Backgrounds */
+[data-theme="dark"] .program-card,
+[data-theme="dark"] .base-card {
+  background: rgba(255, 255, 255, 0.06) !important;
+  backdrop-filter: blur(25px) !important;
+  -webkit-backdrop-filter: blur(25px) !important;
+}
+
+[data-theme="dark"] .stats-widget {
+  background: rgba(255, 255, 255, 0.06) !important;
+  backdrop-filter: blur(25px) !important;
+  -webkit-backdrop-filter: blur(25px) !important;
+}
+
 /* Enhanced Program Card Types with Force CSS Application */
 .card-type-a {
   border-left: var(--program-border-width) solid var(--card-border-aqua) !important;
