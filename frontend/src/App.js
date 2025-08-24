@@ -234,6 +234,8 @@ const LandingPage = () => {
   useEffect(() => {
     const root = document.documentElement;
     root.style.setProperty('--border-thickness', `${borderThickness}px`);
+    // CRITICAL FIX: Also update left border width
+    root.style.setProperty('--left-border-width', `${borderThickness}px`);
   }, [borderThickness]);
 
   // Update border length when it changes
