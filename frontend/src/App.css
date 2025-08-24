@@ -240,6 +240,9 @@ code {
   --transition-slow: 0.4s ease;
   --transition-bounce: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   
+  /* CRITICAL FIX: Left Border Width Control */
+  --left-border-width: 15px;
+  
   /* Legacy Variables for Backward Compatibility */
   --border-thickness: 18px;
   --border-length: 60%;
