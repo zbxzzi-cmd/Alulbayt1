@@ -284,6 +284,9 @@ Click OK to open font & color selector...`);
 
   const handleBorderThicknessChange = (thickness) => {
     setBorderThickness(thickness);
+    // CRITICAL FIX: Update left border width
+    const root = document.documentElement;
+    root.style.setProperty('--left-border-width', `${thickness}px`);
   };
 
   const handleBorderLengthChange = (length) => {
