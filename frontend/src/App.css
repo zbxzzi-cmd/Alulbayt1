@@ -678,6 +678,101 @@ html .card-type-d {
   border-left-style: solid !important;
 }
 
+/* ===== COMPREHENSIVE PROGRAM CARD ENHANCEMENTS ===== */
+
+/* Base program card styles with CSS variables for toggle control */
+.program-card {
+  /* Border control with variables */
+  border-left-width: var(--left-border-width, 15px) !important;
+  border-left-style: solid !important;
+  border-bottom-width: calc(var(--left-border-width, 15px) / 3) !important;
+  border-bottom-style: solid !important;
+  
+  /* Glass effect base properties */
+  background: rgba(255, 255, 255, 0.06) !important;
+  backdrop-filter: blur(25px) !important;
+  border-radius: 24px !important;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3) !important;
+  
+  /* Smooth transitions for all effects */
+  transition: all 0.3s ease-in-out !important;
+}
+
+/* Dark mode specific borders (top and right only) */
+html[data-theme="dark"] .program-card {
+  border-top: 3px solid rgba(255, 255, 255, 0.18) !important;
+  border-right: 3px solid rgba(255, 255, 255, 0.18) !important;
+  /* Left and bottom borders are controlled by the toggle variable */
+}
+
+/* Colored borders for each card type - BOTH left and bottom */
+html[data-theme="dark"] .program-card.card-type-a {
+  border-left-color: #4A90A4 !important;
+  border-bottom-color: #4A90A4 !important;
+}
+
+html[data-theme="dark"] .program-card.card-type-b {
+  border-left-color: #B8739B !important;
+  border-bottom-color: #B8739B !important;
+}
+
+html[data-theme="dark"] .program-card.card-type-c {
+  border-left-color: #CC9966 !important;
+  border-bottom-color: #CC9966 !important;
+}
+
+html[data-theme="dark"] .program-card.card-type-d {
+  border-left-color: #7AAF7A !important;
+  border-bottom-color: #7AAF7A !important;
+}
+
+/* Enhanced hover effects */
+html[data-theme="dark"] .program-card:hover {
+  transform: translateY(-8px) !important;
+  background: rgba(255, 255, 255, 0.1) !important;
+  box-shadow: 0 12px 32px rgba(91, 33, 182, 0.4) !important; /* Purple tint glow */
+  
+  /* Slightly brighten the borders on hover */
+  border-top-color: rgba(255, 255, 255, 0.25) !important;
+  border-right-color: rgba(255, 255, 255, 0.25) !important;
+}
+
+/* Enhance the colored borders on hover */
+html[data-theme="dark"] .program-card.card-type-a:hover {
+  border-bottom-color: #5aa0b4 !important;
+  border-left-color: #5aa0b4 !important;
+}
+
+html[data-theme="dark"] .program-card.card-type-b:hover {
+  border-bottom-color: #c683ab !important;
+  border-left-color: #c683ab !important;
+}
+
+html[data-theme="dark"] .program-card.card-type-c:hover {
+  border-bottom-color: #d9a977 !important;
+  border-left-color: #d9a977 !important;
+}
+
+html[data-theme="dark"] .program-card.card-type-d:hover {
+  border-bottom-color: #8bbf8b !important;
+  border-left-color: #8bbf8b !important;
+}
+
+/* Background color theme awareness */
+.app-background {
+  background-color: var(--custom-bg-color-light, #c3ffff) !important;
+}
+
+html[data-theme="dark"] .app-background {
+  background-color: var(--custom-bg-color-dark, #1a2830) !important;
+}
+
+/* Text color adjustments for dark mode */
+html[data-theme="dark"] {
+  --text-primary: #f8fafc !important;
+  --text-secondary: #cbd5e1 !important;
+}
+
 /* Theme Toggle Component */
 .ds-theme-toggle {
   display: flex;
