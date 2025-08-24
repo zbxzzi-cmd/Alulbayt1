@@ -75,7 +75,7 @@ async def create_default_content():
                 "key": "enroll_button",
                 "content_type": ContentType.BUTTON_LABEL,
                 "title": "Enroll Button Label",
-                "content": "Enroll Now",
+                "content": "Enroll Now!",
                 "description": "Text for the enrollment button on program cards"
             },
             {
