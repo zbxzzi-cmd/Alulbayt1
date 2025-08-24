@@ -262,9 +262,17 @@ code {
 
 /* Global Design System Classes */
 
-/* Background Containers */
+/* Background Containers with Theme Support */
 .ds-bg-main {
-  background: var(--custom-bg-color);
+  background: var(--main-bg-color);
+  min-height: 100vh;
+  background-attachment: fixed;
+  transition: background-color var(--transition-normal);
+}
+
+/* CRITICAL FIX: Theme-Aware App Background */
+.app-background {
+  background: var(--main-bg-color);
   min-height: 100vh;
   background-attachment: fixed;
   transition: background-color var(--transition-normal);
