@@ -67,8 +67,12 @@ code {
    AHLULBAYT STUDIES DESIGN SYSTEM
    ======================================== */
 
-/* Design System Variables */
-:root {
+/* ========================================
+   AHLULBAYT STUDIES DESIGN SYSTEM
+   ======================================== */
+
+/* LIGHT THEME VARIABLES */
+[data-theme="light"] {
   /* Primary Color Palette - Light & Soft Colors */
   --primary-light-cyan: #c3ffff;
   --primary-light-blue: #b3e5fc;
@@ -101,6 +105,106 @@ code {
   --card-border-orange: #FFF3E0;
   --card-border-green: #E8F5E8;
   
+  /* Program Card Settings */
+  --program-border-width: 2px;
+  --program-card-bg: #FFFFFF;
+  --program-card-hover-bg: rgba(255, 255, 255, 0.95);
+  --program-card-shadow: 0 6px 20px rgba(0, 0, 0, 0.1), 0 2px 8px rgba(0, 0, 0, 0.06);
+  --program-card-hover-shadow: 0 12px 35px rgba(0, 0, 0, 0.15), 0 6px 15px rgba(0, 0, 0, 0.08);
+  
+  /* Stats Card Settings */
+  --stats-bg-color: #ffffff;
+  --stats-hover-bg: rgba(255, 255, 255, 0.98);
+  
+  /* Glass Effects */
+  --ds-bg-glass: rgba(255, 255, 255, 0.85);
+  --ds-bg-glass-light: rgba(255, 255, 255, 0.95);
+  --glass-border: rgba(255, 255, 255, 0.6);
+  --glass-border-light: rgba(255, 255, 255, 0.4);
+  
+  /* Button Colors */
+  --btn-primary-bg: linear-gradient(135deg, #3b82f6, #10b981);
+  --btn-primary-hover-bg: linear-gradient(135deg, #2563eb, #059669);
+  --btn-secondary-bg: rgba(255, 255, 255, 0.95);
+  --btn-secondary-border: #E0F7FA;
+  --btn-secondary-hover-bg: rgba(224, 247, 250, 0.8);
+  --btn-secondary-hover-border: #B2EBF2;
+  
+  /* Form Colors */
+  --form-input-bg: rgba(255, 255, 255, 0.9);
+  --form-input-focus-bg: rgba(255, 255, 255, 1);
+  --form-input-border: #E0F7FA;
+  --form-input-focus-border: #4dd6d6;
+}
+
+/* DARK THEME VARIABLES */
+[data-theme="dark"] {
+  /* Primary Color Palette - Dark & Rich Colors */
+  --primary-light-cyan: #0f1419;
+  --primary-light-blue: #1a202c;
+  --primary-mint-green: #1a202c;
+  --primary-lavender: #1e1b4b;
+  --primary-peach: #1c1917;
+  --primary-light-pink: #1f1729;
+  --primary-soft-yellow: #1c1917;
+  --primary-light-gray: #111827;
+  
+  /* Border Colors (HSLA-derived) */
+  --border-cyan: #4A90A4;
+  --border-blue: #3B82F6;
+  --border-green: #10B981;
+  --border-purple: #8B5CF6;
+  --border-orange: #F59E0B;
+  --border-pink: #EC4899;
+  --border-yellow: #EAB308;
+  --border-gray: #6B7280;
+  
+  /* Text Colors - WCAG Compliant */
+  --text-primary: #F8FAFC;
+  --text-secondary: #CBD5E1;
+  --text-light-on-bg: #E2E8F0;
+  --text-body-on-bg: #D1D5DB;
+  
+  /* Card Border Colors - Enhanced for Dark Mode */
+  --card-border-aqua: #4A90A4;
+  --card-border-pink: #B8739B;
+  --card-border-orange: #CC9966;
+  --card-border-green: #7AAF7A;
+  
+  /* Program Card Settings */
+  --program-border-width: 3px;
+  --program-card-bg: rgba(255, 255, 255, 0.06);
+  --program-card-hover-bg: rgba(255, 255, 255, 0.1);
+  --program-card-shadow: 0 6px 20px rgba(0, 0, 0, 0.3), 0 2px 8px rgba(0, 0, 0, 0.2);
+  --program-card-hover-shadow: 0 12px 32px rgba(0, 0, 0, 0.4), 0 6px 15px rgba(0, 0, 0, 0.25);
+  
+  /* Stats Card Settings */
+  --stats-bg-color: rgba(255, 255, 255, 0.06);
+  --stats-hover-bg: rgba(255, 255, 255, 0.1);
+  
+  /* Glass Effects */
+  --ds-bg-glass: rgba(255, 255, 255, 0.06);
+  --ds-bg-glass-light: rgba(255, 255, 255, 0.08);
+  --glass-border: rgba(255, 255, 255, 0.18);
+  --glass-border-light: rgba(255, 255, 255, 0.12);
+  
+  /* Button Colors */
+  --btn-primary-bg: linear-gradient(135deg, #3b82f6, #10b981);
+  --btn-primary-hover-bg: linear-gradient(135deg, #2563eb, #059669);
+  --btn-secondary-bg: rgba(255, 255, 255, 0.08);
+  --btn-secondary-border: rgba(255, 255, 255, 0.18);
+  --btn-secondary-hover-bg: rgba(255, 255, 255, 0.15);
+  --btn-secondary-hover-border: rgba(255, 255, 255, 0.25);
+  
+  /* Form Colors */
+  --form-input-bg: rgba(255, 255, 255, 0.08);
+  --form-input-focus-bg: rgba(255, 255, 255, 0.12);
+  --form-input-border: rgba(255, 255, 255, 0.18);
+  --form-input-focus-border: #4A90A4;
+}
+
+/* Base Design System Variables (Theme Independent) */
+:root {
   /* Spacing System */
   --space-xs: 4px;
   --space-sm: 8px;
@@ -128,13 +232,19 @@ code {
   /* Backdrop Filters */
   --backdrop-light: blur(8px);
   --backdrop-medium: blur(12px);
-  --backdrop-heavy: blur(20px);
+  --backdrop-heavy: blur(25px);
   
   /* Transition System */
   --transition-fast: 0.15s ease;
   --transition-normal: 0.25s ease;
   --transition-slow: 0.4s ease;
   --transition-bounce: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  
+  /* Legacy Variables for Backward Compatibility */
+  --border-thickness: 18px;
+  --border-length: 60%;
+  --custom-bg-color: #c3ffff;
+  --border-color: #4dd6d6;
 }
 
 /* Global Design System Classes */
