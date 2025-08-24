@@ -824,23 +824,35 @@ code {
 
 /* Enhanced Program Card Types with Force CSS Application */
 .card-type-a {
-  border-left: var(--program-border-width) solid var(--card-border-aqua) !important;
+  border-left: var(--left-border-width, 15px) solid var(--card-border-aqua) !important;
   border-left-style: solid !important;
 }
 
 .card-type-b {
-  border-left: var(--program-border-width) solid var(--card-border-pink) !important;
+  border-left: var(--left-border-width, 15px) solid var(--card-border-pink) !important;
   border-left-style: solid !important;
 }
 
 .card-type-c {
-  border-left: var(--program-border-width) solid var(--card-border-orange) !important;
+  border-left: var(--left-border-width, 15px) solid var(--card-border-orange) !important;
   border-left-style: solid !important;
 }
 
 .card-type-d {
-  border-left: var(--program-border-width) solid var(--card-border-green) !important;
+  border-left: var(--left-border-width, 15px) solid var(--card-border-green) !important;
   border-left-style: solid !important;
+}
+
+/* CRITICAL FIX: Program Card Border Width and Main Border */
+.program-card {
+  border-left-width: var(--left-border-width, 15px) !important;
+  border-left-style: solid !important;
+  border-width: 2px !important;
+}
+
+/* CRITICAL FIX: Dark Theme Main Border Width */
+[data-theme="dark"] .program-card {
+  border-width: 3px !important;
 }
 
 /* Enhanced Stats Widgets */
