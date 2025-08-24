@@ -206,6 +206,11 @@ code {
   --form-input-focus-bg: rgba(255, 255, 255, 0.12);
   --form-input-border: rgba(255, 255, 255, 0.18);
   --form-input-focus-border: #4A90A4;
+  
+  /* CRITICAL FIX: Theme-Aware Background Colors */
+  --custom-bg-color-dark: #1a2830;
+  --main-bg-color: #1a2830;
+  --card-bg-color: rgba(255, 255, 255, 0.06);
 }
 
 /* Base Design System Variables (Theme Independent) */
