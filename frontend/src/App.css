@@ -674,6 +674,33 @@ code {
   }
 }
 
+/* Enhanced Mobile Touch Support */
+@media (hover: none) and (pointer: coarse) {
+  /* Touch devices - ensure hover states work on tap */
+  .ds-card-base:active {
+    transform: translateY(-8px);
+    background: var(--program-card-hover-bg) !important;
+    box-shadow: var(--program-card-hover-shadow);
+  }
+  
+  .stats-widget:active {
+    transform: translateY(-2px);
+    background: var(--stats-hover-bg) !important;
+  }
+  
+  .ds-btn-primary:active {
+    background: var(--btn-primary-hover-bg);
+    transform: translateY(-1px);
+    box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4);
+  }
+  
+  .ds-btn-secondary:active {
+    background: var(--btn-secondary-hover-bg);
+    border-color: var(--btn-secondary-hover-border);
+    transform: translateY(-1px);
+  }
+}
+
 /* 1. GLOBAL STYLING RULES - FIXED SOLID BACKGROUND */
 
 /* Application Background - SOLID COLOR (NO GRADIENT) */
