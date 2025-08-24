@@ -417,6 +417,7 @@ Click OK to open font & color selector...`);
               </h1>
             </div>
             <div className="flex items-center space-x-4">
+              <ThemeToggle />
               <button
                 onClick={(e) => {
                   e.stopPropagation();
