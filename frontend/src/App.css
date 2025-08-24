@@ -619,6 +619,61 @@ code {
    END OF DESIGN SYSTEM
    ======================================== */
 
+/* Theme Toggle Component */
+.ds-theme-toggle {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: var(--space-sm) var(--space-md);
+  background: var(--ds-bg-glass-light);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-lg);
+  color: var(--text-primary);
+  font-weight: 500;
+  font-size: 14px;
+  transition: all var(--transition-normal);
+  cursor: pointer;
+  backdrop-filter: var(--backdrop-light);
+  -webkit-backdrop-filter: var(--backdrop-light);
+  isolation: isolate;
+}
+
+.ds-theme-toggle:hover {
+  background: var(--ds-bg-glass);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-md);
+}
+
+.ds-theme-toggle:active {
+  transform: translateY(0);
+}
+
+.ds-theme-toggle-text {
+  font-family: inherit;
+}
+
+/* Focus states for theme toggle */
+.ds-theme-toggle:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(77, 214, 214, 0.3);
+}
+
+[data-theme="dark"] .ds-theme-toggle:focus {
+  box-shadow: 0 0 0 3px rgba(74, 144, 164, 0.3);
+}
+
+/* Mobile responsive theme toggle */
+@media (max-width: 768px) {
+  .ds-theme-toggle {
+    padding: var(--space-xs) var(--space-sm);
+    font-size: 12px;
+  }
+  
+  .ds-theme-toggle-text {
+    display: none;
+  }
+}
+
 /* 1. GLOBAL STYLING RULES - FIXED SOLID BACKGROUND */
 
 /* Application Background - SOLID COLOR (NO GRADIENT) */
