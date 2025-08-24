@@ -533,7 +533,7 @@ Click OK to open font & color selector...`);
                         <DialogTrigger asChild>
                           <Button 
                             variant="outline" 
-                            className="btn-secondary flex-1 editable-text font-inter"
+                            className="btn-secondary ds-btn-overview flex-1 editable-text font-inter"
                             title="Click to edit button text, font & color"
                           >
                             {content.overview_button}
