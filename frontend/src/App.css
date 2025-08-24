@@ -317,22 +317,22 @@ code {
 }
 
 .ds-card-aqua {
-  border-left: var(--program-border-width) solid var(--card-border-aqua) !important;
+  border-left: var(--left-border-width, 15px) solid var(--card-border-aqua) !important;
   border-left-style: solid !important;
 }
 
 .ds-card-pink {
-  border-left: var(--program-border-width) solid var(--card-border-pink) !important;
+  border-left: var(--left-border-width, 15px) solid var(--card-border-pink) !important;
   border-left-style: solid !important;
 }
 
 .ds-card-orange {
-  border-left: var(--program-border-width) solid var(--card-border-orange) !important;
+  border-left: var(--left-border-width, 15px) solid var(--card-border-orange) !important;
   border-left-style: solid !important;
 }
 
 .ds-card-green {
-  border-left: var(--program-border-width) solid var(--card-border-green) !important;
+  border-left: var(--left-border-width, 15px) solid var(--card-border-green) !important;
   border-left-style: solid !important;
 }
 
