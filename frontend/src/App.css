@@ -705,64 +705,118 @@ html .card-type-d {
 
 /* ===== COMPREHENSIVE PROGRAM CARD ENHANCEMENTS ===== */
 
-/* Base program card styles with CSS variables for toggle control */
+/* ===== PROGRAM CARD BORDER FIXES ===== */
+
+/* Base program card styles with CSS variables for toggle control - APPLIES TO BOTH THEMES */
 .program-card {
-  /* Border control with variables */
+  /* Border control with variables - works for both light and dark modes */
   border-left-width: var(--left-border-width, 15px) !important;
   border-left-style: solid !important;
   border-bottom-width: calc(var(--left-border-width, 15px) / 3) !important;
   border-bottom-style: solid !important;
   
-  /* Glass effect base properties */
-  background: rgba(255, 255, 255, 0.06) !important;
+  /* Ensure borders are properly set in both themes */
+  border-top: none !important;
+  border-right: none !important;
+  
+  /* Glass effect for dark mode */
   backdrop-filter: blur(25px) !important;
   border-radius: 24px !important;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3) !important;
   
   /* Smooth transitions for all effects */
   transition: all 0.3s ease-in-out !important;
 }
 
-/* Dark mode specific borders (top and right only) */
-html[data-theme="dark"] .program-card {
-  border-top: 3px solid rgba(255, 255, 255, 0.18) !important;
-  border-right: 3px solid rgba(255, 255, 255, 0.18) !important;
-  /* Left and bottom borders are controlled by the toggle variable */
+/* Light mode specific styles */
+html[data-theme="light"] .program-card {
+  /* Light mode background */
+  background: white !important;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1) !important;
 }
 
-/* Colored borders for each card type - BOTH left and bottom */
+/* Light mode colored borders */
+html[data-theme="light"] .program-card.card-type-a {
+  border-left-color: #E0F7FA !important; /* Light Aqua */
+  border-bottom-color: #E0F7FA !important;
+}
+
+html[data-theme="light"] .program-card.card-type-b {
+  border-left-color: #FCE4EC !important; /* Light Pink */
+  border-bottom-color: #FCE4EC !important;
+}
+
+html[data-theme="light"] .program-card.card-type-c {
+  border-left-color: #FFF3E0 !important; /* Light Orange */
+  border-bottom-color: #FFF3E0 !important;
+}
+
+html[data-theme="light"] .program-card.card-type-d {
+  border-left-color: #E8F5E8 !important; /* Light Green */
+  border-bottom-color: #E8F5E8 !important;
+}
+
+/* 3. DARK GRADIENT INSIDE PROGRAM CARDS */
+html[data-theme="dark"] .program-card {
+  /* Dark glass effect with gradient */
+  background: linear-gradient(135deg, 
+    rgba(15, 15, 35, 0.8) 0%,     /* Very dark purple */
+    rgba(26, 26, 46, 0.7) 30%,    /* Dark blue-purple */
+    rgba(22, 33, 62, 0.6) 100%    /* Dark navy-purple */
+  ), rgba(255, 255, 255, 0.06) !important;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3) !important;
+  
+  /* Additional borders for dark mode - ensure they don't override left/bottom */
+  border-top: 3px solid rgba(255, 255, 255, 0.18) !important;
+  border-right: 3px solid rgba(255, 255, 255, 0.18) !important;
+  
+  /* Force left and bottom borders to use the CSS variable values */
+  border-left-width: var(--left-border-width, 15px) !important;
+  border-bottom-width: calc(var(--left-border-width, 15px) / 3) !important;
+}
+
+/* Dark mode colored borders - darker versions - HIGH SPECIFICITY */
 html[data-theme="dark"] .program-card.card-type-a {
-  border-left-color: #4A90A4 !important;
+  border-left-color: #4A90A4 !important; /* Dark Aqua */
   border-bottom-color: #4A90A4 !important;
 }
 
 html[data-theme="dark"] .program-card.card-type-b {
-  border-left-color: #B8739B !important;
+  border-left-color: #B8739B !important; /* Dark Pink */
   border-bottom-color: #B8739B !important;
 }
 
 html[data-theme="dark"] .program-card.card-type-c {
-  border-left-color: #CC9966 !important;
+  border-left-color: #CC9966 !important; /* Dark Orange */
   border-bottom-color: #CC9966 !important;
 }
 
 html[data-theme="dark"] .program-card.card-type-d {
-  border-left-color: #7AAF7A !important;
+  border-left-color: #7AAF7A !important; /* Dark Green */
   border-bottom-color: #7AAF7A !important;
 }
 
-/* Enhanced hover effects */
+/* Enhanced hover effects for both themes */
+html[data-theme="light"] .program-card:hover {
+  transform: translateY(-4px) !important;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15) !important;
+}
+
+/* 4. ENHANCED CARD HOVER EFFECT */
 html[data-theme="dark"] .program-card:hover {
   transform: translateY(-8px) !important;
-  background: rgba(255, 255, 255, 0.1) !important;
-  box-shadow: 0 12px 32px rgba(91, 33, 182, 0.4) !important; /* Purple tint glow */
+  background: linear-gradient(135deg, 
+    rgba(15, 15, 35, 0.9) 0%,
+    rgba(26, 26, 46, 0.8) 30%,
+    rgba(22, 33, 62, 0.7) 100%
+  ), rgba(255, 255, 255, 0.1) !important;
+  box-shadow: 0 12px 32px rgba(91, 33, 182, 0.4) !important;
   
   /* Slightly brighten the borders on hover */
   border-top-color: rgba(255, 255, 255, 0.25) !important;
   border-right-color: rgba(255, 255, 255, 0.25) !important;
 }
 
-/* Enhance the colored borders on hover */
+/* Enhance the colored borders on hover for dark mode - HIGH SPECIFICITY */
 html[data-theme="dark"] .program-card.card-type-a:hover {
   border-bottom-color: #5aa0b4 !important;
   border-left-color: #5aa0b4 !important;
@@ -781,6 +835,16 @@ html[data-theme="dark"] .program-card.card-type-c:hover {
 html[data-theme="dark"] .program-card.card-type-d:hover {
   border-bottom-color: #8bbf8b !important;
   border-left-color: #8bbf8b !important;
+}
+
+/* Additional high specificity rule to ensure dark mode borders are properly sized */
+html[data-theme="dark"] .program-card,
+html[data-theme="dark"] .program-card.card-type-a,
+html[data-theme="dark"] .program-card.card-type-b,
+html[data-theme="dark"] .program-card.card-type-c,
+html[data-theme="dark"] .program-card.card-type-d {
+  border-left-width: var(--left-border-width, 15px) !important;
+  border-bottom-width: calc(var(--left-border-width, 15px) / 3) !important;
 }
 
 /* Background color theme awareness */
