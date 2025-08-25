@@ -820,23 +820,23 @@ html[data-theme="dark"] .program-card {
 
 /* Dark mode colored borders - darker versions - HIGH SPECIFICITY */
 html[data-theme="dark"] .program-card.card-type-a {
-  border-left-color: #4A90A4 !important; /* Dark Aqua */
-  border-bottom-color: #4A90A4 !important;
+  border-left-color: var(--card-border-aqua-custom) !important; /* Dynamic Aqua */
+  border-bottom-color: var(--card-border-aqua-custom) !important;
 }
 
 html[data-theme="dark"] .program-card.card-type-b {
-  border-left-color: #B8739B !important; /* Dark Pink */
-  border-bottom-color: #B8739B !important;
+  border-left-color: var(--card-border-pink-custom) !important; /* Dynamic Pink */
+  border-bottom-color: var(--card-border-pink-custom) !important;
 }
 
 html[data-theme="dark"] .program-card.card-type-c {
-  border-left-color: #CC9966 !important; /* Dark Orange */
-  border-bottom-color: #CC9966 !important;
+  border-left-color: var(--card-border-orange-custom) !important; /* Dynamic Orange */
+  border-bottom-color: var(--card-border-orange-custom) !important;
 }
 
 html[data-theme="dark"] .program-card.card-type-d {
-  border-left-color: #7AAF7A !important; /* Dark Green */
-  border-bottom-color: #7AAF7A !important;
+  border-left-color: var(--card-border-green-custom) !important; /* Dynamic Green */
+  border-bottom-color: var(--card-border-green-custom) !important;
 }
 
 /* Enhanced hover effects for both themes */
