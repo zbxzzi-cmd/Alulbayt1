@@ -494,6 +494,17 @@ Click OK to open font & color selector...`);
               <button
                 onClick={(e) => {
                   e.stopPropagation();
+                  setShowBorderColorEditor(!showBorderColorEditor);
+                }}
+                className="flex items-center space-x-2 text-teal-700 text-sm hover:text-teal-800 transition-colors"
+                title="Change border colors (Dark Mode only)"
+              >
+                <Palette className="h-4 w-4" />
+                <span>Colors</span>
+              </button>
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
                   setShowBgEditor(!showBgEditor);
                 }}
                 className="flex items-center space-x-2 text-teal-700 text-sm hover:text-teal-800 transition-colors"
