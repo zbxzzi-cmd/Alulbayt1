@@ -16,24 +16,50 @@ body {
   line-height: 1.6;
 }
 
-/* 1. PURPLE-TINTED DARK BACKGROUND */
+/* 1. PURPLE-TINTED DARK BACKGROUND - COMPREHENSIVE */
 html[data-theme="dark"] body {
   background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%) !important;
 }
 
-html[data-theme="dark"] .app-background {
+html[data-theme="dark"] .app-background,
+html[data-theme="dark"] .ds-bg-main {
   background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%) !important;
 }
 
-/* Distinguished gradient for "Our Programs" section */
-html[data-theme="dark"] .main-content-area {
+/* Apply purple gradient to all main sections */
+html[data-theme="dark"] .App {
+  background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%) !important;
+  min-height: 100vh;
+}
+
+/* Hero section background */
+html[data-theme="dark"] .hero-section,
+html[data-theme="dark"] .header-section {
+  background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%) !important;
+}
+
+/* Footer background */
+html[data-theme="dark"] .footer-content,
+html[data-theme="dark"] footer {
   background: linear-gradient(135deg, 
-    rgba(15, 15, 35, 0.4) 0%,     /* Slightly lighter purple */
-    rgba(26, 26, 46, 0.5) 30%,    /* Slightly lighter blue-purple */
-    rgba(22, 33, 62, 0.6) 100%    /* Slightly lighter navy-purple */
+    rgba(15, 15, 35, 0.95) 0%,
+    rgba(26, 26, 46, 0.95) 50%,
+    rgba(22, 33, 62, 0.95) 100%
   ) !important;
   backdrop-filter: blur(12px) !important;
   border: 1px solid rgba(255, 255, 255, 0.1) !important;
+}
+
+/* Enhanced contrast for "Our Programs" section */
+html[data-theme="dark"] .main-content-area {
+  background: linear-gradient(135deg, 
+    rgba(15, 15, 35, 0.6) 0%,     /* More transparent for distinction */
+    rgba(26, 26, 46, 0.65) 30%,   /* Slightly different opacity */
+    rgba(22, 33, 62, 0.7) 100%    /* Higher opacity for contrast */
+  ) !important;
+  backdrop-filter: blur(15px) !important;
+  border: 2px solid rgba(255, 255, 255, 0.15) !important;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4) !important;
 }
 
 /* 2. ANIMATED BACKGROUND PARTICLES - ENHANCED VISIBILITY */
