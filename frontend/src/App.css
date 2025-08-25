@@ -957,6 +957,13 @@ html[data-theme="dark"] .w-full.min-h-screen {
   background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%) !important;
 }
 
+/* CRITICAL: Override React component backgrounds */
+html[data-theme="dark"] .App,
+html[data-theme="dark"] #root {
+  background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%) !important;
+  min-height: 100vh !important;
+}
+
 /* Text color adjustments for dark mode */
 html[data-theme="dark"] {
   --text-primary: #f8fafc !important;
