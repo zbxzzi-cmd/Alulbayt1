@@ -932,13 +932,29 @@ html[data-theme="dark"] .program-card:hover img {
   opacity: 1 !important;
 }
 
-/* Background color theme awareness */
+/* Background color theme awareness - ENHANCED */
 .app-background {
   background-color: var(--custom-bg-color-light, #c3ffff) !important;
 }
 
 html[data-theme="dark"] .app-background {
   background-color: var(--custom-bg-color-dark, #1a2830) !important;
+  background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%) !important;
+}
+
+/* Force purple background on all major containers in dark mode */
+html[data-theme="dark"] .landing-page,
+html[data-theme="dark"] .container:not(.main-content-area),
+html[data-theme="dark"] .section-background,
+html[data-theme="dark"] .hero-background,
+html[data-theme="dark"] .footer-background {
+  background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%) !important;
+}
+
+/* Ensure wrapper elements also get the purple background */
+html[data-theme="dark"] .min-h-screen,
+html[data-theme="dark"] .w-full.min-h-screen {
+  background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%) !important;
 }
 
 /* Text color adjustments for dark mode */
