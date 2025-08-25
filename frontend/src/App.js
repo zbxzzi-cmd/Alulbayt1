@@ -411,6 +411,71 @@ Click OK to open font & color selector...`);
         </div>
       )}
 
+      {/* Border Color Editor Panel */}
+      {showBorderColorEditor && (
+        <div className="fixed top-20 right-4 bg-white p-6 rounded-2xl shadow-2xl border border-gray-200 z-50 max-w-sm">
+          <h3 className="text-lg font-semibold text-gray-800 mb-4">Border Colors (Dark Mode)</h3>
+          
+          <div className="space-y-4">
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Aqua Cards</label>
+              <input
+                type="color"
+                value={borderColors.aqua}
+                onChange={(e) => handleBorderColorChange('aqua', e.target.value)}
+                className="w-full h-10 rounded-lg border border-gray-300 cursor-pointer"
+              />
+            </div>
+            
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Pink Cards</label>
+              <input
+                type="color"
+                value={borderColors.pink}
+                onChange={(e) => handleBorderColorChange('pink', e.target.value)}
+                className="w-full h-10 rounded-lg border border-gray-300 cursor-pointer"
+              />
+            </div>
+            
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Orange Cards</label>
+              <input
+                type="color"
+                value={borderColors.orange}
+                onChange={(e) => handleBorderColorChange('orange', e.target.value)}
+                className="w-full h-10 rounded-lg border border-gray-300 cursor-pointer"
+              />
+            </div>
+            
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Green Cards</label>
+              <input
+                type="color"
+                value={borderColors.green}
+                onChange={(e) => handleBorderColorChange('green', e.target.value)}
+                className="w-full h-10 rounded-lg border border-gray-300 cursor-pointer"
+              />
+            </div>
+            
+            <div className="flex space-x-2 pt-4">
+              <button
+                onClick={resetBorderColors}
+                className="px-4 py-2 bg-gray-500 text-white text-sm rounded-lg hover:bg-gray-600 transition-colors"
+              >
+                Reset to Default
+              </button>
+              <button
+                onClick={() => setShowBorderColorEditor(false)}
+                className="px-4 py-2 bg-teal-600 text-white text-sm rounded-lg hover:bg-teal-700 transition-colors"
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Border Editor Panel */}
       {/* Border Thickness & Length Editor - ENHANCED */}
       {showBorderEditor && (
         <div className="border-thickness-editor">
