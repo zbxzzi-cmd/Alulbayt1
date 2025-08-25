@@ -21,6 +21,21 @@ html[data-theme="dark"] body {
   background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%) !important;
 }
 
+html[data-theme="dark"] .app-background {
+  background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%) !important;
+}
+
+/* Distinguished gradient for "Our Programs" section */
+html[data-theme="dark"] .main-content-area {
+  background: linear-gradient(135deg, 
+    rgba(15, 15, 35, 0.4) 0%,     /* Slightly lighter purple */
+    rgba(26, 26, 46, 0.5) 30%,    /* Slightly lighter blue-purple */
+    rgba(22, 33, 62, 0.6) 100%    /* Slightly lighter navy-purple */
+  ) !important;
+  backdrop-filter: blur(12px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+}
+
 /* 2. ANIMATED BACKGROUND PARTICLES */
 html[data-theme="dark"] body::before {
   content: '';
