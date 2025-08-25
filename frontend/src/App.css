@@ -316,6 +316,12 @@ code {
   /* CRITICAL FIX: Left Border Width Control */
   --left-border-width: 15px;
   
+  /* Dynamic Border Colors (Dark Mode Only) */
+  --card-border-aqua-custom: #4A90A4;
+  --card-border-pink-custom: #B8739B;
+  --card-border-orange-custom: #CC9966;
+  --card-border-green-custom: #7AAF7A;
+  
   /* Legacy Variables for Backward Compatibility */
   --border-thickness: 18px;
   --border-length: 60%;
