@@ -50,16 +50,17 @@ html[data-theme="dark"] footer {
   border: 1px solid rgba(255, 255, 255, 0.1) !important;
 }
 
-/* Enhanced contrast for "Our Programs" section */
+/* Enhanced contrast for "Our Programs" section - MUCH MORE DISTINCT */
 html[data-theme="dark"] .main-content-area {
   background: linear-gradient(135deg, 
-    rgba(15, 15, 35, 0.6) 0%,     /* More transparent for distinction */
-    rgba(26, 26, 46, 0.65) 30%,   /* Slightly different opacity */
-    rgba(22, 33, 62, 0.7) 100%    /* Higher opacity for contrast */
+    rgba(30, 30, 60, 0.85) 0%,     /* Much lighter purple - more visible */
+    rgba(45, 45, 75, 0.9) 30%,     /* Brighter blue-purple */
+    rgba(60, 60, 90, 0.95) 100%    /* Much lighter navy-purple */
   ) !important;
-  backdrop-filter: blur(15px) !important;
-  border: 2px solid rgba(255, 255, 255, 0.15) !important;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4) !important;
+  backdrop-filter: blur(20px) !important;
+  border: 3px solid rgba(255, 255, 255, 0.25) !important; /* Brighter border */
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.6) !important; /* Stronger shadow */
+  border-radius: 24px !important;
 }
 
 /* 2. ANIMATED BACKGROUND PARTICLES - ENHANCED VISIBILITY */
