@@ -251,6 +251,51 @@ const LandingPage = () => {
     root.style.setProperty('--border-length', `${borderLength}%`);
   }, [borderLength]);
 
+  // Load border colors from localStorage on mount
+  useEffect(() => {
+    const savedColors = localStorage.getItem('borderColors');
+    if (savedColors) {
+      const colors = JSON.parse(savedColors);
+      setBorderColors(colors);
+      // Apply colors to CSS variables
+      const root = document.documentElement;
+      root.style.setProperty('--card-border-aqua-custom', colors.aqua);
+      root.style.setProperty('--card-border-pink-custom', colors.pink);
+      root.style.setProperty('--card-border-orange-custom', colors.orange);
+      root.style.setProperty('--card-border-green-custom', colors.green);
+    }
+  }, []);
+
+  // Save border colors to localStorage and apply to CSS
+  const handleBorderColorChange = (type, color) => {
+    const newColors = { ...borderColors, [type]: color };
+    setBorderColors(newColors);
+    localStorage.setItem('borderColors', JSON.stringify(newColors));
+    
+    // Apply to CSS variable
+    const root = document.documentElement;
+    root.style.setProperty(`--card-border-${type}-custom`, color);
+  };
+
+  // Reset border colors to default
+  const resetBorderColors = () => {
+    const defaultColors = {
+      aqua: "#4A90A4",
+      pink: "#B8739B", 
+      orange: "#CC9966",
+      green: "#7AAF7A"
+    };
+    setBorderColors(defaultColors);
+    localStorage.setItem('borderColors', JSON.stringify(defaultColors));
+    
+    // Apply to CSS variables
+    const root = document.documentElement;
+    root.style.setProperty('--card-border-aqua-custom', defaultColors.aqua);
+    root.style.setProperty('--card-border-pink-custom', defaultColors.pink);
+    root.style.setProperty('--card-border-orange-custom', defaultColors.orange);
+    root.style.setProperty('--card-border-green-custom', defaultColors.green);
+  };
+
   const handleEnrollClick = (programName) => {
     // In next step, this will redirect to login/signup
     alert(`Enrollment for ${programName} - Login/Signup will be implemented in next step`);
