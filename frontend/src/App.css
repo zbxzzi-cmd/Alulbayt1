@@ -918,17 +918,21 @@ html[data-theme="dark"] .program-card.card-type-d {
   border-bottom-width: calc(var(--left-border-width, 15px) / 3) !important;
 }
 
-/* Dark Mode Program Card Logo Styling - REMOVED TO PREVENT WHITE BOXES */
+/* Dark Mode Program Card Logo Styling - HIDE ALL VISUAL ELEMENTS */
 html[data-theme="dark"] .program-card .card-icon,
 html[data-theme="dark"] .program-card svg,
-html[data-theme="dark"] .program-card img {
-  display: none !important; /* Hide logos completely as requested */
+html[data-theme="dark"] .program-card img,
+html[data-theme="dark"] .program-card .absolute.top-4.left-4,
+html[data-theme="dark"] .program-card .bg-white\/90 {
+  display: none !important; /* Hide logos, icons, and images completely */
 }
 
 html[data-theme="dark"] .program-card:hover .card-icon,
 html[data-theme="dark"] .program-card:hover svg,
-html[data-theme="dark"] .program-card:hover img {
-  display: none !important; /* Hide logos completely as requested */
+html[data-theme="dark"] .program-card:hover img,
+html[data-theme="dark"] .program-card:hover .absolute.top-4.left-4,
+html[data-theme="dark"] .program-card:hover .bg-white\/90 {
+  display: none !important; /* Hide logos, icons, and images completely */
 }
 
 /* Background color theme awareness - ENHANCED */
