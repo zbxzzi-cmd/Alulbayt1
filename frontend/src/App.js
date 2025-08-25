@@ -22,8 +22,15 @@ const LandingPage = () => {
 
   const [showBgEditor, setShowBgEditor] = useState(false);
   const [showBorderEditor, setShowBorderEditor] = useState(false);
+  const [showBorderColorEditor, setShowBorderColorEditor] = useState(false);
   const [currentBgColor, setCurrentBgColor] = useState("#c3ffff");
   const [borderThickness, setBorderThickness] = useState(18);
+  const [borderColors, setBorderColors] = useState({
+    aqua: "#4A90A4",
+    pink: "#B8739B", 
+    orange: "#CC9966",
+    green: "#7AAF7A"
+  });
   const [borderLength, setBorderLength] = useState(60); // NEW: Border length state
 
   // Helper function to convert hex to RGB
