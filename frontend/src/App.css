@@ -917,19 +917,17 @@ html[data-theme="dark"] .program-card.card-type-d {
   border-bottom-width: calc(var(--left-border-width, 15px) / 3) !important;
 }
 
-/* Dark Mode Program Card Logo Styling */
+/* Dark Mode Program Card Logo Styling - REMOVED TO PREVENT WHITE BOXES */
 html[data-theme="dark"] .program-card .card-icon,
 html[data-theme="dark"] .program-card svg,
 html[data-theme="dark"] .program-card img {
-  filter: brightness(0) invert(1) !important; /* Convert to white */
-  opacity: 0.9 !important;
+  display: none !important; /* Hide logos completely as requested */
 }
 
 html[data-theme="dark"] .program-card:hover .card-icon,
 html[data-theme="dark"] .program-card:hover svg,
 html[data-theme="dark"] .program-card:hover img {
-  filter: brightness(0) invert(1) !important;
-  opacity: 1 !important;
+  display: none !important; /* Hide logos completely as requested */
 }
 
 /* Background color theme awareness - ENHANCED */
