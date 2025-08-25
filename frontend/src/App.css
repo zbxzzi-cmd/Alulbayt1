@@ -926,18 +926,33 @@ html[data-theme="dark"] .program-card .bg-white\/90 {
   display: none !important; /* Hide logos and icons */
 }
 
-/* Replace images with placeholder space */
+/* Create image placeholder space */
 html[data-theme="dark"] .program-card img {
-  background: rgba(255, 255, 255, 0.1) !important;
-  border: 2px dashed rgba(255, 255, 255, 0.3) !important;
-  content: '' !important;
-  filter: none !important;
-  opacity: 1 !important;
+  opacity: 0 !important; /* Hide actual image */
 }
 
-html[data-theme="dark"] .program-card:hover img {
-  background: rgba(255, 255, 255, 0.15) !important;
+html[data-theme="dark"] .program-card .relative::after {
+  content: 'Image Space';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(255, 255, 255, 0.08) !important;
+  border: 2px dashed rgba(255, 255, 255, 0.3) !important;
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 14px;
+  font-weight: 500;
+}
+
+html[data-theme="dark"] .program-card:hover .relative::after {
+  background: rgba(255, 255, 255, 0.12) !important;
   border-color: rgba(255, 255, 255, 0.4) !important;
+  color: rgba(255, 255, 255, 0.8);
 }
 
 /* Background color theme awareness - ENHANCED */
