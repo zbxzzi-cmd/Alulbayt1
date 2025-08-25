@@ -917,6 +917,21 @@ html[data-theme="dark"] .program-card.card-type-d {
   border-bottom-width: calc(var(--left-border-width, 15px) / 3) !important;
 }
 
+/* Dark Mode Program Card Logo Styling */
+html[data-theme="dark"] .program-card .card-icon,
+html[data-theme="dark"] .program-card svg,
+html[data-theme="dark"] .program-card img {
+  filter: brightness(0) invert(1) !important; /* Convert to white */
+  opacity: 0.9 !important;
+}
+
+html[data-theme="dark"] .program-card:hover .card-icon,
+html[data-theme="dark"] .program-card:hover svg,
+html[data-theme="dark"] .program-card:hover img {
+  filter: brightness(0) invert(1) !important;
+  opacity: 1 !important;
+}
+
 /* Background color theme awareness */
 .app-background {
   background-color: var(--custom-bg-color-light, #c3ffff) !important;
