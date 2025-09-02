@@ -618,6 +618,9 @@ Click OK to open font & color selector...`);
         </div>
       </section>
 
+      {/* Admin Tab Management - Show for Super Admin */}
+      <AdminControls currentUser={{ role: 'super_admin' }} />
+
       {/* Programs Section - Enhanced White Background with Increased Spacing */}
       <section className="main-content-area hero-to-content-spacing">
         <div className="max-w-7xl mx-auto">
