@@ -159,6 +159,29 @@ class Token(BaseModel):
 class TokenData(BaseModel):
     user_id: Optional[str] = None
 
+class ProgramTab(BaseModel):
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    title: str
+    description: str
+    image: Optional[str] = None
+    border_color_light: str = "#E0F7FA"
+    border_color_dark: str = "#4A90A4"
+    type: str = "informational"  # informational, interactive, warning, success
+    order: int = 0
+    created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
+    updated_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
+
+class StatTab(BaseModel):
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    title: str
+    value: str
+    border_color_light: str = "#4A90A4"
+    border_color_dark: str = "#B8739B"
+    type: str = "informational"  # informational, interactive, warning, success
+    order: int = 0
+    created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
+    updated_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
+
 # Password Reset Models
 class PasswordResetRequest(BaseModel):
     email: EmailStr
