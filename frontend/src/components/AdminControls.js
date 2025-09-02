@@ -118,10 +118,13 @@ const AdminControls = ({ currentUser, onProgramSaved, onStatSaved }) => {
       setEditingTab(null);
       alert('Tab saved successfully!');
       
-      // Trigger refresh of program list if this was a program tab and callback is provided
+      // Trigger refresh of appropriate list based on tab type
       if (editingTab.type === 'program' && onProgramSaved) {
         console.log('Refreshing program list after successful save');
         onProgramSaved();
+      } else if (editingTab.type === 'stat' && onStatSaved) {
+        console.log('Refreshing stat list after successful save');
+        onStatSaved();
       }
     } catch (error) {
       console.error('Error saving tab:', error);
