@@ -50,7 +50,7 @@ html[data-theme="dark"] footer {
   border: 1px solid rgba(255, 255, 255, 0.1) !important;
 }
 
-/* Enhanced contrast for "Our Programs" section - MUCH MORE DISTINCT */
+/* Enhanced contrast for "Our Programs" section - UPDATED BORDER */
 html[data-theme="dark"] .main-content-area {
   background: linear-gradient(135deg, 
     rgba(30, 30, 60, 0.85) 0%,     /* Much lighter purple - more visible */
@@ -58,8 +58,9 @@ html[data-theme="dark"] .main-content-area {
     rgba(60, 60, 90, 0.95) 100%    /* Much lighter navy-purple */
   ) !important;
   backdrop-filter: blur(20px) !important;
-  border: 3px solid rgba(255, 255, 255, 0.25) !important; /* Brighter border */
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.6) !important; /* Stronger shadow */
+  border: 2px solid rgba(180, 140, 255, 0.1225) !important;
+  border-bottom: none !important;
+  box-shadow: inset 0 2px 0 rgba(200, 150, 255, 0.245) !important;
   border-radius: 24px !important;
 }
 
