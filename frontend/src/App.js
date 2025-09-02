@@ -834,8 +834,11 @@ Click OK to open font & color selector...`);
                     {/* Delete Button - Only show for backend programs */}
                     {program.isBackendProgram && (
                       <button
-                        onClick={() => handleDeleteProgram(program.id, program.name)}
-                        className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-all duration-300 delete-program-btn"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleDeleteProgram(program.id, program.name);
+                        }}
+                        className="absolute top-4 right-4 opacity-70 hover:opacity-100 transition-all duration-300 delete-program-btn"
                         title={`Delete ${program.name}`}
                       >
                         <Trash2 className="h-5 w-5" />
