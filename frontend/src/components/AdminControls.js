@@ -77,7 +77,7 @@ const AdminControls = ({ currentUser }) => {
       
       setIsEditing(false);
       setEditingTab(null);
-      fetchTabs(); // Refresh the list
+      alert('Tab saved successfully!');
     } catch (error) {
       console.error('Error saving tab:', error);
       alert('Error saving tab: ' + (error.response?.data?.detail || error.message));
