@@ -994,29 +994,55 @@ html[data-theme="dark"] {
   --text-secondary: #cbd5e1 !important;
 }
 
-/* Theme Toggle Component */
+/* Modern Theme Toggle Switch Design */
 .ds-theme-toggle {
+  position: relative;
+  width: 80px;
+  height: 40px;
+  background: linear-gradient(135deg, #fbbf24, #f59e0b);
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
   display: flex;
   align-items: center;
-  gap: var(--space-sm);
-  padding: var(--space-sm) var(--space-md);
-  background: var(--ds-bg-glass-light);
-  border: 1px solid var(--glass-border);
-  border-radius: var(--radius-lg);
-  color: var(--text-primary);
-  font-weight: 500;
-  font-size: 14px;
-  transition: all var(--transition-normal);
-  cursor: pointer;
-  backdrop-filter: var(--backdrop-light);
-  -webkit-backdrop-filter: var(--backdrop-light);
-  isolation: isolate;
+  justify-content: space-between;
+  padding: 4px;
+}
+
+.ds-theme-toggle::before {
+  content: '';
+  position: absolute;
+  width: 32px;
+  height: 32px;
+  background: white;
+  border-radius: 50%;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  left: 4px;
+}
+
+.ds-theme-toggle .ds-theme-toggle-icon {
+  position: relative;
+  z-index: 2;
+  width: 20px;
+  height: 20px;
+  color: white;
+}
+
+/* Dark Mode Toggle Styling */
+html[data-theme="dark"] .ds-theme-toggle {
+  background: linear-gradient(135deg, #6b46c1, #8b5cf6);
+}
+
+html[data-theme="dark"] .ds-theme-toggle::before {
+  left: 44px;
 }
 
 .ds-theme-toggle:hover {
-  background: var(--ds-bg-glass);
   transform: translateY(-1px);
-  box-shadow: var(--shadow-md);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
 }
 
 .ds-theme-toggle:active {
@@ -1024,29 +1050,7 @@ html[data-theme="dark"] {
 }
 
 .ds-theme-toggle-text {
-  font-family: inherit;
-}
-
-/* Focus states for theme toggle */
-.ds-theme-toggle:focus {
-  outline: none;
-  box-shadow: 0 0 0 3px rgba(77, 214, 214, 0.3);
-}
-
-[data-theme="dark"] .ds-theme-toggle:focus {
-  box-shadow: 0 0 0 3px rgba(74, 144, 164, 0.3);
-}
-
-/* Mobile responsive theme toggle */
-@media (max-width: 768px) {
-  .ds-theme-toggle {
-    padding: var(--space-xs) var(--space-sm);
-    font-size: 12px;
-  }
-  
-  .ds-theme-toggle-text {
-    display: none;
-  }
+  display: none;
 }
 
 /* Enhanced Mobile Touch Support */
