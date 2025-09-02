@@ -590,6 +590,200 @@ async def theme_test():
     except Exception as e:
         return {"error": str(e)}
 
+# Admin Tab Management Endpoints
+
+@api_router.get("/admin/program-tabs")
+async def get_program_tabs():
+    """Get all program tabs"""
+    try:
+        tabs = await db.program_tabs.find().sort("order", 1).to_list(length=None)
+        return [ProgramTab(**tab) for tab in tabs]
+    except Exception as e:
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"Error fetching program tabs: {str(e)}"
+        )
+
+@api_router.post("/admin/program-tabs")
+async def create_program_tab(tab_data: ProgramTab, current_user: User = Depends(get_current_user)):
+    """Create a new program tab (admin only)"""
+    try:
+        if current_user.role not in [UserRole.SUPER_ADMIN, UserRole.ADMIN]:
+            raise HTTPException(
+                status_code=status.HTTP_403_FORBIDDEN,
+                detail="Admin access required"
+            )
+        
+        # Get highest order value
+        highest_order_doc = await db.program_tabs.find().sort("order", -1).limit(1).to_list(length=1)
+        highest_order = highest_order_doc[0]["order"] + 1 if highest_order_doc else 1
+        
+        tab_dict = tab_data.dict()
+        tab_dict["order"] = highest_order
+        tab_dict["updated_at"] = datetime.now(timezone.utc)
+        
+        result = await db.program_tabs.insert_one(tab_dict)
+        tab_dict["_id"] = str(result.inserted_id)
+        
+        return ProgramTab(**tab_dict)
+    except HTTPException:
+        raise
+    except Exception as e:
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"Error creating program tab: {str(e)}"
+        )
+
+@api_router.put("/admin/program-tabs/{tab_id}")
+async def update_program_tab(tab_id: str, tab_data: dict, current_user: User = Depends(get_current_user)):
+    """Update a program tab (admin only)"""
+    try:
+        if current_user.role not in [UserRole.SUPER_ADMIN, UserRole.ADMIN]:
+            raise HTTPException(
+                status_code=status.HTTP_403_FORBIDDEN,
+                detail="Admin access required"
+            )
+        
+        tab_data["updated_at"] = datetime.now(timezone.utc)
+        
+        result = await db.program_tabs.update_one(
+            {"id": tab_id},
+            {"$set": tab_data}
+        )
+        
+        if result.matched_count == 0:
+            raise HTTPException(status_code=404, detail="Program tab not found")
+        
+        updated_tab = await db.program_tabs.find_one({"id": tab_id})
+        return ProgramTab(**updated_tab)
+    except HTTPException:
+        raise
+    except Exception as e:
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"Error updating program tab: {str(e)}"
+        )
+
+@api_router.delete("/admin/program-tabs/{tab_id}")
+async def delete_program_tab(tab_id: str, current_user: User = Depends(get_current_user)):
+    """Delete a program tab (admin only)"""
+    try:
+        if current_user.role not in [UserRole.SUPER_ADMIN, UserRole.ADMIN]:
+            raise HTTPException(
+                status_code=status.HTTP_403_FORBIDDEN,
+                detail="Admin access required"
+            )
+        
+        result = await db.program_tabs.delete_one({"id": tab_id})
+        
+        if result.deleted_count == 0:
+            raise HTTPException(status_code=404, detail="Program tab not found")
+        
+        return {"message": "Program tab deleted successfully"}
+    except HTTPException:
+        raise
+    except Exception as e:
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"Error deleting program tab: {str(e)}"
+        )
+
+@api_router.get("/admin/stat-tabs")
+async def get_stat_tabs():
+    """Get all stat tabs"""
+    try:
+        tabs = await db.stat_tabs.find().sort("order", 1).to_list(length=None)
+        return [StatTab(**tab) for tab in tabs]
+    except Exception as e:
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"Error fetching stat tabs: {str(e)}"
+        )
+
+@api_router.post("/admin/stat-tabs")
+async def create_stat_tab(tab_data: StatTab, current_user: User = Depends(get_current_user)):
+    """Create a new stat tab (admin only)"""
+    try:
+        if current_user.role not in [UserRole.SUPER_ADMIN, UserRole.ADMIN]:
+            raise HTTPException(
+                status_code=status.HTTP_403_FORBIDDEN,
+                detail="Admin access required"
+            )
+        
+        # Get highest order value
+        highest_order_doc = await db.stat_tabs.find().sort("order", -1).limit(1).to_list(length=1)
+        highest_order = highest_order_doc[0]["order"] + 1 if highest_order_doc else 1
+        
+        tab_dict = tab_data.dict()
+        tab_dict["order"] = highest_order
+        tab_dict["updated_at"] = datetime.now(timezone.utc)
+        
+        result = await db.stat_tabs.insert_one(tab_dict)
+        tab_dict["_id"] = str(result.inserted_id)
+        
+        return StatTab(**tab_dict)
+    except HTTPException:
+        raise
+    except Exception as e:
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"Error creating stat tab: {str(e)}"
+        )
+
+@api_router.put("/admin/stat-tabs/{tab_id}")
+async def update_stat_tab(tab_id: str, tab_data: dict, current_user: User = Depends(get_current_user)):
+    """Update a stat tab (admin only)"""
+    try:
+        if current_user.role not in [UserRole.SUPER_ADMIN, UserRole.ADMIN]:
+            raise HTTPException(
+                status_code=status.HTTP_403_FORBIDDEN,
+                detail="Admin access required"
+            )
+        
+        tab_data["updated_at"] = datetime.now(timezone.utc)
+        
+        result = await db.stat_tabs.update_one(
+            {"id": tab_id},
+            {"$set": tab_data}
+        )
+        
+        if result.matched_count == 0:
+            raise HTTPException(status_code=404, detail="Stat tab not found")
+        
+        updated_tab = await db.stat_tabs.find_one({"id": tab_id})
+        return StatTab(**updated_tab)
+    except HTTPException:
+        raise
+    except Exception as e:
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"Error updating stat tab: {str(e)}"
+        )
+
+@api_router.delete("/admin/stat-tabs/{tab_id}")
+async def delete_stat_tab(tab_id: str, current_user: User = Depends(get_current_user)):
+    """Delete a stat tab (admin only)"""
+    try:
+        if current_user.role not in [UserRole.SUPER_ADMIN, UserRole.ADMIN]:
+            raise HTTPException(
+                status_code=status.HTTP_403_FORBIDDEN,
+                detail="Admin access required"
+            )
+        
+        result = await db.stat_tabs.delete_one({"id": tab_id})
+        
+        if result.deleted_count == 0:
+            raise HTTPException(status_code=404, detail="Stat tab not found")
+        
+        return {"message": "Stat tab deleted successfully"}
+    except HTTPException:
+        raise
+    except Exception as e:
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"Error deleting stat tab: {str(e)}"
+        )
+
 @api_router.post("/status", response_model=StatusCheck)
 async def create_status_check(input: StatusCheckCreate):
     status_dict = input.dict()
