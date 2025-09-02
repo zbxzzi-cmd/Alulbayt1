@@ -643,7 +643,7 @@ async def create_program_tab(tab_data: dict, current_user: User = Depends(lambda
         )
 
 @api_router.put("/admin/program-tabs/{tab_id}")
-async def update_program_tab(tab_id: str, tab_data: dict, current_user: User = Depends(get_current_user)):
+async def update_program_tab(tab_id: str, tab_data: dict, current_user: User = Depends(lambda: get_current_user(db))):
     """Update a program tab (admin only)"""
     try:
         if current_user.role not in [UserRole.SUPER_ADMIN, UserRole.ADMIN]:
