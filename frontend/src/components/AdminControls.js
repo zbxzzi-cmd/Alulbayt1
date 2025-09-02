@@ -295,6 +295,6 @@ const AdminControls = ({ currentUser }) => {
       )}
     </>
   );
-export default AdminControls;
+};
 
 export default AdminControls;
