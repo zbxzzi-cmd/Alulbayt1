@@ -819,6 +819,20 @@ Click OK to open font & color selector...`);
                   key={program.id} 
                   className={`${getCardClassName(program.type)} group relative`}
                 >
+                  {/* Delete Button - Only show for backend programs - POSITIONED OUTSIDE IMAGE CONTAINER */}
+                  {program.isBackendProgram && (
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleDeleteProgram(program.id, program.name);
+                      }}
+                      className="delete-program-btn"
+                      title={`Delete ${program.name}`}
+                    >
+                      <Trash2 className="h-4 w-4" />
+                    </button>
+                  )}
+                  
                   <div className="relative">
                     <img 
                       src={program.image} 
@@ -830,20 +844,6 @@ Click OK to open font & color selector...`);
                     <div className="absolute top-4 left-4 bg-white/90 backdrop-blur-sm rounded-2xl p-3">
                       <IconComponent className="h-6 w-6 text-gray-700" />
                     </div>
-                    
-                    {/* Delete Button - Only show for backend programs */}
-                    {program.isBackendProgram && (
-                      <button
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          handleDeleteProgram(program.id, program.name);
-                        }}
-                        className="absolute top-4 right-4 opacity-70 hover:opacity-100 transition-all duration-300 delete-program-btn"
-                        title={`Delete ${program.name}`}
-                      >
-                        <Trash2 className="h-5 w-5" />
-                      </button>
-                    )}
                   </div>
                   
                   <CardHeader className="pb-3">
