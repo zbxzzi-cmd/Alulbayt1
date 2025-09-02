@@ -597,7 +597,18 @@ async def get_program_tabs():
     """Get all program tabs"""
     try:
         tabs = await db.program_tabs.find().sort("order", 1).to_list(length=None)
-        return [ProgramTab(**tab) for tab in tabs]
+        result = []
+        for tab in tabs:
+            # Remove MongoDB ObjectId if present
+            if "_id" in tab:
+                del tab["_id"]
+            # Convert datetime objects to strings if they exist
+            if "created_at" in tab and hasattr(tab["created_at"], "isoformat"):
+                tab["created_at"] = tab["created_at"].isoformat()
+            if "updated_at" in tab and hasattr(tab["updated_at"], "isoformat"):
+                tab["updated_at"] = tab["updated_at"].isoformat()
+            result.append(tab)
+        return result
     except Exception as e:
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
