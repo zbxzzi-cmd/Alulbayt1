@@ -266,73 +266,13 @@ const AdminControls = ({ currentUser }) => {
         </div>
       )}
       
-      {/* Tabs List */}
-      <div className="mt-4">
-        <h3 className="ds-heading-sm mb-3">
-          Current {activeTab === 'programs' ? 'Program' : 'Stat'} Tabs
-        </h3>
-        
-        {loading ? (
-          <div className="text-center py-8">
-            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 mx-auto"></div>
-            <p className="ds-body-sm mt-2">Loading tabs...</p>
-          </div>
-        ) : (
-          <div className="space-y-3">
-            {(activeTab === 'programs' ? programTabs : statTabs).map(tab => (
-              <div 
-                key={tab.id} 
-                className="ds-card-base ds-card-aqua p-4 flex items-center justify-between"
-                style={{
-                  borderLeftColor: getBorderColorStyle(tab),
-                  borderBottomColor: getBorderColorStyle(tab)
-                }}
-              >
-                <div className="flex-1">
-                  <h4 className="ds-heading-sm">{tab.title}</h4>
-                  {activeTab === 'programs' && (
-                    <p className="ds-body-sm text-gray-600 mt-1 line-clamp-2">{tab.description}</p>
-                  )}
-                  {activeTab === 'stats' && (
-                    <p className="ds-body-sm text-gray-600 mt-1">Value: {tab.value}</p>
-                  )}
-                  {tab.image && (
-                    <p className="ds-body-sm text-blue-600 mt-1">📷 Image attached</p>
-                  )}
-                </div>
-                
-                <div className="flex space-x-2 ml-4">
-                  <button
-                    onClick={() => handleEditTab(tab)}
-                    className="p-2 bg-yellow-500 text-white rounded-lg hover:bg-yellow-600 transition-colors"
-                    title="Edit Tab"
-                  >
-                    <Edit2 className="h-4 w-4" />
-                  </button>
-                  <button
-                    onClick={() => handleDeleteTab(tab.id, activeTab)}
-                    className="p-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors"
-                    title="Delete Tab"
-                  >
-                    <Trash2 className="h-4 w-4" />
-                  </button>
-                </div>
-              </div>
-            ))}
-            
-            {(activeTab === 'programs' ? programTabs : statTabs).length === 0 && (
-              <div className="text-center py-8 ds-bg-glass rounded-lg">
-                <p className="ds-body-md text-gray-500">
-                  No {activeTab === 'programs' ? 'program' : 'stat'} tabs found.
-                </p>
-                <p className="ds-body-sm text-gray-400 mt-1">
-                  Click "Add New" to create your first tab.
-                </p>
-              </div>
-            )}
-          </div>
-        )}
-      </div>
+      {/* Success Message */}
+      {loading && (
+        <div className="text-center py-4">
+          <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-blue-600 mx-auto"></div>
+          <p className="ds-body-sm mt-2">Processing...</p>
+        </div>
+      )}
     </div>
   );
 };
