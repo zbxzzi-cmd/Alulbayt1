@@ -245,6 +245,12 @@ const LandingPage = () => {
     root.style.setProperty('--left-border-width', `${borderThickness}px`);
   }, [borderThickness]);
 
+  // Initialize border length to 28% on mount
+  useEffect(() => {
+    const root = document.documentElement;
+    root.style.setProperty('--border-length', '28%');
+  }, []);
+
   // Update border length when it changes
   useEffect(() => {
     const root = document.documentElement;
