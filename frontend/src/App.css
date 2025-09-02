@@ -994,19 +994,26 @@ html[data-theme="dark"] {
   --text-secondary: #cbd5e1 !important;
 }
 
-/* Dark Mode Logo Border Enhancement */
+/* Dark Mode Logo Border Enhancement - CORRECTED SELECTORS */
 html[data-theme="dark"] .text-teal-600 {
   color: #4c1d95 !important; /* Darker purple instead of cyan */
 }
 
-html[data-theme="dark"] .border-b-4.border-teal-400 {
-  border-color: #6b46c1 !important; /* Dark purple border */
+html[data-theme="dark"] .border-b-4.border-teal-400,
+html[data-theme="dark"] .border-teal-400,
+html[data-theme="dark"] .border-b-4 {
+  border-color: #4c1d95 !important; /* Dark purple border */
 }
 
 html[data-theme="dark"] .text-cyan-600,
 html[data-theme="dark"] .text-cyan-700,
 html[data-theme="dark"] .text-teal-700 {
   color: #7c3aed !important; /* Purple text color */
+}
+
+/* Additional specific targeting for logo border */
+html[data-theme="dark"] h1 + div {
+  border-color: #4c1d95 !important;
 }
 
 /* Modern Theme Toggle Switch Design */
