@@ -605,7 +605,7 @@ async def get_program_tabs():
         )
 
 @api_router.post("/admin/program-tabs")
-async def create_program_tab(tab_data: ProgramTab, current_user: User = Depends(get_current_user)):
+async def create_program_tab(tab_data: dict, current_user: User = Depends(get_current_user)):
     """Create a new program tab (admin only)"""
     try:
         if current_user.role not in [UserRole.SUPER_ADMIN, UserRole.ADMIN]:
@@ -618,14 +618,22 @@ async def create_program_tab(tab_data: ProgramTab, current_user: User = Depends(
         highest_order_doc = await db.program_tabs.find().sort("order", -1).limit(1).to_list(length=1)
         highest_order = highest_order_doc[0]["order"] + 1 if highest_order_doc else 1
         
-        tab_dict = tab_data.dict()
-        tab_dict["order"] = highest_order
-        tab_dict["updated_at"] = datetime.now(timezone.utc)
+        # Create new tab with UUID
+        new_tab = {
+            "id": str(uuid.uuid4()),
+            "title": tab_data.get("title", ""),
+            "description": tab_data.get("description", ""),
+            "image": tab_data.get("image", ""),
+            "border_color_light": tab_data.get("border_color_light", "#E0F7FA"),
+            "border_color_dark": tab_data.get("border_color_dark", "#4A90A4"),
+            "type": tab_data.get("type", "informational"),
+            "order": highest_order,
+            "created_at": datetime.now(timezone.utc),
+            "updated_at": datetime.now(timezone.utc)
+        }
         
-        result = await db.program_tabs.insert_one(tab_dict)
-        tab_dict["_id"] = str(result.inserted_id)
-        
-        return ProgramTab(**tab_dict)
+        result = await db.program_tabs.insert_one(new_tab)
+        return {"message": "Program tab created successfully", "tab": new_tab}
     except HTTPException:
         raise
     except Exception as e:
