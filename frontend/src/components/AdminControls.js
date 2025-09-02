@@ -16,22 +16,6 @@ const AdminControls = ({ currentUser }) => {
     // Component loaded - admin controls ready
   }, [currentUser]);
 
-  const fetchTabs = async () => {
-    try {
-      setLoading(true);
-      const [programResponse, statResponse] = await Promise.all([
-        axios.get(`${backendUrl}/api/admin/program-tabs`),
-        axios.get(`${backendUrl}/api/admin/stat-tabs`)
-      ]);
-      setProgramTabs(programResponse.data || []);
-      setStatTabs(statResponse.data || []);
-    } catch (error) {
-      console.error('Error fetching tabs:', error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
   const handleAddTab = () => {
     const newTab = {
       type: activeTab,
