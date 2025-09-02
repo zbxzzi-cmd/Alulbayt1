@@ -1194,6 +1194,134 @@ html[data-theme="dark"] .admin-loading-text {
   color: rgba(180, 140, 255, 0.8) !important;
 }
 
+/* ====== MODAL THEME-AWARE STYLING ====== */
+
+/* Modal Container - Theme Aware */
+.modal-content {
+  background: white !important;
+  color: #1f2937 !important;
+}
+
+html[data-theme="dark"] .modal-content {
+  background: linear-gradient(135deg, #1e1e3c 0%, #2d2d4b 50%, #3c3c5a 100%) !important;
+  color: #f8fafc !important;
+}
+
+/* Modal Title */
+.modal-title {
+  color: #1f2937 !important;
+}
+
+html[data-theme="dark"] .modal-title {
+  color: #f8fafc !important;
+}
+
+/* Modal Close Button */
+.modal-close-btn {
+  color: #6b7280 !important;
+}
+
+html[data-theme="dark"] .modal-close-btn {
+  color: #d1d5db !important;
+}
+
+/* Modal Labels */
+.modal-label {
+  color: #374151 !important;
+}
+
+html[data-theme="dark"] .modal-label {
+  color: #e5e7eb !important;
+}
+
+/* Modal Input Fields */
+.modal-input {
+  background: white !important;
+  color: #1f2937 !important;
+  border-color: #d1d5db !important;
+}
+
+.modal-input:focus {
+  border-color: #8b5cf6 !important;
+}
+
+html[data-theme="dark"] .modal-input {
+  background: #374151 !important;
+  color: #f3f4f6 !important;
+  border-color: #4b5563 !important;
+}
+
+html[data-theme="dark"] .modal-input:focus {
+  border-color: #a855f7 !important;
+}
+
+/* Modal Color Input */
+.modal-color-input {
+  border-color: #d1d5db !important;
+}
+
+html[data-theme="dark"] .modal-color-input {
+  border-color: #4b5563 !important;
+}
+
+/* Modal Color Text */
+.modal-color-text {
+  color: #6b7280 !important;
+}
+
+html[data-theme="dark"] .modal-color-text {
+  color: #d1d5db !important;
+}
+
+/* Modal Border Top */
+.modal-border-top {
+  border-color: #e5e7eb !important;
+}
+
+html[data-theme="dark"] .modal-border-top {
+  border-color: #4b5563 !important;
+}
+
+/* Modal Cancel Button */
+.modal-cancel-btn {
+  background: #6b7280 !important;
+  color: white !important;
+}
+
+.modal-cancel-btn:hover {
+  background: #4b5563 !important;
+}
+
+html[data-theme="dark"] .modal-cancel-btn {
+  background: #4b5563 !important;
+  color: #f3f4f6 !important;
+}
+
+html[data-theme="dark"] .modal-cancel-btn:hover {
+  background: #374151 !important;
+}
+
+/* Modal Save Button - Theme Aware Purple Gradient */
+.modal-save-btn {
+  /* Light Mode - Blue to Teal Gradient to match Enroll Now buttons */
+  background: linear-gradient(135deg, #3b82f6 0%, #14b8a6 100%) !important;
+  color: white !important;
+}
+
+.modal-save-btn:hover {
+  background: linear-gradient(135deg, #2563eb 0%, #0d9488 100%) !important;
+}
+
+html[data-theme="dark"] .modal-save-btn {
+  /* Dark Mode - Purple Gradient to match cosmic theme */
+  background: linear-gradient(135deg, #8b5cf6 0%, #a855f7 100%) !important;
+  color: white !important;
+}
+
+html[data-theme="dark"] .modal-save-btn:hover {
+  background: linear-gradient(135deg, #7c3aed 0%, #9333ea 100%) !important;
+}
+
 /* Enhanced Mobile Touch Support */
 @media (hover: none) and (pointer: coarse) {
   /* Touch devices - ensure hover states work on tap */
