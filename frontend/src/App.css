@@ -994,15 +994,17 @@ html[data-theme="dark"] {
   --text-secondary: #cbd5e1 !important;
 }
 
-/* Dark Mode Logo Border Enhancement - CORRECTED SELECTORS */
+/* Dark Mode Logo Border Enhancement - COMPREHENSIVE TARGETING */
 html[data-theme="dark"] .text-teal-600 {
   color: #4c1d95 !important; /* Darker purple instead of cyan */
 }
 
 html[data-theme="dark"] .border-b-4.border-teal-400,
 html[data-theme="dark"] .border-teal-400,
-html[data-theme="dark"] .border-b-4 {
-  border-color: #4c1d95 !important; /* Dark purple border */
+html[data-theme="dark"] .border-b-4,
+html[data-theme="dark"] .border-b,
+html[data-theme="dark"] .border-bottom {
+  border-color: rgba(100, 255, 218, 0.15) !important; /* New light green border */
 }
 
 html[data-theme="dark"] .text-cyan-600,
@@ -1011,9 +1013,26 @@ html[data-theme="dark"] .text-teal-700 {
   color: #7c3aed !important; /* Purple text color */
 }
 
-/* Additional specific targeting for logo border */
-html[data-theme="dark"] h1 + div {
-  border-color: #4c1d95 !important;
+/* Force override any Tailwind teal borders in dark mode */
+html[data-theme="dark"] *[class*="border-teal"],
+html[data-theme="dark"] *[class*="teal"] {
+  border-color: rgba(100, 255, 218, 0.15) !important;
+}
+
+/* Specific targeting for header area */
+html[data-theme="dark"] header *,
+html[data-theme="dark"] h1 ~ *,
+html[data-theme="dark"] h1 + *,
+html[data-theme="dark"] .header-text-light + * {
+  border-color: rgba(100, 255, 218, 0.15) !important;
+}
+
+/* Universal border override for dark mode */
+html[data-theme="dark"] .border-cyan-400,
+html[data-theme="dark"] .border-cyan-500,
+html[data-theme="dark"] .border-teal-400,
+html[data-theme="dark"] .border-teal-500 {
+  border-color: rgba(100, 255, 218, 0.15) !important;
 }
 
 /* Modern Theme Toggle Switch Design - CORRECTED */
