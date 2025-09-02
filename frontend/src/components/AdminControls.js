@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Plus, X } from 'lucide-react';
 
-const AdminControls = ({ currentUser, onProgramSaved }) => {
+const AdminControls = ({ currentUser, onProgramSaved, onStatSaved }) => {
   const [activeTab, setActiveTab] = useState('programs');
   const [isEditing, setIsEditing] = useState(false);
   const [editingTab, setEditingTab] = useState(null);
