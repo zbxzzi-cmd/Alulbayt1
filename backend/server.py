@@ -685,7 +685,7 @@ async def update_program_tab(tab_id: str, tab_data: dict, current_user: User = D
         )
 
 @api_router.delete("/admin/program-tabs/{tab_id}")
-async def delete_program_tab(tab_id: str, current_user: User = Depends(lambda: get_current_user(db))):
+async def delete_program_tab(tab_id: str, current_user: User = Depends(get_current_user_dep)):
     """Delete a program tab (admin only)"""
     try:
         if current_user.role not in [UserRole.SUPER_ADMIN, UserRole.ADMIN]:
