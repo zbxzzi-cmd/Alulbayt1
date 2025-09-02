@@ -730,7 +730,7 @@ Click OK to open font & color selector...`);
       </section>
 
       {/* Admin Tab Management - Show for Super Admin */}
-      <AdminControls currentUser={{ role: 'super_admin' }} />
+      <AdminControls currentUser={{ role: 'super_admin' }} onProgramSaved={fetchProgramTabs} />
 
       {/* Programs Section - Enhanced White Background with Increased Spacing */}
       <section className="main-content-area hero-to-content-spacing">
