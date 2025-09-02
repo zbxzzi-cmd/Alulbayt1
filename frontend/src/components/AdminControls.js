@@ -150,8 +150,8 @@ const AdminControls = ({ currentUser }) => {
       
       {/* Edit Form Modal */}
       {isEditing && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[9999]">
-          <div className="ds-form-container w-full max-w-md max-h-[90vh] overflow-y-auto">
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center" style={{ zIndex: 99999 }}>
+          <div className="ds-form-container w-full max-w-md max-h-[80vh] overflow-y-auto" style={{ zIndex: 100000 }}>
             <div className="flex items-center justify-between mb-4">
               <h3 className="ds-heading-md">
                 {editingTab.id ? 'Edit' : 'Add'} {editingTab.type === 'programs' ? 'Program' : 'Stat'} Tab
