@@ -1016,12 +1016,12 @@ html[data-theme="dark"] h1 + div {
   border-color: #4c1d95 !important;
 }
 
-/* Modern Theme Toggle Switch Design */
+/* Modern Theme Toggle Switch Design - CORRECTED */
 .ds-theme-toggle {
   position: relative;
   width: 80px;
   height: 40px;
-  background: linear-gradient(135deg, #fbbf24, #f59e0b);
+  background: linear-gradient(135deg, #fef3c7, #fed7aa); /* Light yellow background */
   border: none;
   border-radius: 20px;
   cursor: pointer;
@@ -1029,7 +1029,7 @@ html[data-theme="dark"] h1 + div {
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-start;
   padding: 4px;
 }
 
@@ -1038,28 +1038,38 @@ html[data-theme="dark"] h1 + div {
   position: absolute;
   width: 32px;
   height: 32px;
-  background: white;
+  background: linear-gradient(135deg, #fbbf24, #f59e0b); /* Sun circle color */
   border-radius: 50%;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
   left: 4px;
+  z-index: 1;
 }
 
 .ds-theme-toggle .ds-theme-toggle-icon {
-  position: relative;
+  position: absolute;
   z-index: 2;
-  width: 20px;
-  height: 20px;
+  width: 16px;
+  height: 16px;
   color: white;
+  left: 12px; /* Position icon inside circle */
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 /* Dark Mode Toggle Styling */
 html[data-theme="dark"] .ds-theme-toggle {
-  background: linear-gradient(135deg, #6b46c1, #8b5cf6);
+  background: linear-gradient(135deg, #4c1d95, #6b46c1); /* Purple background */
+  justify-content: flex-end;
 }
 
 html[data-theme="dark"] .ds-theme-toggle::before {
+  background: linear-gradient(135deg, #e0e7ff, #c7d2fe); /* Light purple circle */
   left: 44px;
+}
+
+html[data-theme="dark"] .ds-theme-toggle .ds-theme-toggle-icon {
+  left: 52px; /* Position moon icon inside right circle */
+  color: #4c1d95; /* Dark purple icon */
 }
 
 .ds-theme-toggle:hover {
