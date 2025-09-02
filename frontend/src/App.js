@@ -434,9 +434,10 @@ const LandingPage = () => {
       }
     };
 
-    // Fetch both content and program tabs
+    // Fetch both content, program tabs, and stat tabs
     fetchContent();
     fetchProgramTabs();
+    fetchStatTabs();
   }, []);
 
   // Update CSS custom properties when background color changes - FIXED WITH AUTO BORDER COLOR
