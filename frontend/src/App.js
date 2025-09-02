@@ -379,8 +379,8 @@ Click OK to open font & color selector...`);
 
   return (
     <div className="app-background ds-bg-main landing-page">
-      {/* Theme Toggle - Top Right Corner */}
-      <div className="fixed top-4 right-4 z-50">
+      {/* Theme Toggle - Top Right Corner with Higher Z-Index */}
+      <div className="fixed top-4 right-4 z-[9999]">
         <ThemeToggle />
       </div>
       
