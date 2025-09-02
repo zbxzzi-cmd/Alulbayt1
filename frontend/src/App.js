@@ -8,6 +8,7 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, Di
 import { BookOpen, Users, Scale, Clock, Type, Palette, Sliders } from "lucide-react";
 import DesignSystemDemo from "./components/DesignSystemDemo";
 import ThemeToggle from "./components/ThemeToggle";
+import AdminControls from "./components/AdminControls";
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
