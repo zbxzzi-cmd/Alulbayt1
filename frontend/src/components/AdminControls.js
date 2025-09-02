@@ -162,39 +162,42 @@ const AdminControls = ({ currentUser }) => {
               </button>
             </div>
             
-            <form onSubmit={handleSaveTab} className="space-y-4">
+            <form onSubmit={handleSaveTab} className="space-y-6">
               <div>
-                <label className="ds-form-label">Title *</label>
+                <label className="block text-gray-700 font-semibold mb-2 text-sm">Title *</label>
                 <input
                   type="text"
                   value={editingTab.title}
                   onChange={(e) => setEditingTab({...editingTab, title: e.target.value})}
-                  className="ds-form-input"
+                  className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-blue-500 focus:outline-none bg-white text-gray-900"
                   required
+                  style={{ backgroundColor: 'white !important' }}
                 />
               </div>
               
               {editingTab.type === 'programs' && (
                 <>
                   <div>
-                    <label className="ds-form-label">Description *</label>
+                    <label className="block text-gray-700 font-semibold mb-2 text-sm">Description *</label>
                     <textarea
                       value={editingTab.description}
                       onChange={(e) => setEditingTab({...editingTab, description: e.target.value})}
-                      className="ds-form-input"
+                      className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-blue-500 focus:outline-none bg-white text-gray-900"
                       rows="3"
                       required
+                      style={{ backgroundColor: 'white !important' }}
                     />
                   </div>
                   
                   <div>
-                    <label className="ds-form-label">Image URL (Optional)</label>
+                    <label className="block text-gray-700 font-semibold mb-2 text-sm">Image URL (Optional)</label>
                     <input
                       type="text"
                       value={editingTab.image || ''}
                       onChange={(e) => setEditingTab({...editingTab, image: e.target.value})}
-                      className="ds-form-input"
+                      className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-blue-500 focus:outline-none bg-white text-gray-900"
                       placeholder="https://example.com/image.jpg"
+                      style={{ backgroundColor: 'white !important' }}
                     />
                   </div>
                 </>
@@ -202,61 +205,62 @@ const AdminControls = ({ currentUser }) => {
               
               {editingTab.type === 'stats' && (
                 <div>
-                  <label className="ds-form-label">Value *</label>
+                  <label className="block text-gray-700 font-semibold mb-2 text-sm">Value *</label>
                   <input
                     type="text"
                     value={editingTab.value || ''}
                     onChange={(e) => setEditingTab({...editingTab, value: e.target.value})}
-                    className="ds-form-input"
+                    className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-blue-500 focus:outline-none bg-white text-gray-900"
                     placeholder="e.g., 500+, 95%, 24/7"
                     required
+                    style={{ backgroundColor: 'white !important' }}
                   />
                 </div>
               )}
               
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="ds-form-label">Light Mode Border</label>
-                  <div className="flex items-center gap-2">
+                  <label className="block text-gray-700 font-semibold mb-2 text-sm">Light Mode Border</label>
+                  <div className="flex items-center gap-3">
                     <input
                       type="color"
                       value={editingTab.border_color_light}
                       onChange={(e) => setEditingTab({...editingTab, border_color_light: e.target.value})}
-                      className="w-12 h-10 rounded-lg border border-gray-300 cursor-pointer"
+                      className="w-12 h-12 rounded-lg border-2 border-gray-300 cursor-pointer"
                     />
-                    <span className="text-sm text-gray-600">{editingTab.border_color_light}</span>
+                    <span className="text-sm text-gray-600 font-mono">{editingTab.border_color_light}</span>
                   </div>
                 </div>
                 
                 <div>
-                  <label className="ds-form-label">Dark Mode Border</label>
-                  <div className="flex items-center gap-2">
+                  <label className="block text-gray-700 font-semibold mb-2 text-sm">Dark Mode Border</label>
+                  <div className="flex items-center gap-3">
                     <input
                       type="color"
                       value={editingTab.border_color_dark}
                       onChange={(e) => setEditingTab({...editingTab, border_color_dark: e.target.value})}
-                      className="w-12 h-10 rounded-lg border border-gray-300 cursor-pointer"
+                      className="w-12 h-12 rounded-lg border-2 border-gray-300 cursor-pointer"
                     />
-                    <span className="text-sm text-gray-600">{editingTab.border_color_dark}</span>
+                    <span className="text-sm text-gray-600 font-mono">{editingTab.border_color_dark}</span>
                   </div>
                 </div>
               </div>
               
-              <div className="flex justify-end space-x-2 pt-4">
+              <div className="flex justify-end space-x-4 pt-6 border-t border-gray-200">
                 <button
                   type="button"
                   onClick={() => setIsEditing(false)}
-                  className="ds-btn-base ds-btn-secondary flex items-center gap-2"
+                  className="px-6 py-3 bg-gray-500 text-white rounded-lg hover:bg-gray-600 transition-colors font-semibold"
+                  style={{ zIndex: 1000001 }}
                 >
-                  <X className="h-4 w-4" />
                   Cancel
                 </button>
                 <button
                   type="submit"
-                  className="ds-btn-base ds-btn-primary flex items-center gap-2"
+                  className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-semibold"
+                  style={{ zIndex: 1000001 }}
                 >
-                  <Save className="h-4 w-4" />
-                  Save
+                  Save Tab
                 </button>
               </div>
             </form>
