@@ -604,8 +604,20 @@ async def get_program_tabs():
             detail=f"Error fetching program tabs: {str(e)}"
         )
 
+# Dependency function for current user
+async def get_current_user_dep(credentials: HTTPAuthorizationCredentials = Depends(security)):
+    """Get current user dependency"""
+    token_data = verify_token(credentials)
+    user = await db.users.find_one({"id": token_data.user_id})
+    if user is None:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="User not found"
+        )
+    return User(**user)
+
 @api_router.post("/admin/program-tabs")
-async def create_program_tab(tab_data: dict, current_user: User = Depends(lambda: get_current_user(db))):
+async def create_program_tab(tab_data: dict, current_user: User = Depends(get_current_user_dep)):
     """Create a new program tab (admin only)"""
     try:
         if current_user.role not in [UserRole.SUPER_ADMIN, UserRole.ADMIN]:
