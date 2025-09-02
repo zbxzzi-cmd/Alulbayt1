@@ -42,7 +42,7 @@ const AdminControls = ({ currentUser }) => {
         await axios.delete(`${backendUrl}/api/admin/${type}-tabs/${tabId}`, {
           headers: { Authorization: `Bearer ${token}` }
         });
-        fetchTabs(); // Refresh the list
+        alert('Tab deleted successfully!');
       } catch (error) {
         console.error('Error deleting tab:', error);
         alert('Error deleting tab: ' + (error.response?.data?.detail || error.message));
