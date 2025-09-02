@@ -200,6 +200,65 @@ const LandingPage = () => {
     }
   ]);
 
+  // Function to delete a program tab
+  const handleDeleteProgram = async (programId, programName) => {
+    // Show confirmation dialog
+    const confirmed = window.confirm(`Are you sure you want to delete the program "${programName}"?`);
+    
+    if (!confirmed) {
+      return;
+    }
+
+    try {
+      // Only delete backend programs (those with isBackendProgram flag)
+      const programToDelete = programs.find(p => p.id === programId);
+      
+      if (!programToDelete?.isBackendProgram) {
+        alert('Cannot delete default programs');
+        return;
+      }
+
+      // Make API call to delete the program
+      const token = localStorage.getItem('token');
+      
+      if (!token) {
+        alert('Authentication required to delete programs');
+        return;
+      }
+
+      const headers = {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      };
+
+      await axios.delete(`${API}/admin/program-tabs/${programId}`, { headers });
+
+      // Remove from UI immediately (optimistic update)
+      setPrograms(prevPrograms => prevPrograms.filter(p => p.id !== programId));
+      
+      console.log(`Successfully deleted program: ${programName}`);
+      
+    } catch (error) {
+      console.error('Error deleting program:', error);
+      
+      let errorMessage = 'Failed to delete program';
+      if (error.response?.data?.detail) {
+        errorMessage = error.response.data.detail;
+      } else if (error.response?.status === 401) {
+        errorMessage = 'Authentication failed. Please login as admin.';
+      } else if (error.response?.status === 403) {
+        errorMessage = 'Access denied. Admin privileges required.';
+      } else if (error.response?.status === 404) {
+        errorMessage = 'Program not found.';
+      }
+      
+      alert(`Error deleting program: ${errorMessage}`);
+      
+      // Refresh the program list to ensure UI is in sync
+      fetchProgramTabs();
+    }
+  };
+
   // Function to fetch program tabs from backend and merge with default programs
   const fetchProgramTabs = async () => {
     try {
