@@ -94,8 +94,15 @@ const AdminControls = ({ currentUser }) => {
   }
 
   return (
-    <div className="ds-bg-glass-light rounded-2xl p-6 mb-8 shadow-lg">
-      <h2 className="ds-heading-lg mb-4">Admin Tab Management</h2>
+    <div className="rounded-2xl p-6 mb-8 shadow-lg" style={{
+      background: 'linear-gradient(135deg, rgba(30, 30, 60, 0.85) 0%, rgba(45, 45, 75, 0.9) 30%, rgba(60, 60, 90, 0.95) 100%)',
+      backdropFilter: 'blur(20px)',
+      border: '2px solid rgba(180, 140, 255, 0.1225)',
+      borderBottom: 'none',
+      boxShadow: 'inset 0 2px 0 rgba(200, 150, 255, 0.245)',
+      borderRadius: '24px'
+    }}>
+      <h2 className="text-2xl font-bold mb-4 text-white">Admin Tab Management</h2>
       
       {/* Tab Selector */}
       <div className="flex border-b border-gray-200 dark:border-gray-700 mb-4">
