@@ -278,8 +278,8 @@ const AdminControls = ({ currentUser }) => {
       {/* Success Message */}
       {loading && (
         <div className="text-center py-4">
-          <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-blue-600 mx-auto"></div>
-          <p className="ds-body-sm mt-2">Processing...</p>
+          <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-purple-300 mx-auto"></div>
+          <p className="text-purple-200 mt-2 text-sm">Processing...</p>
         </div>
       )}
     </div>
