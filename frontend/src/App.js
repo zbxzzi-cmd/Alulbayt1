@@ -161,7 +161,7 @@ const LandingPage = () => {
   ];
 
   // Sample programs data - ALL CONTENT IS EDITABLE
-  const programs = [
+  const [programs, setPrograms] = useState([
     {
       id: 1,
       name: "Quran Studies", // EDITABLE
@@ -198,7 +198,116 @@ const LandingPage = () => {
       icon: Clock,
       type: "success" // Type D - Success/Positive Cards
     }
-  ];
+  ]);
+
+  // Function to fetch program tabs from backend and merge with default programs
+  const fetchProgramTabs = async () => {
+    try {
+      const response = await axios.get(`${API}/admin/program-tabs`);
+      const programTabs = response.data;
+      
+      // Convert backend program tabs to frontend format
+      const backendPrograms = programTabs.map((tab, index) => ({
+        id: tab.id || `backend-${index}`, // Use backend ID or generate one
+        name: tab.title,
+        tagline: tab.description ? tab.description.substring(0, 60) + "..." : "New Program",
+        description: tab.description || "Program description",
+        image: tab.image || "https://images.unsplash.com/photo-1694758375810-2d7c7bc3e84e",
+        icon: BookOpen, // Default icon for backend programs
+        type: tab.type || "informational",
+        isBackendProgram: true // Mark as backend program for identification
+      }));
+      
+      // Original hardcoded programs
+      const defaultPrograms = [
+        {
+          id: 1,
+          name: "Quran Studies",
+          tagline: "Deep dive into the Holy Quran with expert guidance",
+          description: "Comprehensive study of the Quran including recitation, interpretation (Tafseer), and memorization (Hifz). Our expert teachers guide students through proper pronunciation, understanding of verses, and practical application in daily life.",
+          image: "https://images.unsplash.com/photo-1694758375810-2d7c7bc3e84e",
+          icon: BookOpen,
+          type: "informational"
+        },
+        {
+          id: 2,
+          name: "Hadith Studies",
+          tagline: "Learn the teachings and traditions of Prophet Muhammad (PBUH)",
+          description: "Study the authentic sayings, actions, and approvals of Prophet Muhammad (PBUH). Learn to identify authentic narrations, understand their contexts, and apply their teachings in contemporary Islamic life.",
+          image: "https://images.unsplash.com/photo-1714746643489-a893ada081f5",
+          icon: Users,
+          type: "interactive"
+        },
+        {
+          id: 3,
+          name: "Islamic Jurisprudence (Fiqh)",
+          tagline: "Master Islamic law and jurisprudence principles",
+          description: "Comprehensive study of Islamic legal theory and practice. Learn the principles of Islamic jurisprudence, comparative Fiqh, and how to derive rulings from primary sources according to Shia Ithna Ashari methodology.",
+          image: "https://images.unsplash.com/photo-1626553261684-68f25328988f",
+          icon: Scale,
+          type: "warning"
+        },
+        {
+          id: 4,
+          name: "Islamic History",
+          tagline: "Explore the rich history of Islam and its civilizations",
+          description: "Journey through Islamic history from the time of Prophet Muhammad (PBUH) to the present day. Study the lives of the Imams, Islamic golden age, and the development of Islamic societies and cultures.",
+          image: "https://images.unsplash.com/photo-1660674807706-49e85f121c59",
+          icon: Clock,
+          type: "success"
+        }
+      ];
+      
+      // Merge backend programs with default programs (backend programs first)
+      const allPrograms = [...backendPrograms, ...defaultPrograms];
+      setPrograms(allPrograms);
+      
+      console.log(`Loaded ${backendPrograms.length} backend programs and ${defaultPrograms.length} default programs`);
+      
+    } catch (error) {
+      console.error("Error fetching program tabs:", error);
+      // If backend fetch fails, use default programs only
+      const defaultPrograms = [
+        {
+          id: 1,
+          name: "Quran Studies",
+          tagline: "Deep dive into the Holy Quran with expert guidance",
+          description: "Comprehensive study of the Quran including recitation, interpretation (Tafseer), and memorization (Hifz). Our expert teachers guide students through proper pronunciation, understanding of verses, and practical application in daily life.",
+          image: "https://images.unsplash.com/photo-1694758375810-2d7c7bc3e84e",
+          icon: BookOpen,
+          type: "informational"
+        },
+        {
+          id: 2,
+          name: "Hadith Studies",
+          tagline: "Learn the teachings and traditions of Prophet Muhammad (PBUH)",
+          description: "Study the authentic sayings, actions, and approvals of Prophet Muhammad (PBUH). Learn to identify authentic narrations, understand their contexts, and apply their teachings in contemporary Islamic life.",
+          image: "https://images.unsplash.com/photo-1714746643489-a893ada081f5",
+          icon: Users,
+          type: "interactive"
+        },
+        {
+          id: 3,
+          name: "Islamic Jurisprudence (Fiqh)",
+          tagline: "Master Islamic law and jurisprudence principles",
+          description: "Comprehensive study of Islamic legal theory and practice. Learn the principles of Islamic jurisprudence, comparative Fiqh, and how to derive rulings from primary sources according to Shia Ithna Ashari methodology.",
+          image: "https://images.unsplash.com/photo-1626553261684-68f25328988f",
+          icon: Scale,
+          type: "warning"
+        },
+        {
+          id: 4,
+          name: "Islamic History",
+          tagline: "Explore the rich history of Islam and its civilizations",
+          description: "Journey through Islamic history from the time of Prophet Muhammad (PBUH) to the present day. Study the lives of the Imams, Islamic golden age, and the development of Islamic societies and cultures.",
+          image: "https://images.unsplash.com/photo-1660674807706-49e85f121c59",
+          icon: Clock,
+          type: "success"
+        }
+      ];
+      setPrograms(defaultPrograms);
+    }
+  };
 
   // EDITABLE STATS DATA - 3 CARDS
   const statsData = [
