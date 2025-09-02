@@ -13,9 +13,7 @@ const AdminControls = ({ currentUser }) => {
   const backendUrl = process.env.REACT_APP_BACKEND_URL || import.meta.env.REACT_APP_BACKEND_URL;
 
   useEffect(() => {
-    if (currentUser && (currentUser.role === 'admin' || currentUser.role === 'super_admin')) {
-      fetchTabs();
-    }
+    // Component loaded - admin controls ready
   }, [currentUser]);
 
   const fetchTabs = async () => {
