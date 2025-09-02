@@ -368,12 +368,52 @@ const LandingPage = () => {
     }
   };
 
-  // EDITABLE STATS DATA - 3 CARDS
-  const statsData = [
+  // EDITABLE STATS DATA - Dynamic with Backend Integration
+  const [statsData, setStatsData] = useState([
     { number: "4", label: "Programs Available", type: "a" }, // EDITABLE
     { number: "50+", label: "Students Enrolled", type: "b" }, // EDITABLE
     { number: "95%", label: "Completion Rate", type: "c" } // EDITABLE
-  ];
+  ]);
+
+  // Function to fetch stat tabs from backend and merge with default stats
+  const fetchStatTabs = async () => {
+    try {
+      const response = await axios.get(`${API}/admin/stat-tabs`);
+      const statTabs = response.data;
+      
+      // Convert backend stat tabs to frontend format
+      const backendStats = statTabs.map((tab, index) => ({
+        number: tab.value || "New",
+        label: tab.title || "New Stat",
+        type: tab.type || "a",
+        id: tab.id,
+        isBackendStat: true // Mark as backend stat for identification
+      }));
+      
+      // Original hardcoded stats
+      const defaultStats = [
+        { number: "4", label: "Programs Available", type: "a" },
+        { number: "50+", label: "Students Enrolled", type: "b" },
+        { number: "95%", label: "Completion Rate", type: "c" }
+      ];
+      
+      // Merge backend stats with default stats (backend stats first)
+      const allStats = [...backendStats, ...defaultStats];
+      setStatsData(allStats);
+      
+      console.log(`Loaded ${backendStats.length} backend stats and ${defaultStats.length} default stats`);
+      
+    } catch (error) {
+      console.error("Error fetching stat tabs:", error);
+      // If backend fetch fails, use default stats only
+      const defaultStats = [
+        { number: "4", label: "Programs Available", type: "a" },
+        { number: "50+", label: "Students Enrolled", type: "b" },
+        { number: "95%", label: "Completion Rate", type: "c" }
+      ];
+      setStatsData(defaultStats);
+    }
+  };
 
   useEffect(() => {
     const fetchContent = async () => {
