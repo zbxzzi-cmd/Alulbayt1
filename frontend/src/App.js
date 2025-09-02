@@ -31,7 +31,7 @@ const LandingPage = () => {
     orange: "#CC9966",
     green: "#7AAF7A"
   });
-  const [borderLength, setBorderLength] = useState(60); // NEW: Border length state
+  const [borderLength, setBorderLength] = useState(28); // Updated default to 28%
 
   // Helper function to convert hex to RGB
   const hexToRgb = (hex) => {
