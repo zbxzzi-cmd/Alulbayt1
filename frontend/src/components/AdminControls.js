@@ -48,25 +48,54 @@ const AdminControls = ({ currentUser }) => {
     try {
       setLoading(true);
       const token = localStorage.getItem('token');
+      
+      // Check if we have a token
+      if (!token) {
+        alert('Authentication required. Please login as admin.');
+        return;
+      }
+
       const headers = { 
         Authorization: `Bearer ${token}`,
         'Content-Type': 'application/json'
       };
       
+      // Create the request payload
+      const tabPayload = {
+        title: editingTab.title,
+        description: editingTab.description,
+        image: editingTab.image || '',
+        border_color_light: editingTab.border_color_light,
+        border_color_dark: editingTab.border_color_dark,
+        type: 'informational' // Default type
+      };
+
+      // For stat tabs, include value instead of description
+      if (editingTab.type === 'stat') {
+        delete tabPayload.description;
+        delete tabPayload.image;
+        tabPayload.value = editingTab.value;
+      }
+
+      console.log('Saving tab with payload:', tabPayload);
+      console.log('Using endpoint:', `${backendUrl}/api/admin/${editingTab.type}-tabs`);
+      
       if (editingTab.id) {
         // Update existing tab
-        await axios.put(
+        const response = await axios.put(
           `${backendUrl}/api/admin/${editingTab.type}-tabs/${editingTab.id}`,
-          editingTab,
+          tabPayload,
           { headers }
         );
+        console.log('Update response:', response.data);
       } else {
         // Create new tab
-        await axios.post(
+        const response = await axios.post(
           `${backendUrl}/api/admin/${editingTab.type}-tabs`,
-          editingTab,
+          tabPayload,
           { headers }
         );
+        console.log('Create response:', response.data);
       }
       
       setIsEditing(false);
@@ -74,7 +103,23 @@ const AdminControls = ({ currentUser }) => {
       alert('Tab saved successfully!');
     } catch (error) {
       console.error('Error saving tab:', error);
-      alert('Error saving tab: ' + (error.response?.data?.detail || error.message));
+      console.error('Error response:', error.response?.data);
+      console.error('Error status:', error.response?.status);
+      
+      let errorMessage = 'Unknown error occurred';
+      if (error.response?.data?.detail) {
+        errorMessage = error.response.data.detail;
+      } else if (error.response?.status === 401) {
+        errorMessage = 'Authentication failed. Please login as admin.';
+      } else if (error.response?.status === 403) {
+        errorMessage = 'Access denied. Admin privileges required.';
+      } else if (error.response?.status === 404) {
+        errorMessage = 'API endpoint not found. Please check server configuration.';
+      } else if (error.message) {
+        errorMessage = error.message;
+      }
+      
+      alert('Error saving tab: ' + errorMessage);
     } finally {
       setLoading(false);
     }
