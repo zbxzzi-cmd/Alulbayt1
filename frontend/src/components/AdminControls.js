@@ -16,7 +16,7 @@ const AdminControls = ({ currentUser }) => {
 
   const handleAddTab = () => {
     const newTab = {
-      type: activeTab,
+      type: activeTab === 'programs' ? 'program' : 'stat', // Fix type mapping
       title: '',
       description: activeTab === 'programs' ? '' : undefined,
       value: activeTab === 'stats' ? '' : undefined,
