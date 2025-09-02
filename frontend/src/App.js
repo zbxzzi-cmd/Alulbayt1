@@ -5,7 +5,7 @@ import axios from "axios";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "./components/ui/card";
 import { Button } from "./components/ui/button";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "./components/ui/dialog";
-import { BookOpen, Users, Scale, Clock, Type, Palette, Sliders } from "lucide-react";
+import { BookOpen, Users, Scale, Clock, Type, Palette, Sliders, Trash2 } from "lucide-react";
 import DesignSystemDemo from "./components/DesignSystemDemo";
 import ThemeToggle from "./components/ThemeToggle";
 import AdminControls from "./components/AdminControls";
