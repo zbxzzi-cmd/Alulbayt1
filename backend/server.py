@@ -721,7 +721,7 @@ async def get_stat_tabs():
         )
 
 @api_router.post("/admin/stat-tabs")
-async def create_stat_tab(tab_data: StatTab, current_user: User = Depends(lambda: get_current_user(db))):
+async def create_stat_tab(tab_data: StatTab, current_user: User = Depends(get_current_user_dep)):
     """Create a new stat tab (admin only)"""
     try:
         if current_user.role not in [UserRole.SUPER_ADMIN, UserRole.ADMIN]:
