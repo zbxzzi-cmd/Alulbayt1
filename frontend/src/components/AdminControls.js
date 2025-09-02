@@ -125,7 +125,7 @@ const AdminControls = ({ currentUser }) => {
           }`}
           onClick={() => setActiveTab('programs')}
         >
-          Program Tabs ({programTabs.length})
+          Program Tabs
         </button>
         <button
           className={`px-4 py-2 font-medium ml-6 transition-colors ${
@@ -135,7 +135,7 @@ const AdminControls = ({ currentUser }) => {
           }`}
           onClick={() => setActiveTab('stats')}
         >
-          Stat Tabs ({statTabs.length})
+          Stat Tabs
         </button>
       </div>
       
