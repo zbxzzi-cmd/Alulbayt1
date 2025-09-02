@@ -352,7 +352,7 @@ code {
   
   /* Legacy Variables for Backward Compatibility */
   --border-thickness: 18px;
-  --border-length: 60%;
+  --border-length: 28%; /* Updated default border length */
   --custom-bg-color: #c3ffff;
   --border-color: #4dd6d6;
 }
