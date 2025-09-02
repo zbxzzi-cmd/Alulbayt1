@@ -657,11 +657,21 @@ async def create_program_tab(tab_data: dict, current_user: User = Depends(get_cu
         
         result = await db.program_tabs.insert_one(new_tab)
         
-        # Convert datetime objects to strings for JSON serialization
-        new_tab["created_at"] = new_tab["created_at"].isoformat()
-        new_tab["updated_at"] = new_tab["updated_at"].isoformat()
+        # Create response data without ObjectId
+        response_tab = {
+            "id": new_tab["id"],
+            "title": new_tab["title"],
+            "description": new_tab["description"],
+            "image": new_tab["image"],
+            "border_color_light": new_tab["border_color_light"],
+            "border_color_dark": new_tab["border_color_dark"],
+            "type": new_tab["type"],
+            "order": new_tab["order"],
+            "created_at": new_tab["created_at"].isoformat(),
+            "updated_at": new_tab["updated_at"].isoformat()
+        }
         
-        return {"message": "Program tab created successfully", "tab": new_tab}
+        return {"message": "Program tab created successfully", "tab": response_tab}
     except HTTPException:
         raise
     except Exception as e:
