@@ -781,7 +781,7 @@ async def update_stat_tab(tab_id: str, tab_data: dict, current_user: User = Depe
         )
 
 @api_router.delete("/admin/stat-tabs/{tab_id}")
-async def delete_stat_tab(tab_id: str, current_user: User = Depends(lambda: get_current_user(db))):
+async def delete_stat_tab(tab_id: str, current_user: User = Depends(get_current_user_dep)):
     """Delete a stat tab (admin only)"""
     try:
         if current_user.role not in [UserRole.SUPER_ADMIN, UserRole.ADMIN]:
