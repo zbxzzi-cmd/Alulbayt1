@@ -1103,6 +1103,96 @@ html[data-theme="dark"] .ds-theme-toggle .ds-theme-toggle-icon {
 .ds-theme-toggle-text {
   display: none;
 }
+/* Mobile responsive theme toggle */
+@media (max-width: 768px) {
+  .ds-theme-toggle {
+    padding: var(--space-xs) var(--space-sm);
+    font-size: 12px;
+  }
+  
+  .ds-theme-toggle-text {
+    display: none;
+  }
+}
+
+/* Admin Controls Theme-Aware Styling */
+.admin-controls-panel {
+  background: rgba(255, 255, 255, 0.95) !important;
+  backdrop-filter: blur(12px) !important;
+  border: 2px solid rgba(224, 247, 250, 0.4) !important;
+  border-bottom: none !important;
+  box-shadow: inset 0 2px 0 rgba(224, 247, 250, 0.6) !important;
+}
+
+html[data-theme="dark"] .admin-controls-panel {
+  background: linear-gradient(135deg, rgba(30, 30, 60, 0.85) 0%, rgba(45, 45, 75, 0.9) 30%, rgba(60, 60, 90, 0.95) 100%) !important;
+  backdrop-filter: blur(20px) !important;
+  border: 2px solid rgba(180, 140, 255, 0.1225) !important;
+  border-bottom: none !important;
+  box-shadow: inset 0 2px 0 rgba(200, 150, 255, 0.245) !important;
+}
+
+.admin-title {
+  color: #2C3E50 !important;
+}
+
+html[data-theme="dark"] .admin-title {
+  color: white !important;
+}
+
+.admin-border {
+  border-color: rgba(224, 247, 250, 0.4) !important;
+}
+
+html[data-theme="dark"] .admin-border {
+  border-color: rgba(180, 140, 255, 0.3) !important;
+}
+
+.admin-tab-button {
+  transition: all 0.2s ease;
+}
+
+.admin-tab-active {
+  color: #0891b2 !important;
+  border-bottom: 2px solid #0891b2 !important;
+}
+
+html[data-theme="dark"] .admin-tab-active {
+  color: white !important;
+  border-bottom: 2px solid rgba(180, 140, 255, 0.8) !important;
+}
+
+.admin-tab-inactive {
+  color: #6b7280 !important;
+}
+
+.admin-tab-inactive:hover {
+  color: #374151 !important;
+}
+
+html[data-theme="dark"] .admin-tab-inactive {
+  color: rgba(180, 140, 255, 0.6) !important;
+}
+
+html[data-theme="dark"] .admin-tab-inactive:hover {
+  color: white !important;
+}
+
+.admin-spinner {
+  border-color: #0891b2 !important;
+}
+
+html[data-theme="dark"] .admin-spinner {
+  border-color: rgba(180, 140, 255, 0.8) !important;
+}
+
+.admin-loading-text {
+  color: #6b7280 !important;
+}
+
+html[data-theme="dark"] .admin-loading-text {
+  color: rgba(180, 140, 255, 0.8) !important;
+}
 
 /* Enhanced Mobile Touch Support */
 @media (hover: none) and (pointer: coarse) {
