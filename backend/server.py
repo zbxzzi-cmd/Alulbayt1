@@ -751,7 +751,7 @@ async def create_stat_tab(tab_data: StatTab, current_user: User = Depends(get_cu
         )
 
 @api_router.put("/admin/stat-tabs/{tab_id}")
-async def update_stat_tab(tab_id: str, tab_data: dict, current_user: User = Depends(lambda: get_current_user(db))):
+async def update_stat_tab(tab_id: str, tab_data: dict, current_user: User = Depends(get_current_user_dep)):
     """Update a stat tab (admin only)"""
     try:
         if current_user.role not in [UserRole.SUPER_ADMIN, UserRole.ADMIN]:
