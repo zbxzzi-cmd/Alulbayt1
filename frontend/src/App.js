@@ -656,8 +656,14 @@ Click OK to open font & color selector...`);
 
   return (
     <div className="app-background ds-bg-main landing-page">
-      {/* Theme Toggle - Top Right Corner with Higher Z-Index */}
-      <div className="fixed top-4 right-4 z-[9999]">
+      {/* Theme Toggle and Design System Link - Top Right Corner with Higher Z-Index */}
+      <div className="fixed top-4 right-4 z-[9999] flex items-center space-x-3">
+        <a 
+          href="/design-system" 
+          className="px-4 py-2 bg-white/90 hover:bg-white text-gray-700 hover:text-gray-900 rounded-full text-sm font-medium transition-all duration-200 shadow-lg hover:shadow-xl backdrop-blur-sm border border-white/30"
+        >
+          Design System
+        </a>
         <ThemeToggle />
       </div>
       
