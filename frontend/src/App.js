@@ -934,10 +934,10 @@ Click OK to open font & color selector...`);
                       title={`Delete ${program.name}`}
                     >
                       <Trash2 
-                        className="h-4 w-4" 
+                        className="h-5 w-5" 
                         stroke="currentColor"
                         fill="none"
-                        strokeWidth="2"
+                        strokeWidth="2.5"
                         strokeLinecap="round"
                         strokeLinejoin="round"
                       />
