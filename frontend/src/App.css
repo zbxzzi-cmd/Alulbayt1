@@ -2243,17 +2243,20 @@ html[data-theme="dark"] a[href="/design-system"] {
   border: 1px solid rgba(180, 140, 255, 0.3) !important;
 }
 
-/* 4. FIX CUSTOM BORDER COLORS FOR NEW PROGRAM TABS */
+/* 1. FIX PROGRAM TAB CUSTOM BORDER COLORS - BOTH LEFT AND BOTTOM BORDERS */
 .program-card[data-theme-light-border] {
   border-left-color: var(--custom-light-border) !important;
+  border-bottom-color: calc(var(--custom-light-border) * 0.8) !important; /* Slightly darker bottom */
 }
 
 html[data-theme="dark"] .program-card[data-theme-dark-border] {
   border-left-color: var(--custom-dark-border) !important;
+  border-bottom-color: calc(var(--custom-dark-border) * 0.8) !important; /* Slightly darker bottom */
 }
 
 html[data-theme="dark"] .program-card[data-theme-dark-border]:hover {
   border-left-color: var(--custom-dark-border) !important;
+  border-bottom-color: calc(var(--custom-dark-border) * 0.8) !important;
   filter: brightness(1.2) !important;
 }
 html[data-theme="dark"] .ds-form-container::-webkit-scrollbar-thumb {
