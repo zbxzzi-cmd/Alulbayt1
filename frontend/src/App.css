@@ -2232,7 +2232,26 @@ html[data-theme="dark"] .ds-bg-main {
   color: #f8fafc !important;
 }
 
-/* FIX LIGHT MODE FORM BORDERS - TEAL/CYAN THEME */
+/* 7. FIX DESIGN SYSTEM BUTTON IN DARK MODE */
+html[data-theme="dark"] a[href="/design-system"] {
+  background: linear-gradient(135deg, 
+    rgba(30, 30, 60, 0.9) 0%,
+    rgba(45, 45, 75, 0.85) 30%,
+    rgba(60, 60, 90, 0.95) 100%
+  ) !important;
+  color: #e5e7eb !important;
+  border: 1px solid rgba(180, 140, 255, 0.3) !important;
+}
+
+html[data-theme="dark"] a[href="/design-system"]:hover {
+  background: linear-gradient(135deg, 
+    rgba(40, 40, 70, 0.95) 0%,
+    rgba(55, 55, 85, 0.9) 30%,
+    rgba(70, 70, 100, 0.98) 100%
+  ) !important;
+  color: white !important;
+  border-color: rgba(180, 140, 255, 0.5) !important;
+}
 .ds-bg-glass {
   background: rgba(255, 255, 255, 0.95) !important;
   backdrop-filter: blur(12px) !important;
