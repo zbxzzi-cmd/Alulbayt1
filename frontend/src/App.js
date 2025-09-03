@@ -55,6 +55,9 @@ const LandingPage = () => {
       (G < 255 ? G < 1 ? 0 : G : 255) * 0x100 +
       (B < 255 ? B < 1 ? 0 : B : 255)).toString(16).slice(1);
   };
+
+  // Helper function to convert RGB to HSL
+  const rgbToHsl = (r, g, b) => {
     r /= 255;
     g /= 255;
     b /= 255;
