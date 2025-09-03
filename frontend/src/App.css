@@ -2352,7 +2352,7 @@ html[data-theme="dark"] .ds-card-base:hover {
   box-shadow: 0 12px 32px rgba(91, 33, 182, 0.4) !important;
 }
 
-/* Design System Card Types - UPDATED TO 18PX BORDERS */
+/* Design System Card Types - UPDATED TO 18PX BORDERS + FIX GREEN BORDER */
 .ds-card-aqua {
   border-left: 18px solid #4A90A4 !important;
 }
@@ -2379,6 +2379,10 @@ html[data-theme="dark"] .ds-card-orange {
 
 .ds-card-green {
   border-left: 18px solid #7AAF7A !important;
+}
+
+html[data-theme="dark"] .ds-card-green {
+  border-left: 18px solid var(--card-border-green-custom, #7AAF7A) !important;
 }
 
 /* Design System Card Hover Effects - EXACT MATCH to Main App */
