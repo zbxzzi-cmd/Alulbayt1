@@ -448,7 +448,9 @@ const LandingPage = () => {
         label: tab.title || "New Stat",
         type: tab.type || "a",
         id: tab.id,
-        isBackendStat: true // Mark as backend stat for identification
+        isBackendStat: true, // Mark as backend stat for identification
+        border_color_light: tab.border_color_light || "#4A90A4", // CUSTOM BORDER COLORS
+        border_color_dark: tab.border_color_dark || "#B8739B"
       }));
       
       // Original hardcoded stats
