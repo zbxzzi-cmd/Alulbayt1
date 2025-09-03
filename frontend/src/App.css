@@ -2276,32 +2276,32 @@ html[data-theme="dark"] .program-card[data-theme-dark-border]:hover {
   border-bottom-color: var(--custom-dark-border) !important;
   filter: brightness(1.2) !important;
 }
-/* 5. FIX SCROLL BAR IN DARK MODE - PURPLE INSTEAD OF TEAL */
+/* BUG 3 FIX: DARKER SCROLL BAR IN DARK MODE - NO EYE STRAIN */
 html[data-theme="dark"] ::-webkit-scrollbar-thumb {
-  background: linear-gradient(135deg, #4c1d95, #6b46c1) !important;
+  background: linear-gradient(135deg, #2c1065, #4c1d95) !important; /* DARKER purple */
   border-radius: 10px !important;
 }
 
 html[data-theme="dark"] ::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(135deg, #3c1366, #553c9a) !important;
+  background: linear-gradient(135deg, #1e0b4d, #3c1366) !important; /* EVEN DARKER on hover */
 }
 
 html[data-theme="dark"] ::-webkit-scrollbar-track {
-  background: rgba(30, 30, 60, 0.3) !important;
+  background: rgba(20, 20, 40, 0.4) !important; /* DARKER track */
   border-radius: 10px !important;
 }
 
 html[data-theme="dark"] .ds-form-container::-webkit-scrollbar-thumb {
-  background: linear-gradient(135deg, #4c1d95, #6b46c1) !important;
+  background: linear-gradient(135deg, #2c1065, #4c1d95) !important; /* DARKER purple */
   border-radius: 10px !important;
 }
 
 html[data-theme="dark"] .ds-form-container::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(135deg, #3c1366, #553c9a) !important;
+  background: linear-gradient(135deg, #1e0b4d, #3c1366) !important; /* EVEN DARKER on hover */
 }
 
 html[data-theme="dark"] .ds-form-container::-webkit-scrollbar-track {
-  background: rgba(30, 30, 60, 0.3) !important;
+  background: rgba(20, 20, 40, 0.4) !important; /* DARKER track */
   border-radius: 10px !important;
 }
 /* BUG 2 FIX: LIGHT MODE FORM BORDERS - LIGHT BLUE INSTEAD OF PURPLE */
