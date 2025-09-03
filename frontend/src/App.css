@@ -2287,34 +2287,34 @@ html[data-theme="dark"] .stats-widget[data-stat-dark-border] {
 
 /* NEW FEATURE: 3D EFFECT WITH DARKER BOTTOM BORDERS (DARK MODE ONLY) */
 
-/* Function to darken colors by 30% for 3D effect */
+/* Function to darken colors by 50% for enhanced 3D effect */
 html[data-theme="dark"] .program-card {
   border-bottom-width: 6px !important;
   border-bottom-style: solid !important;
 }
 
-/* Default program cards - 3D effect with darker bottom borders */
+/* Default program cards - 3D effect with 50% darker bottom borders */
 html[data-theme="dark"] .program-card.card-type-a {
   border-left-color: var(--card-border-aqua-custom, #4A90A4) !important;
-  border-bottom-color: #336B75 !important; /* 30% darker aqua */
+  border-bottom-color: #254852 !important; /* 50% darker aqua */
 }
 
 html[data-theme="dark"] .program-card.card-type-b {
   border-left-color: var(--card-border-pink-custom, #B8739B) !important;
-  border-bottom-color: #80506C !important; /* 30% darker pink */
+  border-bottom-color: #5C394D !important; /* 50% darker pink */
 }
 
 html[data-theme="dark"] .program-card.card-type-c {
   border-left-color: var(--card-border-orange-custom, #CC9966) !important;
-  border-bottom-color: #8F6B47 !important; /* 30% darker orange */
+  border-bottom-color: #664C33 !important; /* 50% darker orange */
 }
 
 html[data-theme="dark"] .program-card.card-type-d {
   border-left-color: var(--card-border-green-custom, #7AAF7A) !important;
-  border-bottom-color: #557A55 !important; /* 30% darker green */
+  border-bottom-color: #3D573D !important; /* 50% darker green */
 }
 
-/* Custom program cards - 3D effect with darker bottom borders */
+/* Custom program cards - 3D effect with 50% darker bottom borders */
 html[data-theme="dark"] .program-card[data-theme-dark-border] {
   border-left-color: var(--custom-dark-border) !important;
   border-bottom-color: var(--custom-dark-border-darker) !important;
