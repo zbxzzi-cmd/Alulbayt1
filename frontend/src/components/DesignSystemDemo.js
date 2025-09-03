@@ -1,10 +1,16 @@
 import React from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "./ui/card";
 import { Button } from "./ui/button";
+import ThemeToggle from "./ThemeToggle";
 
 const DesignSystemDemo = () => {
   return (
     <div className="ds-bg-main">
+      {/* Theme Toggle - Top Right Corner */}
+      <div className="fixed top-4 right-4 z-[9999]">
+        <ThemeToggle />
+      </div>
+      
       <div className="max-w-6xl mx-auto py-12 px-6">
         <div className="text-center mb-12">
           <h1 className="ds-heading-xl ds-mb-lg">Ahlulbayt Studies Design System</h1>
