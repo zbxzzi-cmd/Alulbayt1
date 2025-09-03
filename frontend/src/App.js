@@ -1042,53 +1042,59 @@ Click OK to open font & color selector...`);
             </p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {statsData.map((stat, index) => (
-              <div 
-                key={stat.id || index} 
-                className={`${getStatsClassName(stat.type)} group relative`}
-                style={{
-                  borderTopColor: stat.border_color_light || undefined,
-                  borderTopWidth: stat.isBackendStat ? '15px' : undefined,
-                  borderTopStyle: stat.isBackendStat ? 'solid' : undefined
-                }}
-              >
-                {/* Delete Button - Only show for backend stats */}
-                {stat.isBackendStat && (
-                  <button
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      handleDeleteStat(stat.id, stat.label);
-                    }}
-                    className="delete-stat-btn"
-                    title={`Delete ${stat.label}`}
+            {statsData.map((stat, index) => {
+              // Get current theme
+              const isDarkMode = document.documentElement.getAttribute('data-theme') === 'dark';
+              const borderColor = isDarkMode ? (stat.border_color_dark || '#B8739B') : (stat.border_color_light || '#4A90A4');
+              
+              return (
+                <div 
+                  key={stat.id || index} 
+                  className={`${getStatsClassName(stat.type)} group relative`}
+                  style={{
+                    borderTopColor: stat.isBackendStat ? borderColor : undefined,
+                    borderTopWidth: stat.isBackendStat ? '15px' : undefined,
+                    borderTopStyle: stat.isBackendStat ? 'solid' : undefined
+                  }}
+                >
+                  {/* Delete Button - Only show for backend stats */}
+                  {stat.isBackendStat && (
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleDeleteStat(stat.id, stat.label);
+                      }}
+                      className="delete-stat-btn"
+                      title={`Delete ${stat.label}`}
+                    >
+                      <Trash2 
+                        className="h-4 w-4" 
+                        stroke="currentColor"
+                        fill="none"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                    </button>
+                  )}
+                  
+                  <div 
+                    className="text-3xl font-bold header-text mb-2 editable-text editable-text-dark font-inter text-default"
+                    onClick={() => handleFontColorEditClick('Stat Number', `stat-number-${index}`, 'Inter', 'Default Dark')}
+                    title="Click to edit stat number, font & color"
                   >
-                    <Trash2 
-                      className="h-4 w-4" 
-                      stroke="currentColor"
-                      fill="none"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
-                  </button>
-                )}
-                
-                <div 
-                  className="text-3xl font-bold header-text mb-2 editable-text editable-text-dark font-inter text-default"
-                  onClick={() => handleFontColorEditClick('Stat Number', `stat-number-${index}`, 'Inter', 'Default Dark')}
-                  title="Click to edit stat number, font & color"
-                >
-                  {stat.number}
+                    {stat.number}
+                  </div>
+                  <div 
+                    className="body-text editable-text editable-text-dark font-inter text-gray"
+                    onClick={() => handleFontColorEditClick('Stat Label', `stat-label-${index}`, 'Inter', 'Gray')}
+                    title="Click to edit stat label, font & color"
+                  >
+                    {stat.label}
+                  </div>
                 </div>
-                <div 
-                  className="body-text editable-text editable-text-dark font-inter text-gray"
-                  onClick={() => handleFontColorEditClick('Stat Label', `stat-label-${index}`, 'Inter', 'Gray')}
-                  title="Click to edit stat label, font & color"
-                >
-                  {stat.label}
-                </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </div>
       </section>
