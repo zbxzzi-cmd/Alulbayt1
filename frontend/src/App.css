@@ -2461,9 +2461,10 @@ html[data-theme="dark"] .ds-btn-primary {
   box-shadow: 0 4px 12px rgba(76, 29, 149, 0.3) !important;
 }
 
+/* 1. FIX ENROLL NOW AND ADD NEW TAB BUTTON GLOW INTENSITY IN DARK MODE */
 html[data-theme="dark"] .ds-btn-primary:hover {
   background: linear-gradient(135deg, #3c1366, #553c9a) !important;
-  box-shadow: 0 6px 20px rgba(76, 29, 149, 0.4) !important;
+  box-shadow: 0 6px 20px rgba(76, 29, 149, 0.2) !important; /* REDUCED from bright blue */
 }
 
 .ds-btn-secondary {
