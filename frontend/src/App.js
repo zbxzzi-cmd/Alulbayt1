@@ -355,18 +355,28 @@ const LandingPage = () => {
       const programTabs = response.data;
       
       // Convert backend program tabs to frontend format
-      const backendPrograms = programTabs.map((tab, index) => ({
-        id: tab.id || `backend-${index}`, // Use backend ID or generate one
-        name: tab.title,
-        tagline: tab.description ? tab.description.substring(0, 60) + "..." : "New Program",
-        description: tab.description || "Program description",
-        image: tab.image || "https://images.unsplash.com/photo-1694758375810-2d7c7bc3e84e",
-        icon: BookOpen, // Default icon for backend programs
-        type: tab.type || "informational",
-        isBackendProgram: true, // Mark as backend program for identification
-        border_color_light: tab.border_color_light || "#E0F7FA", // CUSTOM BORDER COLORS
-        border_color_dark: tab.border_color_dark || "#4A90A4"
-      }));
+      const backendPrograms = programTabs.map((tab, index) => {
+        console.log('🔍 BACKEND PROGRAM TAB DATA:', {
+          id: tab.id,
+          title: tab.title,
+          border_color_light: tab.border_color_light,
+          border_color_dark: tab.border_color_dark,
+          raw_tab: tab
+        });
+        
+        return {
+          id: tab.id || `backend-${index}`, // Use backend ID or generate one
+          name: tab.title,
+          tagline: tab.description ? tab.description.substring(0, 60) + "..." : "New Program",
+          description: tab.description || "Program description",
+          image: tab.image || "https://images.unsplash.com/photo-1694758375810-2d7c7bc3e84e",
+          icon: BookOpen, // Default icon for backend programs
+          type: tab.type || "informational",
+          isBackendProgram: true, // Mark as backend program for identification
+          border_color_light: tab.border_color_light || "#E0F7FA", // CUSTOM BORDER COLORS
+          border_color_dark: tab.border_color_dark || "#4A90A4"
+        };
+      });
       
       // Original hardcoded programs
       const defaultPrograms = [
