@@ -2232,14 +2232,22 @@ html[data-theme="dark"] .ds-bg-main {
   color: #f8fafc !important;
 }
 
-/* Design System Glass Background - MATCH MAIN APP EXACTLY */
+/* FIX LIGHT MODE FORM BORDERS - TEAL/CYAN THEME */
 .ds-bg-glass {
   background: rgba(255, 255, 255, 0.95) !important;
   backdrop-filter: blur(12px) !important;
-  border: 2px solid rgba(224, 247, 250, 0.4) !important;
+  border: 2px solid rgba(224, 247, 250, 0.4) !important; /* Teal borders */
   border-bottom: none !important;
-  box-shadow: inset 0 2px 0 rgba(224, 247, 250, 0.6) !important;
+  box-shadow: inset 0 2px 0 rgba(224, 247, 250, 0.6) !important; /* Teal shadow */
   border-radius: 16px !important;
+}
+
+.admin-controls-panel {
+  background: rgba(255, 255, 255, 0.95) !important;
+  backdrop-filter: blur(12px) !important;
+  border: 2px solid rgba(224, 247, 250, 0.4) !important; /* Teal borders */
+  border-bottom: none !important;
+  box-shadow: inset 0 2px 0 rgba(224, 247, 250, 0.6) !important; /* Teal shadow */
 }
 
 html[data-theme="dark"] .ds-bg-glass {
