@@ -2283,21 +2283,22 @@ html[data-theme="dark"] .ds-form-container::-webkit-scrollbar-track {
   background: rgba(30, 30, 60, 0.3) !important;
   border-radius: 10px !important;
 }
+/* 4. FIX LIGHT MODE FORM BORDERS - LIGHT BLUE INSTEAD OF PURPLE */
 .ds-bg-glass {
   background: rgba(255, 255, 255, 0.95) !important;
   backdrop-filter: blur(12px) !important;
-  border: 2px solid rgba(224, 247, 250, 0.4) !important; /* Teal borders */
+  border: 2px solid rgba(224, 247, 250, 0.6) !important; /* Light blue borders */
   border-bottom: none !important;
-  box-shadow: inset 0 2px 0 rgba(224, 247, 250, 0.6) !important; /* Teal shadow */
+  box-shadow: inset 0 2px 0 rgba(224, 247, 250, 0.8) !important; /* Light blue shadow */
   border-radius: 16px !important;
 }
 
 .admin-controls-panel {
   background: rgba(255, 255, 255, 0.95) !important;
   backdrop-filter: blur(12px) !important;
-  border: 2px solid rgba(224, 247, 250, 0.4) !important; /* Teal borders */
+  border: 2px solid rgba(224, 247, 250, 0.6) !important; /* Light blue borders */
   border-bottom: none !important;
-  box-shadow: inset 0 2px 0 rgba(224, 247, 250, 0.6) !important; /* Teal shadow */
+  box-shadow: inset 0 2px 0 rgba(224, 247, 250, 0.8) !important; /* Light blue shadow */
 }
 
 html[data-theme="dark"] .ds-bg-glass {
