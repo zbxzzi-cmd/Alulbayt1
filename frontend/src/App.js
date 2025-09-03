@@ -200,6 +200,65 @@ const LandingPage = () => {
     }
   ]);
 
+  // Function to delete a stat tab
+  const handleDeleteStat = async (statId, statLabel) => {
+    // Show confirmation dialog
+    const confirmed = window.confirm(`Are you sure you want to delete the stat "${statLabel}"?`);
+    
+    if (!confirmed) {
+      return;
+    }
+
+    try {
+      // Only delete backend stats (those with isBackendStat flag)
+      const statToDelete = statsData.find(s => s.id === statId);
+      
+      if (!statToDelete?.isBackendStat) {
+        alert('Cannot delete default stats');
+        return;
+      }
+
+      // Make API call to delete the stat
+      const token = localStorage.getItem('token');
+      
+      if (!token) {
+        alert('Authentication required to delete stats');
+        return;
+      }
+
+      const headers = {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      };
+
+      await axios.delete(`${API}/admin/stat-tabs/${statId}`, { headers });
+
+      // Remove from UI immediately (optimistic update)
+      setStatsData(prevStats => prevStats.filter(s => s.id !== statId));
+      
+      console.log(`Successfully deleted stat: ${statLabel}`);
+      
+    } catch (error) {
+      console.error('Error deleting stat:', error);
+      
+      let errorMessage = 'Failed to delete stat';
+      if (error.response?.data?.detail) {
+        errorMessage = error.response.data.detail;
+      } else if (error.response?.status === 401) {
+        errorMessage = 'Authentication failed. Please login as admin.';
+      } else if (error.response?.status === 403) {
+        errorMessage = 'Access denied. Admin privileges required.';
+      } else if (error.response?.status === 404) {
+        errorMessage = 'Stat not found.';
+      }
+      
+      alert(`Error deleting stat: ${errorMessage}`);
+      
+      // Refresh the stat list to ensure UI is in sync
+      fetchStatTabs();
+    }
+  };
+
   // Function to delete a program tab
   const handleDeleteProgram = async (programId, programName) => {
     // Show confirmation dialog
