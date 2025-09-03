@@ -1412,6 +1412,91 @@ html[data-theme="dark"] .delete-program-btn:hover svg {
   position: relative !important;
 }
 
+/* ====== DELETE STAT BUTTON STYLING ====== */
+
+/* Delete Stat Button - Base Styling with Proper Positioning */
+.delete-stat-btn {
+  position: absolute !important;
+  top: 12px !important;
+  right: 12px !important;
+  z-index: 20 !important;
+  background: rgba(255, 255, 255, 0.95) !important;
+  backdrop-filter: blur(12px) !important;
+  -webkit-backdrop-filter: blur(12px) !important;
+  border-radius: 8px !important;
+  padding: 6px !important;
+  border: 1px solid rgba(239, 68, 68, 0.3) !important;
+  color: #dc2626 !important;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  cursor: pointer !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15) !important;
+  opacity: 0.7 !important;
+}
+
+/* Delete Stat Button - Light Mode Hover */
+.delete-stat-btn:hover {
+  opacity: 1 !important;
+  background: rgba(255, 255, 255, 1) !important;
+  border-color: rgba(239, 68, 68, 0.5) !important;
+  color: #b91c1c !important;
+  transform: scale(1.1) !important;
+  box-shadow: 0 4px 12px rgba(239, 68, 68, 0.25) !important;
+}
+
+/* Delete Stat Button - Dark Mode */
+html[data-theme="dark"] .delete-stat-btn {
+  background: rgba(30, 30, 60, 0.95) !important;
+  border: 2px solid rgba(168, 85, 247, 0.5) !important;
+  color: #e0b3ff !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4) !important;
+  opacity: 0.9 !important;
+}
+
+/* Delete Stat Button - Dark Mode Hover */
+html[data-theme="dark"] .delete-stat-btn:hover {
+  opacity: 1 !important;
+  background: rgba(30, 30, 60, 1) !important;
+  border-color: rgba(168, 85, 247, 0.8) !important;
+  color: #f0d9ff !important;
+  transform: scale(1.15) !important;
+  box-shadow: 0 4px 12px rgba(147, 51, 234, 0.5) !important;
+}
+
+/* Delete Stat Button SVG */
+.delete-stat-btn svg {
+  color: #dc2626 !important;
+  fill: none !important;
+  stroke: currentColor !important;
+  stroke-width: 2 !important;
+  stroke-linecap: round !important;
+  stroke-linejoin: round !important;
+  width: 16px !important;
+  height: 16px !important;
+}
+
+html[data-theme="dark"] .delete-stat-btn svg {
+  color: #e0b3ff !important;
+  fill: none !important;
+  stroke: currentColor !important;
+  stroke-width: 2.5 !important;
+  stroke-linecap: round !important;
+  stroke-linejoin: round !important;
+  width: 18px !important;
+  height: 18px !important;
+}
+
+html[data-theme="dark"] .delete-stat-btn:hover svg {
+  color: #f0d9ff !important;
+  stroke: currentColor !important;
+  stroke-width: 3 !important;
+  transform: rotate(5deg) scale(1.1) !important;
+}
+
+/* Stat Card Theme-Aware Border Colors */
+html[data-theme="dark"] .stats-widget[style*="border-top"] {
+  border-top-color: var(--stat-border-color-dark, #B8739B) !important;
+}
+
 /* Enhanced Mobile Touch Support */
 @media (hover: none) and (pointer: coarse) {
   /* Touch devices - ensure hover states work on tap */
