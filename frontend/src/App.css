@@ -2315,7 +2315,7 @@ html[data-theme="dark"] .ds-body-sm {
 .ds-p-lg { padding: 1.5rem !important; }
 .ds-p-xl { padding: 2rem !important; }
 
-/* Design System Card Base */
+/* Design System Card Base - MATCH MAIN APP EXACTLY */
 .ds-card-base {
   background: rgba(255, 255, 255, 0.95) !important;
   backdrop-filter: blur(12px) !important;
@@ -2327,7 +2327,8 @@ html[data-theme="dark"] .ds-body-sm {
 }
 
 html[data-theme="dark"] .ds-card-base {
-  background: rgba(255, 255, 255, 0.08) !important;
+  /* EXACT MATCH to main app program cards */
+  background: rgba(255, 255, 255, 0.06) !important;
   backdrop-filter: blur(25px) !important;
   border: 1px solid rgba(255, 255, 255, 0.15) !important;
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3) !important;
@@ -2339,8 +2340,13 @@ html[data-theme="dark"] .ds-card-base {
 }
 
 html[data-theme="dark"] .ds-card-base:hover {
-  transform: translateY(-4px) !important;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4) !important;
+  transform: translateY(-8px) !important;
+  background: linear-gradient(135deg, 
+    rgba(15, 15, 35, 0.9) 0%,
+    rgba(26, 26, 46, 0.8) 30%,
+    rgba(22, 33, 62, 0.7) 100%
+  ), rgba(255, 255, 255, 0.1) !important;
+  box-shadow: 0 12px 32px rgba(91, 33, 182, 0.4) !important;
 }
 
 /* Design System Card Types - UPDATED TO 18PX BORDERS */
