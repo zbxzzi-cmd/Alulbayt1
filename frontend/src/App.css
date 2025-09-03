@@ -2412,14 +2412,15 @@ html[data-theme="dark"] .ds-card-green {
 }
 
 html[data-theme="dark"] .ds-btn-primary {
-  /* Dark Mode - DARKER Purple Gradient - Easier on Eyes */
-  background: linear-gradient(135deg, #6b46c1 0%, #7c3aed 100%) !important;
-  box-shadow: 0 4px 12px rgba(107, 70, 193, 0.3) !important;
+  /* Dark Mode - EXACT MATCH to theme toggle colors */
+  background: linear-gradient(135deg, #4c1d95, #6b46c1) !important;
+  color: white !important;
+  box-shadow: 0 4px 12px rgba(76, 29, 149, 0.3) !important;
 }
 
 html[data-theme="dark"] .ds-btn-primary:hover {
-  background: linear-gradient(135deg, #553c9a 0%, #6d28d9 100%) !important;
-  box-shadow: 0 6px 20px rgba(107, 70, 193, 0.4) !important;
+  background: linear-gradient(135deg, #3c1366, #553c9a) !important;
+  box-shadow: 0 6px 20px rgba(76, 29, 149, 0.4) !important;
 }
 
 .ds-btn-secondary {
