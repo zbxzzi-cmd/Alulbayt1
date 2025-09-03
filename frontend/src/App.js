@@ -1036,14 +1036,24 @@ Click OK to open font & color selector...`);
                   key={program.id} 
                   className={`${getCardClassName(program.type)} group relative`}
                   style={{
-                    // Apply custom border colors for backend programs
+                    // FORCE IMMEDIATE BORDER APPLICATION FOR BACKEND PROGRAMS
                     ...(program.isBackendProgram && leftBorderColor && {
+                      // CSS Variables for fallback
                       '--custom-light-border': program.border_color_light,
                       '--custom-dark-border': program.border_color_dark,
                       '--custom-dark-border-darker': bottomBorderColor,
-                      // Apply to both borders immediately
-                      borderLeftColor: leftBorderColor,
-                      borderBottomColor: currentTheme === 'dark' ? bottomBorderColor : undefined,
+                      // DIRECT INLINE STYLES - HIGHEST PRIORITY
+                      borderLeftColor: leftBorderColor + ' !important',
+                      borderBottomColor: (currentTheme === 'dark' ? bottomBorderColor : leftBorderColor) + ' !important',
+                      borderLeftWidth: '18px',
+                      borderLeftStyle: 'solid',
+                      borderBottomWidth: currentTheme === 'dark' ? '6px' : '6px',
+                      borderBottomStyle: 'solid',
+                    }),
+                    // DEFAULT PROGRAMS - ENSURE THEY HAVE BOTTOM BORDERS TOO
+                    ...(!program.isBackendProgram && currentTheme === 'dark' && {
+                      borderBottomWidth: '6px',
+                      borderBottomStyle: 'solid',
                     })
                   }}
                   data-theme-light-border={program.isBackendProgram ? program.border_color_light : null}
