@@ -2255,19 +2255,25 @@ html[data-theme="dark"] .stats-widget[data-stat-dark-border] {
   border-top-width: 18px !important;
   border-top-style: solid !important;
 }
+/* BUG 1 FIX: PROGRAM TAB CUSTOM BORDER COLORS - BOTH LEFT AND BOTTOM BORDERS */
 .program-card[data-theme-light-border] {
   border-left-color: var(--custom-light-border) !important;
-  border-bottom-color: calc(var(--custom-light-border) * 0.8) !important; /* Slightly darker bottom */
+  border-bottom-color: var(--custom-light-border) !important;
+}
+
+.program-card[data-theme-light-border]:not([data-theme-dark-border]) {
+  border-left-color: var(--custom-light-border) !important;
+  border-bottom-color: var(--custom-light-border) !important;
 }
 
 html[data-theme="dark"] .program-card[data-theme-dark-border] {
   border-left-color: var(--custom-dark-border) !important;
-  border-bottom-color: calc(var(--custom-dark-border) * 0.8) !important; /* Slightly darker bottom */
+  border-bottom-color: var(--custom-dark-border) !important;
 }
 
 html[data-theme="dark"] .program-card[data-theme-dark-border]:hover {
   border-left-color: var(--custom-dark-border) !important;
-  border-bottom-color: calc(var(--custom-dark-border) * 0.8) !important;
+  border-bottom-color: var(--custom-dark-border) !important;
   filter: brightness(1.2) !important;
 }
 /* 5. FIX SCROLL BAR IN DARK MODE - PURPLE INSTEAD OF TEAL */
