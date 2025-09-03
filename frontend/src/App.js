@@ -44,6 +44,24 @@ const LandingPage = () => {
     } : null;
   };
 
+  // Add this function to automatically calculate darker hues
+  function calculateDarkerHue(hexColor, darkenPercentage) {
+    if (!hexColor || !hexColor.startsWith('#')) return '#000000';
+    
+    // Convert hex to RGB
+    let r = parseInt(hexColor.slice(1, 3), 16);
+    let g = parseInt(hexColor.slice(3, 5), 16);
+    let b = parseInt(hexColor.slice(5, 7), 16);
+    
+    // Calculate darker values (50% darker)
+    r = Math.floor(r * (1 - darkenPercentage));
+    g = Math.floor(g * (1 - darkenPercentage));
+    b = Math.floor(b * (1 - darkenPercentage));
+    
+    // Convert back to hex
+    return `#${((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1)}`;
+  }
+
   // Helper function to darken a color by 30% for 3D effect
   const darkenColor = (hex, percent = 30) => {
     const num = parseInt(hex.replace("#", ""), 16);
