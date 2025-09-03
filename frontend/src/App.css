@@ -2243,7 +2243,19 @@ html[data-theme="dark"] a[href="/design-system"] {
   border: 1px solid rgba(180, 140, 255, 0.3) !important;
 }
 
-/* 8. FIX SCROLL BAR IN FORM SYSTEM DARK MODE */
+/* 4. FIX CUSTOM BORDER COLORS FOR NEW PROGRAM TABS */
+.program-card[data-theme-light-border] {
+  border-left-color: var(--custom-light-border) !important;
+}
+
+html[data-theme="dark"] .program-card[data-theme-dark-border] {
+  border-left-color: var(--custom-dark-border) !important;
+}
+
+html[data-theme="dark"] .program-card[data-theme-dark-border]:hover {
+  border-left-color: var(--custom-dark-border) !important;
+  filter: brightness(1.2) !important;
+}
 html[data-theme="dark"] .ds-form-container::-webkit-scrollbar-thumb {
   background: linear-gradient(135deg, #4c1d95, #6b46c1) !important;
   border-radius: 10px !important;
