@@ -2381,8 +2381,21 @@ html[data-theme="dark"] .ds-card-orange {
   border-left: 18px solid #7AAF7A !important;
 }
 
-html[data-theme="dark"] .ds-card-green {
-  border-left: 18px solid var(--card-border-green-custom, #7AAF7A) !important;
+/* Design System Card Hover Effects - EXACT MATCH to Main App */
+html[data-theme="dark"] .ds-card-aqua:hover {
+  border-left-color: #5aa0b4 !important;
+}
+
+html[data-theme="dark"] .ds-card-pink:hover {
+  border-left-color: #c683ab !important;
+}
+
+html[data-theme="dark"] .ds-card-orange:hover {
+  border-left-color: #d9a977 !important;
+}
+
+html[data-theme="dark"] .ds-card-green:hover {
+  border-left-color: #8bbf8b !important;
 }
 
 /* Design System Buttons */
