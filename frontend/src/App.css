@@ -1392,16 +1392,40 @@ html[data-theme="dark"] .delete-program-btn:hover svg {
   transform: rotate(5deg) scale(1.1) !important;
 }
 
-/* Light Mode SVG Styling */
+/* Light Mode SVG Styling - ENHANCED VISIBILITY */
 .delete-program-btn svg {
   color: #dc2626 !important;
   fill: none !important;
   stroke: currentColor !important;
-  stroke-width: 2 !important;
+  stroke-width: 2.5 !important; /* Thicker stroke for better visibility */
   stroke-linecap: round !important;
   stroke-linejoin: round !important;
-  width: 16px !important;
-  height: 16px !important;
+  width: 18px !important; /* Slightly larger for better visibility */
+  height: 18px !important;
+}
+
+.delete-program-btn:hover svg {
+  transform: rotate(5deg) scale(1.1) !important;
+  stroke-width: 3 !important;
+}
+
+/* Dark Mode SVG Styling - FORCE PROPER RENDERING */
+html[data-theme="dark"] .delete-program-btn svg {
+  color: #e0b3ff !important;
+  fill: none !important;
+  stroke: currentColor !important;
+  stroke-width: 3 !important; /* Even thicker stroke in dark mode */
+  stroke-linecap: round !important;
+  stroke-linejoin: round !important;
+  width: 20px !important; /* Larger in dark mode for maximum visibility */
+  height: 20px !important;
+}
+
+html[data-theme="dark"] .delete-program-btn:hover svg {
+  color: #f0d9ff !important;
+  stroke: currentColor !important;
+  stroke-width: 3.5 !important;
+  transform: rotate(5deg) scale(1.1) !important;
 }
 
 /* Ensure delete button is above all card elements */
