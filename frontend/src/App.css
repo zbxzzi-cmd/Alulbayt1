@@ -1376,7 +1376,7 @@ html[data-theme="dark"] .delete-program-btn:hover {
 html[data-theme="dark"] .delete-program-btn svg {
   color: #e0b3ff !important;
   fill: none !important;
-  stroke: #e0b3ff !important;
+  stroke: currentColor !important;
   stroke-width: 2.5 !important;
   stroke-linecap: round !important;
   stroke-linejoin: round !important;
@@ -1386,9 +1386,21 @@ html[data-theme="dark"] .delete-program-btn svg {
 
 html[data-theme="dark"] .delete-program-btn:hover svg {
   color: #f0d9ff !important;
-  stroke: #f0d9ff !important;
+  stroke: currentColor !important;
   stroke-width: 3 !important;
   transform: rotate(5deg) scale(1.1) !important;
+}
+
+/* Light Mode SVG Styling */
+.delete-program-btn svg {
+  color: #dc2626 !important;
+  fill: none !important;
+  stroke: currentColor !important;
+  stroke-width: 2 !important;
+  stroke-linecap: round !important;
+  stroke-linejoin: round !important;
+  width: 16px !important;
+  height: 16px !important;
 }
 
 /* Ensure delete button is above all card elements */
