@@ -930,6 +930,16 @@ Click OK to open font & color selector...`);
                 <Card 
                   key={program.id} 
                   className={`${getCardClassName(program.type)} group relative`}
+                  style={{
+                    // Apply custom border colors for backend programs
+                    ...(program.isBackendProgram && program.border_color_light && {
+                      '--custom-light-border': program.border_color_light,
+                      '--custom-dark-border': program.border_color_dark || program.border_color_light,
+                      borderLeftColor: `var(--custom-light-border)`,
+                    })
+                  }}
+                  data-theme-light-border={program.border_color_light}
+                  data-theme-dark-border={program.border_color_dark}
                 >
                   {/* Delete Button - Only show for backend programs - POSITIONED OUTSIDE IMAGE CONTAINER */}
                   {program.isBackendProgram && (
