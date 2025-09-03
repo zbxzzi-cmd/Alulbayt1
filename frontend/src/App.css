@@ -2285,15 +2285,45 @@ html[data-theme="dark"] .stats-widget[data-stat-dark-border] {
   border-bottom-color: var(--custom-light-border) !important;
 }
 
+/* NEW FEATURE: 3D EFFECT WITH DARKER BOTTOM BORDERS (DARK MODE ONLY) */
+
+/* Function to darken colors by 30% for 3D effect */
+html[data-theme="dark"] .program-card {
+  border-bottom-width: 6px !important;
+  border-bottom-style: solid !important;
+}
+
+/* Default program cards - 3D effect with darker bottom borders */
+html[data-theme="dark"] .program-card.card-type-a {
+  border-left-color: var(--card-border-aqua-custom, #4A90A4) !important;
+  border-bottom-color: #336B75 !important; /* 30% darker aqua */
+}
+
+html[data-theme="dark"] .program-card.card-type-b {
+  border-left-color: var(--card-border-pink-custom, #B8739B) !important;
+  border-bottom-color: #80506C !important; /* 30% darker pink */
+}
+
+html[data-theme="dark"] .program-card.card-type-c {
+  border-left-color: var(--card-border-orange-custom, #CC9966) !important;
+  border-bottom-color: #8F6B47 !important; /* 30% darker orange */
+}
+
+html[data-theme="dark"] .program-card.card-type-d {
+  border-left-color: var(--card-border-green-custom, #7AAF7A) !important;
+  border-bottom-color: #557A55 !important; /* 30% darker green */
+}
+
+/* Custom program cards - 3D effect with darker bottom borders */
 html[data-theme="dark"] .program-card[data-theme-dark-border] {
   border-left-color: var(--custom-dark-border) !important;
-  border-bottom-color: var(--custom-dark-border) !important;
+  border-bottom-color: var(--custom-dark-border-darker) !important;
 }
 
 html[data-theme="dark"] .program-card[data-theme-dark-border]:hover {
   border-left-color: var(--custom-dark-border) !important;
-  border-bottom-color: var(--custom-dark-border) !important;
-  filter: brightness(1.2) !important;
+  border-bottom-color: var(--custom-dark-border-darker) !important;
+  filter: brightness(1.1) !important; /* Reduced brightness change */
 }
 /* BUG 3 FIX: DARKER SCROLL BAR IN DARK MODE - NO EYE STRAIN */
 html[data-theme="dark"] ::-webkit-scrollbar-thumb {
