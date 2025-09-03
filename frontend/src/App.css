@@ -1720,24 +1720,24 @@ html[data-theme="dark"] .stats-widget[style*="border-top"] {
   background: var(--stats-hover-bg) !important;
 }
 
-/* Stats Type Borders with Enhanced Dark Mode */
+/* Stats Type Borders with Enhanced Dark Mode - UPDATED TO 18PX */
 .stats-type-a {
-  border-top: 15px solid var(--card-border-aqua) !important;
+  border-top: 18px solid var(--card-border-aqua) !important;
   border-top-style: solid !important;
 }
 
 .stats-type-b {
-  border-top: 15px solid var(--card-border-pink) !important;
+  border-top: 18px solid var(--card-border-pink) !important;
   border-top-style: solid !important;
 }
 
 .stats-type-c {
-  border-top: 15px solid var(--card-border-orange) !important;
+  border-top: 18px solid var(--card-border-orange) !important;
   border-top-style: solid !important;
 }
 
 .stats-type-d {
-  border-top: 15px solid var(--card-border-green) !important;
+  border-top: 18px solid var(--card-border-green) !important;
   border-top-style: solid !important;
 }
 
