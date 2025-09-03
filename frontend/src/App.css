@@ -2521,8 +2521,8 @@ html[data-theme="dark"] .ds-form-input {
 }
 
 html[data-theme="dark"] .ds-form-input:focus {
-  border-color: #a855f7 !important;
-  box-shadow: 0 0 0 3px rgba(168, 85, 247, 0.1) !important;
+  border-color: rgba(76, 29, 149, 0.6) !important;
+  box-shadow: 0 0 0 3px rgba(76, 29, 149, 0.15) !important;
 }
 
 .ds-form-input::placeholder {
