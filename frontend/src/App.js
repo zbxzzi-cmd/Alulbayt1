@@ -1062,19 +1062,19 @@ Click OK to open font & color selector...`);
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {statsData.map((stat, index) => {
-              // Get current theme
-              const isDarkMode = document.documentElement.getAttribute('data-theme') === 'dark';
-              const borderColor = isDarkMode ? (stat.border_color_dark || '#B8739B') : (stat.border_color_light || '#4A90A4');
-              
               return (
                 <div 
                   key={stat.id || index} 
                   className={`${getStatsClassName(stat.type)} group relative`}
                   style={{
-                    borderTopColor: stat.isBackendStat ? borderColor : undefined,
-                    borderTopWidth: stat.isBackendStat ? '18px' : undefined, // Updated to 18px
-                    borderTopStyle: stat.isBackendStat ? 'solid' : undefined
+                    // Apply custom border colors for backend stats
+                    ...(stat.isBackendStat && stat.border_color_light && {
+                      '--custom-stat-light-border': stat.border_color_light,
+                      '--custom-stat-dark-border': stat.border_color_dark || stat.border_color_light,
+                    })
                   }}
+                  data-stat-light-border={stat.isBackendStat ? stat.border_color_light : null}
+                  data-stat-dark-border={stat.isBackendStat ? stat.border_color_dark : null}
                 >
                   {/* Delete Button - Only show for backend stats */}
                   {stat.isBackendStat && (
