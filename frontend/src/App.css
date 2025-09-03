@@ -873,7 +873,7 @@ html[data-theme="light"] .program-card:hover {
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15) !important;
 }
 
-/* 4. ENHANCED CARD HOVER EFFECT */
+/* BUG 3 FIX: REDUCE GLOW INTENSITY ON HOVER - NO EYE STRAIN */
 html[data-theme="dark"] .program-card:hover {
   transform: translateY(-8px) !important;
   background: linear-gradient(135deg, 
@@ -881,11 +881,30 @@ html[data-theme="dark"] .program-card:hover {
     rgba(26, 26, 46, 0.8) 30%,
     rgba(22, 33, 62, 0.7) 100%
   ), rgba(255, 255, 255, 0.1) !important;
-  box-shadow: 0 12px 32px rgba(91, 33, 182, 0.4) !important;
+  box-shadow: 0 12px 32px rgba(44, 16, 101, 0.15) !important; /* MUCH LOWER intensity */
   
   /* Slightly brighten the borders on hover */
   border-top-color: rgba(255, 255, 255, 0.25) !important;
   border-right-color: rgba(255, 255, 255, 0.25) !important;
+}
+
+/* Reduce hover glow for Design System cards */
+html[data-theme="dark"] .ds-card-base:hover {
+  transform: translateY(-8px) !important;
+  background: linear-gradient(135deg, 
+    rgba(15, 15, 35, 0.9) 0%,
+    rgba(26, 26, 46, 0.8) 30%,
+    rgba(22, 33, 62, 0.7) 100%
+  ), rgba(255, 255, 255, 0.1) !important;
+  box-shadow: 0 12px 32px rgba(44, 16, 101, 0.1) !important; /* MUCH LOWER intensity */
+}
+
+/* Reduce hover glow for all cards */
+html[data-theme="dark"] .ds-card-aqua:hover,
+html[data-theme="dark"] .ds-card-pink:hover,
+html[data-theme="dark"] .ds-card-orange:hover,
+html[data-theme="dark"] .ds-card-green:hover {
+  box-shadow: 0 12px 32px rgba(44, 16, 101, 0.1) !important; /* MUCH LOWER intensity */
 }
 
 /* Enhance the colored borders on hover for dark mode - HIGH SPECIFICITY */
