@@ -1019,7 +1019,16 @@ Click OK to open font & color selector...`);
               const leftBorderColor = currentTheme === 'dark' ? program.border_color_dark : program.border_color_light;
               const bottomBorderColor = leftBorderColor ? calculateDarkerHue(leftBorderColor, 0.5) : null; // 50% darker
               
-              console.log('Program:', program.name, 'Theme:', currentTheme, 'Left Border:', leftBorderColor, 'Bottom Border:', bottomBorderColor);
+              console.log('🎨 BORDER COLOR APPLICATION:', {
+                programName: program.name,
+                currentTheme: currentTheme,
+                isBackendProgram: program.isBackendProgram,
+                border_color_light: program.border_color_light,
+                border_color_dark: program.border_color_dark,
+                calculatedLeftBorder: leftBorderColor,
+                calculatedBottomBorder: bottomBorderColor,
+                shouldApplyCustomColors: program.isBackendProgram && leftBorderColor
+              });
               
               const IconComponent = program.icon;
               return (
