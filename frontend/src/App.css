@@ -1312,14 +1312,15 @@ html[data-theme="dark"] .modal-cancel-btn:hover {
   background: linear-gradient(135deg, #2563eb 0%, #0d9488 100%) !important;
 }
 
+/* Also update the main app primary button in dark mode to match */
 html[data-theme="dark"] .modal-save-btn {
-  /* Dark Mode - Purple Gradient to match cosmic theme */
-  background: linear-gradient(135deg, #8b5cf6 0%, #a855f7 100%) !important;
+  /* Dark Mode - DARKER Purple Gradient to match Design System */
+  background: linear-gradient(135deg, #6b46c1 0%, #7c3aed 100%) !important;
   color: white !important;
 }
 
 html[data-theme="dark"] .modal-save-btn:hover {
-  background: linear-gradient(135deg, #7c3aed 0%, #9333ea 100%) !important;
+  background: linear-gradient(135deg, #553c9a 0%, #6d28d9 100%) !important;
 }
 
 /* ====== DELETE PROGRAM BUTTON STYLING - FIXED POSITIONING ====== */
