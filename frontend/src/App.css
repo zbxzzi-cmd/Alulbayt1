@@ -2515,10 +2515,14 @@ html[data-theme="dark"] .ds-form-label {
 }
 
 html[data-theme="dark"] .ds-form-input {
-  /* EXACT MATCH to main app modal inputs */
-  background: #374151 !important;
+  /* EXACT MATCH to main app modal inputs - DARK PURPLE GRADIENT BACKGROUND */
+  background: linear-gradient(135deg, 
+    rgba(15, 15, 35, 0.9) 0%,
+    rgba(26, 26, 46, 0.8) 30%,
+    rgba(22, 33, 62, 0.7) 100%
+  ) !important;
   color: #f3f4f6 !important;
-  border-color: #4b5563 !important;
+  border: 2px solid rgba(180, 140, 255, 0.3) !important;
 }
 
 html[data-theme="dark"] .ds-form-input:focus {
