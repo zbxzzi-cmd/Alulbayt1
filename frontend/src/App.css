@@ -2270,6 +2270,21 @@ html[data-theme="dark"] .program-card[data-theme-dark-border]:hover {
   border-bottom-color: calc(var(--custom-dark-border) * 0.8) !important;
   filter: brightness(1.2) !important;
 }
+/* 5. FIX SCROLL BAR IN DARK MODE - PURPLE INSTEAD OF TEAL */
+html[data-theme="dark"] ::-webkit-scrollbar-thumb {
+  background: linear-gradient(135deg, #4c1d95, #6b46c1) !important;
+  border-radius: 10px !important;
+}
+
+html[data-theme="dark"] ::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(135deg, #3c1366, #553c9a) !important;
+}
+
+html[data-theme="dark"] ::-webkit-scrollbar-track {
+  background: rgba(30, 30, 60, 0.3) !important;
+  border-radius: 10px !important;
+}
+
 html[data-theme="dark"] .ds-form-container::-webkit-scrollbar-thumb {
   background: linear-gradient(135deg, #4c1d95, #6b46c1) !important;
   border-radius: 10px !important;
