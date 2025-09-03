@@ -597,15 +597,38 @@ async def get_program_tabs():
     """Get all program tabs"""
     try:
         tabs = await db.program_tabs.find().sort("order", 1).to_list(length=None)
-        return [ProgramTab(**tab) for tab in tabs]
+        result = []
+        for tab in tabs:
+            # Remove MongoDB ObjectId if present
+            if "_id" in tab:
+                del tab["_id"]
+            # Convert datetime objects to strings if they exist
+            if "created_at" in tab and hasattr(tab["created_at"], "isoformat"):
+                tab["created_at"] = tab["created_at"].isoformat()
+            if "updated_at" in tab and hasattr(tab["updated_at"], "isoformat"):
+                tab["updated_at"] = tab["updated_at"].isoformat()
+            result.append(tab)
+        return result
     except Exception as e:
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail=f"Error fetching program tabs: {str(e)}"
         )
 
+# Dependency function for current user
+async def get_current_user_dep(credentials: HTTPAuthorizationCredentials = Depends(security)):
+    """Get current user dependency"""
+    token_data = verify_token(credentials)
+    user = await db.users.find_one({"id": token_data.user_id})
+    if user is None:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="User not found"
+        )
+    return User(**user)
+
 @api_router.post("/admin/program-tabs")
-async def create_program_tab(tab_data: dict, current_user: User = Depends(get_current_user)):
+async def create_program_tab(tab_data: dict, current_user: User = Depends(get_current_user_dep)):
     """Create a new program tab (admin only)"""
     try:
         if current_user.role not in [UserRole.SUPER_ADMIN, UserRole.ADMIN]:
@@ -633,7 +656,22 @@ async def create_program_tab(tab_data: dict, current_user: User = Depends(get_cu
         }
         
         result = await db.program_tabs.insert_one(new_tab)
-        return {"message": "Program tab created successfully", "tab": new_tab}
+        
+        # Create response data without ObjectId
+        response_tab = {
+            "id": new_tab["id"],
+            "title": new_tab["title"],
+            "description": new_tab["description"],
+            "image": new_tab["image"],
+            "border_color_light": new_tab["border_color_light"],
+            "border_color_dark": new_tab["border_color_dark"],
+            "type": new_tab["type"],
+            "order": new_tab["order"],
+            "created_at": new_tab["created_at"].isoformat(),
+            "updated_at": new_tab["updated_at"].isoformat()
+        }
+        
+        return {"message": "Program tab created successfully", "tab": response_tab}
     except HTTPException:
         raise
     except Exception as e:
@@ -643,7 +681,7 @@ async def create_program_tab(tab_data: dict, current_user: User = Depends(get_cu
         )
 
 @api_router.put("/admin/program-tabs/{tab_id}")
-async def update_program_tab(tab_id: str, tab_data: dict, current_user: User = Depends(get_current_user)):
+async def update_program_tab(tab_id: str, tab_data: dict, current_user: User = Depends(get_current_user_dep)):
     """Update a program tab (admin only)"""
     try:
         if current_user.role not in [UserRole.SUPER_ADMIN, UserRole.ADMIN]:
@@ -673,7 +711,7 @@ async def update_program_tab(tab_id: str, tab_data: dict, current_user: User = D
         )
 
 @api_router.delete("/admin/program-tabs/{tab_id}")
-async def delete_program_tab(tab_id: str, current_user: User = Depends(get_current_user)):
+async def delete_program_tab(tab_id: str, current_user: User = Depends(get_current_user_dep)):
     """Delete a program tab (admin only)"""
     try:
         if current_user.role not in [UserRole.SUPER_ADMIN, UserRole.ADMIN]:
@@ -701,7 +739,18 @@ async def get_stat_tabs():
     """Get all stat tabs"""
     try:
         tabs = await db.stat_tabs.find().sort("order", 1).to_list(length=None)
-        return [StatTab(**tab) for tab in tabs]
+        result = []
+        for tab in tabs:
+            # Remove MongoDB ObjectId if present
+            if "_id" in tab:
+                del tab["_id"]
+            # Convert datetime objects to strings if they exist
+            if "created_at" in tab and hasattr(tab["created_at"], "isoformat"):
+                tab["created_at"] = tab["created_at"].isoformat()
+            if "updated_at" in tab and hasattr(tab["updated_at"], "isoformat"):
+                tab["updated_at"] = tab["updated_at"].isoformat()
+            result.append(tab)
+        return result
     except Exception as e:
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
@@ -709,7 +758,7 @@ async def get_stat_tabs():
         )
 
 @api_router.post("/admin/stat-tabs")
-async def create_stat_tab(tab_data: StatTab, current_user: User = Depends(get_current_user)):
+async def create_stat_tab(tab_data: StatTab, current_user: User = Depends(get_current_user_dep)):
     """Create a new stat tab (admin only)"""
     try:
         if current_user.role not in [UserRole.SUPER_ADMIN, UserRole.ADMIN]:
@@ -739,7 +788,7 @@ async def create_stat_tab(tab_data: StatTab, current_user: User = Depends(get_cu
         )
 
 @api_router.put("/admin/stat-tabs/{tab_id}")
-async def update_stat_tab(tab_id: str, tab_data: dict, current_user: User = Depends(get_current_user)):
+async def update_stat_tab(tab_id: str, tab_data: dict, current_user: User = Depends(get_current_user_dep)):
     """Update a stat tab (admin only)"""
     try:
         if current_user.role not in [UserRole.SUPER_ADMIN, UserRole.ADMIN]:
@@ -769,7 +818,7 @@ async def update_stat_tab(tab_id: str, tab_data: dict, current_user: User = Depe
         )
 
 @api_router.delete("/admin/stat-tabs/{tab_id}")
-async def delete_stat_tab(tab_id: str, current_user: User = Depends(get_current_user)):
+async def delete_stat_tab(tab_id: str, current_user: User = Depends(get_current_user_dep)):
     """Delete a stat tab (admin only)"""
     try:
         if current_user.role not in [UserRole.SUPER_ADMIN, UserRole.ADMIN]:

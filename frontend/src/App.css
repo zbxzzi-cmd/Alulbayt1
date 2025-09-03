@@ -1194,6 +1194,334 @@ html[data-theme="dark"] .admin-loading-text {
   color: rgba(180, 140, 255, 0.8) !important;
 }
 
+/* ====== MODAL THEME-AWARE STYLING ====== */
+
+/* Modal Container - Theme Aware */
+.modal-content {
+  background: white !important;
+  color: #1f2937 !important;
+}
+
+html[data-theme="dark"] .modal-content {
+  background: linear-gradient(135deg, #1e1e3c 0%, #2d2d4b 50%, #3c3c5a 100%) !important;
+  color: #f8fafc !important;
+}
+
+/* Modal Title */
+.modal-title {
+  color: #1f2937 !important;
+}
+
+html[data-theme="dark"] .modal-title {
+  color: #f8fafc !important;
+}
+
+/* Modal Close Button */
+.modal-close-btn {
+  color: #6b7280 !important;
+}
+
+html[data-theme="dark"] .modal-close-btn {
+  color: #d1d5db !important;
+}
+
+/* Modal Labels */
+.modal-label {
+  color: #374151 !important;
+}
+
+html[data-theme="dark"] .modal-label {
+  color: #e5e7eb !important;
+}
+
+/* Modal Input Fields */
+.modal-input {
+  background: white !important;
+  color: #1f2937 !important;
+  border-color: #d1d5db !important;
+}
+
+.modal-input:focus {
+  border-color: #8b5cf6 !important;
+}
+
+html[data-theme="dark"] .modal-input {
+  background: #374151 !important;
+  color: #f3f4f6 !important;
+  border-color: #4b5563 !important;
+}
+
+html[data-theme="dark"] .modal-input:focus {
+  border-color: #a855f7 !important;
+}
+
+/* Modal Color Input */
+.modal-color-input {
+  border-color: #d1d5db !important;
+}
+
+html[data-theme="dark"] .modal-color-input {
+  border-color: #4b5563 !important;
+}
+
+/* Modal Color Text */
+.modal-color-text {
+  color: #6b7280 !important;
+}
+
+html[data-theme="dark"] .modal-color-text {
+  color: #d1d5db !important;
+}
+
+/* Modal Border Top */
+.modal-border-top {
+  border-color: #e5e7eb !important;
+}
+
+html[data-theme="dark"] .modal-border-top {
+  border-color: #4b5563 !important;
+}
+
+/* Modal Cancel Button */
+.modal-cancel-btn {
+  background: #6b7280 !important;
+  color: white !important;
+}
+
+.modal-cancel-btn:hover {
+  background: #4b5563 !important;
+}
+
+html[data-theme="dark"] .modal-cancel-btn {
+  background: #4b5563 !important;
+  color: #f3f4f6 !important;
+}
+
+html[data-theme="dark"] .modal-cancel-btn:hover {
+  background: #374151 !important;
+}
+
+/* Modal Save Button - Theme Aware Purple Gradient */
+.modal-save-btn {
+  /* Light Mode - Blue to Teal Gradient to match Enroll Now buttons */
+  background: linear-gradient(135deg, #3b82f6 0%, #14b8a6 100%) !important;
+  color: white !important;
+}
+
+.modal-save-btn:hover {
+  background: linear-gradient(135deg, #2563eb 0%, #0d9488 100%) !important;
+}
+
+html[data-theme="dark"] .modal-save-btn {
+  /* Dark Mode - Purple Gradient to match cosmic theme */
+  background: linear-gradient(135deg, #8b5cf6 0%, #a855f7 100%) !important;
+  color: white !important;
+}
+
+html[data-theme="dark"] .modal-save-btn:hover {
+  background: linear-gradient(135deg, #7c3aed 0%, #9333ea 100%) !important;
+}
+
+/* ====== DELETE PROGRAM BUTTON STYLING - FIXED POSITIONING ====== */
+
+/* Delete Button - Base Styling with Proper Positioning - ENHANCED Z-INDEX */
+.delete-program-btn {
+  position: absolute !important;
+  top: 8px !important;
+  right: 8px !important;
+  z-index: 50 !important; /* Higher z-index to appear above images */
+  background: rgba(255, 255, 255, 0.95) !important;
+  backdrop-filter: blur(12px) !important;
+  -webkit-backdrop-filter: blur(12px) !important;
+  border-radius: 8px !important;
+  padding: 8px !important;
+  border: 1px solid rgba(239, 68, 68, 0.3) !important;
+  color: #dc2626 !important;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  cursor: pointer !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15) !important;
+  opacity: 0.8 !important;
+}
+
+/* Delete Button - Light Mode Hover */
+.delete-program-btn:hover {
+  opacity: 1 !important;
+  background: rgba(255, 255, 255, 1) !important;
+  border-color: rgba(239, 68, 68, 0.5) !important;
+  color: #b91c1c !important;
+  transform: scale(1.15) !important;
+  box-shadow: 0 4px 12px rgba(239, 68, 68, 0.25) !important;
+}
+
+/* Delete Button - Dark Mode - ENHANCED VISIBILITY */
+html[data-theme="dark"] .delete-program-btn {
+  background: rgba(30, 30, 60, 0.95) !important;
+  border: 2px solid rgba(168, 85, 247, 0.5) !important;
+  color: #e0b3ff !important; /* Light purple for high contrast */
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4) !important;
+  opacity: 0.9 !important;
+  z-index: 50 !important; /* Ensure it's above everything */
+}
+
+/* Delete Button - Dark Mode Hover */
+html[data-theme="dark"] .delete-program-btn:hover {
+  opacity: 1 !important;
+  background: rgba(30, 30, 60, 1) !important;
+  border-color: rgba(168, 85, 247, 0.8) !important;
+  color: #f0d9ff !important; /* Very light purple on hover */
+  transform: scale(1.15) !important;
+  box-shadow: 0 4px 12px rgba(147, 51, 234, 0.5) !important;
+}
+
+/* Delete Button Icon - FORCE PROPER RENDERING IN DARK MODE */
+html[data-theme="dark"] .delete-program-btn svg {
+  color: #e0b3ff !important;
+  fill: none !important;
+  stroke: currentColor !important;
+  stroke-width: 2.5 !important;
+  stroke-linecap: round !important;
+  stroke-linejoin: round !important;
+  width: 18px !important;
+  height: 18px !important;
+}
+
+html[data-theme="dark"] .delete-program-btn:hover svg {
+  color: #f0d9ff !important;
+  stroke: currentColor !important;
+  stroke-width: 3 !important;
+  transform: rotate(5deg) scale(1.1) !important;
+}
+
+/* Light Mode SVG Styling - ENHANCED VISIBILITY */
+.delete-program-btn svg {
+  color: #dc2626 !important;
+  fill: none !important;
+  stroke: currentColor !important;
+  stroke-width: 2.5 !important; /* Thicker stroke for better visibility */
+  stroke-linecap: round !important;
+  stroke-linejoin: round !important;
+  width: 18px !important; /* Slightly larger for better visibility */
+  height: 18px !important;
+}
+
+.delete-program-btn:hover svg {
+  transform: rotate(5deg) scale(1.1) !important;
+  stroke-width: 3 !important;
+}
+
+/* Dark Mode SVG Styling - FORCE PROPER RENDERING */
+html[data-theme="dark"] .delete-program-btn svg {
+  color: #e0b3ff !important;
+  fill: none !important;
+  stroke: currentColor !important;
+  stroke-width: 3 !important; /* Even thicker stroke in dark mode */
+  stroke-linecap: round !important;
+  stroke-linejoin: round !important;
+  width: 20px !important; /* Larger in dark mode for maximum visibility */
+  height: 20px !important;
+}
+
+html[data-theme="dark"] .delete-program-btn:hover svg {
+  color: #f0d9ff !important;
+  stroke: currentColor !important;
+  stroke-width: 3.5 !important;
+  transform: rotate(5deg) scale(1.1) !important;
+}
+
+/* Ensure delete button is above all card elements */
+.program-card .relative {
+  position: relative !important;
+}
+
+.program-card {
+  position: relative !important;
+}
+
+/* ====== DELETE STAT BUTTON STYLING ====== */
+
+/* Delete Stat Button - Base Styling with Proper Positioning */
+.delete-stat-btn {
+  position: absolute !important;
+  top: 12px !important;
+  right: 12px !important;
+  z-index: 20 !important;
+  background: rgba(255, 255, 255, 0.95) !important;
+  backdrop-filter: blur(12px) !important;
+  -webkit-backdrop-filter: blur(12px) !important;
+  border-radius: 8px !important;
+  padding: 6px !important;
+  border: 1px solid rgba(239, 68, 68, 0.3) !important;
+  color: #dc2626 !important;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  cursor: pointer !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15) !important;
+  opacity: 0.7 !important;
+}
+
+/* Delete Stat Button - Light Mode Hover */
+.delete-stat-btn:hover {
+  opacity: 1 !important;
+  background: rgba(255, 255, 255, 1) !important;
+  border-color: rgba(239, 68, 68, 0.5) !important;
+  color: #b91c1c !important;
+  transform: scale(1.1) !important;
+  box-shadow: 0 4px 12px rgba(239, 68, 68, 0.25) !important;
+}
+
+/* Delete Stat Button - Dark Mode */
+html[data-theme="dark"] .delete-stat-btn {
+  background: rgba(30, 30, 60, 0.95) !important;
+  border: 2px solid rgba(168, 85, 247, 0.5) !important;
+  color: #e0b3ff !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4) !important;
+  opacity: 0.9 !important;
+}
+
+/* Delete Stat Button - Dark Mode Hover */
+html[data-theme="dark"] .delete-stat-btn:hover {
+  opacity: 1 !important;
+  background: rgba(30, 30, 60, 1) !important;
+  border-color: rgba(168, 85, 247, 0.8) !important;
+  color: #f0d9ff !important;
+  transform: scale(1.15) !important;
+  box-shadow: 0 4px 12px rgba(147, 51, 234, 0.5) !important;
+}
+
+/* Delete Stat Button SVG */
+.delete-stat-btn svg {
+  color: #dc2626 !important;
+  fill: none !important;
+  stroke: currentColor !important;
+  stroke-width: 2 !important;
+  stroke-linecap: round !important;
+  stroke-linejoin: round !important;
+  width: 16px !important;
+  height: 16px !important;
+}
+
+html[data-theme="dark"] .delete-stat-btn svg {
+  color: #e0b3ff !important;
+  fill: none !important;
+  stroke: currentColor !important;
+  stroke-width: 2.5 !important;
+  stroke-linecap: round !important;
+  stroke-linejoin: round !important;
+  width: 18px !important;
+  height: 18px !important;
+}
+
+html[data-theme="dark"] .delete-stat-btn:hover svg {
+  color: #f0d9ff !important;
+  stroke: currentColor !important;
+  stroke-width: 3 !important;
+  transform: rotate(5deg) scale(1.1) !important;
+}
+
+/* Stat Card Theme-Aware Border Colors */
+html[data-theme="dark"] .stats-widget[style*="border-top"] {
+  border-top-color: var(--stat-border-color-dark, #B8739B) !important;
+}
+
 /* Enhanced Mobile Touch Support */
 @media (hover: none) and (pointer: coarse) {
   /* Touch devices - ensure hover states work on tap */

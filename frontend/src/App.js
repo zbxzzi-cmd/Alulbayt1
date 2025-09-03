@@ -5,7 +5,7 @@ import axios from "axios";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "./components/ui/card";
 import { Button } from "./components/ui/button";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "./components/ui/dialog";
-import { BookOpen, Users, Scale, Clock, Type, Palette, Sliders } from "lucide-react";
+import { BookOpen, Users, Scale, Clock, Type, Palette, Sliders, Trash2 } from "lucide-react";
 import DesignSystemDemo from "./components/DesignSystemDemo";
 import ThemeToggle from "./components/ThemeToggle";
 import AdminControls from "./components/AdminControls";
@@ -161,7 +161,7 @@ const LandingPage = () => {
   ];
 
   // Sample programs data - ALL CONTENT IS EDITABLE
-  const programs = [
+  const [programs, setPrograms] = useState([
     {
       id: 1,
       name: "Quran Studies", // EDITABLE
@@ -198,14 +198,281 @@ const LandingPage = () => {
       icon: Clock,
       type: "success" // Type D - Success/Positive Cards
     }
-  ];
+  ]);
 
-  // EDITABLE STATS DATA - 3 CARDS
-  const statsData = [
+  // Function to delete a stat tab
+  const handleDeleteStat = async (statId, statLabel) => {
+    // Show confirmation dialog
+    const confirmed = window.confirm(`Are you sure you want to delete the stat "${statLabel}"?`);
+    
+    if (!confirmed) {
+      return;
+    }
+
+    try {
+      // Only delete backend stats (those with isBackendStat flag)
+      const statToDelete = statsData.find(s => s.id === statId);
+      
+      if (!statToDelete?.isBackendStat) {
+        alert('Cannot delete default stats');
+        return;
+      }
+
+      // Make API call to delete the stat
+      const token = localStorage.getItem('token');
+      
+      if (!token) {
+        alert('Authentication required to delete stats');
+        return;
+      }
+
+      const headers = {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      };
+
+      await axios.delete(`${API}/admin/stat-tabs/${statId}`, { headers });
+
+      // Remove from UI immediately (optimistic update)
+      setStatsData(prevStats => prevStats.filter(s => s.id !== statId));
+      
+      console.log(`Successfully deleted stat: ${statLabel}`);
+      
+    } catch (error) {
+      console.error('Error deleting stat:', error);
+      
+      let errorMessage = 'Failed to delete stat';
+      if (error.response?.data?.detail) {
+        errorMessage = error.response.data.detail;
+      } else if (error.response?.status === 401) {
+        errorMessage = 'Authentication failed. Please login as admin.';
+      } else if (error.response?.status === 403) {
+        errorMessage = 'Access denied. Admin privileges required.';
+      } else if (error.response?.status === 404) {
+        errorMessage = 'Stat not found.';
+      }
+      
+      alert(`Error deleting stat: ${errorMessage}`);
+      
+      // Refresh the stat list to ensure UI is in sync
+      fetchStatTabs();
+    }
+  };
+
+  // Function to delete a program tab
+  const handleDeleteProgram = async (programId, programName) => {
+    // Show confirmation dialog
+    const confirmed = window.confirm(`Are you sure you want to delete the program "${programName}"?`);
+    
+    if (!confirmed) {
+      return;
+    }
+
+    try {
+      // Only delete backend programs (those with isBackendProgram flag)
+      const programToDelete = programs.find(p => p.id === programId);
+      
+      if (!programToDelete?.isBackendProgram) {
+        alert('Cannot delete default programs');
+        return;
+      }
+
+      // Make API call to delete the program
+      const token = localStorage.getItem('token');
+      
+      if (!token) {
+        alert('Authentication required to delete programs');
+        return;
+      }
+
+      const headers = {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      };
+
+      await axios.delete(`${API}/admin/program-tabs/${programId}`, { headers });
+
+      // Remove from UI immediately (optimistic update)
+      setPrograms(prevPrograms => prevPrograms.filter(p => p.id !== programId));
+      
+      console.log(`Successfully deleted program: ${programName}`);
+      
+    } catch (error) {
+      console.error('Error deleting program:', error);
+      
+      let errorMessage = 'Failed to delete program';
+      if (error.response?.data?.detail) {
+        errorMessage = error.response.data.detail;
+      } else if (error.response?.status === 401) {
+        errorMessage = 'Authentication failed. Please login as admin.';
+      } else if (error.response?.status === 403) {
+        errorMessage = 'Access denied. Admin privileges required.';
+      } else if (error.response?.status === 404) {
+        errorMessage = 'Program not found.';
+      }
+      
+      alert(`Error deleting program: ${errorMessage}`);
+      
+      // Refresh the program list to ensure UI is in sync
+      fetchProgramTabs();
+    }
+  };
+
+  // Function to fetch program tabs from backend and merge with default programs
+  const fetchProgramTabs = async () => {
+    try {
+      const response = await axios.get(`${API}/admin/program-tabs`);
+      const programTabs = response.data;
+      
+      // Convert backend program tabs to frontend format
+      const backendPrograms = programTabs.map((tab, index) => ({
+        id: tab.id || `backend-${index}`, // Use backend ID or generate one
+        name: tab.title,
+        tagline: tab.description ? tab.description.substring(0, 60) + "..." : "New Program",
+        description: tab.description || "Program description",
+        image: tab.image || "https://images.unsplash.com/photo-1694758375810-2d7c7bc3e84e",
+        icon: BookOpen, // Default icon for backend programs
+        type: tab.type || "informational",
+        isBackendProgram: true // Mark as backend program for identification
+      }));
+      
+      // Original hardcoded programs
+      const defaultPrograms = [
+        {
+          id: 1,
+          name: "Quran Studies",
+          tagline: "Deep dive into the Holy Quran with expert guidance",
+          description: "Comprehensive study of the Quran including recitation, interpretation (Tafseer), and memorization (Hifz). Our expert teachers guide students through proper pronunciation, understanding of verses, and practical application in daily life.",
+          image: "https://images.unsplash.com/photo-1694758375810-2d7c7bc3e84e",
+          icon: BookOpen,
+          type: "informational"
+        },
+        {
+          id: 2,
+          name: "Hadith Studies",
+          tagline: "Learn the teachings and traditions of Prophet Muhammad (PBUH)",
+          description: "Study the authentic sayings, actions, and approvals of Prophet Muhammad (PBUH). Learn to identify authentic narrations, understand their contexts, and apply their teachings in contemporary Islamic life.",
+          image: "https://images.unsplash.com/photo-1714746643489-a893ada081f5",
+          icon: Users,
+          type: "interactive"
+        },
+        {
+          id: 3,
+          name: "Islamic Jurisprudence (Fiqh)",
+          tagline: "Master Islamic law and jurisprudence principles",
+          description: "Comprehensive study of Islamic legal theory and practice. Learn the principles of Islamic jurisprudence, comparative Fiqh, and how to derive rulings from primary sources according to Shia Ithna Ashari methodology.",
+          image: "https://images.unsplash.com/photo-1626553261684-68f25328988f",
+          icon: Scale,
+          type: "warning"
+        },
+        {
+          id: 4,
+          name: "Islamic History",
+          tagline: "Explore the rich history of Islam and its civilizations",
+          description: "Journey through Islamic history from the time of Prophet Muhammad (PBUH) to the present day. Study the lives of the Imams, Islamic golden age, and the development of Islamic societies and cultures.",
+          image: "https://images.unsplash.com/photo-1660674807706-49e85f121c59",
+          icon: Clock,
+          type: "success"
+        }
+      ];
+      
+      // Merge backend programs with default programs (backend programs first)
+      const allPrograms = [...backendPrograms, ...defaultPrograms];
+      setPrograms(allPrograms);
+      
+      console.log(`Loaded ${backendPrograms.length} backend programs and ${defaultPrograms.length} default programs`);
+      
+    } catch (error) {
+      console.error("Error fetching program tabs:", error);
+      // If backend fetch fails, use default programs only
+      const defaultPrograms = [
+        {
+          id: 1,
+          name: "Quran Studies",
+          tagline: "Deep dive into the Holy Quran with expert guidance",
+          description: "Comprehensive study of the Quran including recitation, interpretation (Tafseer), and memorization (Hifz). Our expert teachers guide students through proper pronunciation, understanding of verses, and practical application in daily life.",
+          image: "https://images.unsplash.com/photo-1694758375810-2d7c7bc3e84e",
+          icon: BookOpen,
+          type: "informational"
+        },
+        {
+          id: 2,
+          name: "Hadith Studies",
+          tagline: "Learn the teachings and traditions of Prophet Muhammad (PBUH)",
+          description: "Study the authentic sayings, actions, and approvals of Prophet Muhammad (PBUH). Learn to identify authentic narrations, understand their contexts, and apply their teachings in contemporary Islamic life.",
+          image: "https://images.unsplash.com/photo-1714746643489-a893ada081f5",
+          icon: Users,
+          type: "interactive"
+        },
+        {
+          id: 3,
+          name: "Islamic Jurisprudence (Fiqh)",
+          tagline: "Master Islamic law and jurisprudence principles",
+          description: "Comprehensive study of Islamic legal theory and practice. Learn the principles of Islamic jurisprudence, comparative Fiqh, and how to derive rulings from primary sources according to Shia Ithna Ashari methodology.",
+          image: "https://images.unsplash.com/photo-1626553261684-68f25328988f",
+          icon: Scale,
+          type: "warning"
+        },
+        {
+          id: 4,
+          name: "Islamic History",
+          tagline: "Explore the rich history of Islam and its civilizations",
+          description: "Journey through Islamic history from the time of Prophet Muhammad (PBUH) to the present day. Study the lives of the Imams, Islamic golden age, and the development of Islamic societies and cultures.",
+          image: "https://images.unsplash.com/photo-1660674807706-49e85f121c59",
+          icon: Clock,
+          type: "success"
+        }
+      ];
+      setPrograms(defaultPrograms);
+    }
+  };
+
+  // EDITABLE STATS DATA - Dynamic with Backend Integration
+  const [statsData, setStatsData] = useState([
     { number: "4", label: "Programs Available", type: "a" }, // EDITABLE
     { number: "50+", label: "Students Enrolled", type: "b" }, // EDITABLE
     { number: "95%", label: "Completion Rate", type: "c" } // EDITABLE
-  ];
+  ]);
+
+  // Function to fetch stat tabs from backend and merge with default stats
+  const fetchStatTabs = async () => {
+    try {
+      const response = await axios.get(`${API}/admin/stat-tabs`);
+      const statTabs = response.data;
+      
+      // Convert backend stat tabs to frontend format
+      const backendStats = statTabs.map((tab, index) => ({
+        number: tab.value || "New",
+        label: tab.title || "New Stat",
+        type: tab.type || "a",
+        id: tab.id,
+        isBackendStat: true // Mark as backend stat for identification
+      }));
+      
+      // Original hardcoded stats
+      const defaultStats = [
+        { number: "4", label: "Programs Available", type: "a" },
+        { number: "50+", label: "Students Enrolled", type: "b" },
+        { number: "95%", label: "Completion Rate", type: "c" }
+      ];
+      
+      // Merge backend stats with default stats (backend stats first)
+      const allStats = [...backendStats, ...defaultStats];
+      setStatsData(allStats);
+      
+      console.log(`Loaded ${backendStats.length} backend stats and ${defaultStats.length} default stats`);
+      
+    } catch (error) {
+      console.error("Error fetching stat tabs:", error);
+      // If backend fetch fails, use default stats only
+      const defaultStats = [
+        { number: "4", label: "Programs Available", type: "a" },
+        { number: "50+", label: "Students Enrolled", type: "b" },
+        { number: "95%", label: "Completion Rate", type: "c" }
+      ];
+      setStatsData(defaultStats);
+    }
+  };
 
   useEffect(() => {
     const fetchContent = async () => {
@@ -226,7 +493,10 @@ const LandingPage = () => {
       }
     };
 
+    // Fetch both content, program tabs, and stat tabs
     fetchContent();
+    fetchProgramTabs();
+    fetchStatTabs();
   }, []);
 
   // Update CSS custom properties when background color changes - FIXED WITH AUTO BORDER COLOR
@@ -619,7 +889,11 @@ Click OK to open font & color selector...`);
       </section>
 
       {/* Admin Tab Management - Show for Super Admin */}
-      <AdminControls currentUser={{ role: 'super_admin' }} />
+      <AdminControls 
+        currentUser={{ role: 'super_admin' }} 
+        onProgramSaved={fetchProgramTabs}
+        onStatSaved={fetchStatTabs}
+      />
 
       {/* Programs Section - Enhanced White Background with Increased Spacing */}
       <section className="main-content-area hero-to-content-spacing">
@@ -647,8 +921,29 @@ Click OK to open font & color selector...`);
               return (
                 <Card 
                   key={program.id} 
-                  className={getCardClassName(program.type)}
+                  className={`${getCardClassName(program.type)} group relative`}
                 >
+                  {/* Delete Button - Only show for backend programs - POSITIONED OUTSIDE IMAGE CONTAINER */}
+                  {program.isBackendProgram && (
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleDeleteProgram(program.id, program.name);
+                      }}
+                      className="delete-program-btn"
+                      title={`Delete ${program.name}`}
+                    >
+                      <Trash2 
+                        className="h-5 w-5" 
+                        stroke="currentColor"
+                        fill="none"
+                        strokeWidth="2.5"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                    </button>
+                  )}
+                  
                   <div className="relative">
                     <img 
                       src={program.image} 
@@ -747,24 +1042,59 @@ Click OK to open font & color selector...`);
             </p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {statsData.map((stat, index) => (
-              <div key={index} className={getStatsClassName(stat.type)}>
+            {statsData.map((stat, index) => {
+              // Get current theme
+              const isDarkMode = document.documentElement.getAttribute('data-theme') === 'dark';
+              const borderColor = isDarkMode ? (stat.border_color_dark || '#B8739B') : (stat.border_color_light || '#4A90A4');
+              
+              return (
                 <div 
-                  className="text-3xl font-bold header-text mb-2 editable-text editable-text-dark font-inter text-default"
-                  onClick={() => handleFontColorEditClick('Stat Number', `stat-number-${index}`, 'Inter', 'Default Dark')}
-                  title="Click to edit stat number, font & color"
+                  key={stat.id || index} 
+                  className={`${getStatsClassName(stat.type)} group relative`}
+                  style={{
+                    borderTopColor: stat.isBackendStat ? borderColor : undefined,
+                    borderTopWidth: stat.isBackendStat ? '15px' : undefined,
+                    borderTopStyle: stat.isBackendStat ? 'solid' : undefined
+                  }}
                 >
-                  {stat.number}
+                  {/* Delete Button - Only show for backend stats */}
+                  {stat.isBackendStat && (
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleDeleteStat(stat.id, stat.label);
+                      }}
+                      className="delete-stat-btn"
+                      title={`Delete ${stat.label}`}
+                    >
+                      <Trash2 
+                        className="h-5 w-5" 
+                        stroke="currentColor"
+                        fill="none"
+                        strokeWidth="2.5"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                    </button>
+                  )}
+                  
+                  <div 
+                    className="text-3xl font-bold header-text mb-2 editable-text editable-text-dark font-inter text-default"
+                    onClick={() => handleFontColorEditClick('Stat Number', `stat-number-${index}`, 'Inter', 'Default Dark')}
+                    title="Click to edit stat number, font & color"
+                  >
+                    {stat.number}
+                  </div>
+                  <div 
+                    className="body-text editable-text editable-text-dark font-inter text-gray"
+                    onClick={() => handleFontColorEditClick('Stat Label', `stat-label-${index}`, 'Inter', 'Gray')}
+                    title="Click to edit stat label, font & color"
+                  >
+                    {stat.label}
+                  </div>
                 </div>
-                <div 
-                  className="body-text editable-text editable-text-dark font-inter text-gray"
-                  onClick={() => handleFontColorEditClick('Stat Label', `stat-label-${index}`, 'Inter', 'Gray')}
-                  title="Click to edit stat label, font & color"
-                >
-                  {stat.label}
-                </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </div>
       </section>

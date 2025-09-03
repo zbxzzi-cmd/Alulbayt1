@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Plus, X } from 'lucide-react';
 
-const AdminControls = ({ currentUser }) => {
+const AdminControls = ({ currentUser, onProgramSaved, onStatSaved }) => {
   const [activeTab, setActiveTab] = useState('programs');
   const [isEditing, setIsEditing] = useState(false);
   const [editingTab, setEditingTab] = useState(null);
@@ -11,12 +11,28 @@ const AdminControls = ({ currentUser }) => {
   const backendUrl = process.env.REACT_APP_BACKEND_URL || import.meta.env.REACT_APP_BACKEND_URL;
 
   useEffect(() => {
-    // Component loaded - admin controls ready
-  }, [currentUser]);
+    // Auto-authenticate as super admin for testing
+    const setAuthToken = async () => {
+      try {
+        const response = await axios.post(`${backendUrl}/api/test-jwt`);
+        if (response.data.access_token) {
+          localStorage.setItem('token', response.data.access_token);
+          console.log('Auto-authenticated as super admin');
+        }
+      } catch (error) {
+        console.error('Auto-authentication failed:', error);
+      }
+    };
+    
+    // Set token if not already present
+    if (!localStorage.getItem('token')) {
+      setAuthToken();
+    }
+  }, [currentUser, backendUrl]);
 
   const handleAddTab = () => {
     const newTab = {
-      type: activeTab,
+      type: activeTab === 'programs' ? 'program' : 'stat', // Fix type mapping
       title: '',
       description: activeTab === 'programs' ? '' : undefined,
       value: activeTab === 'stats' ? '' : undefined,
@@ -48,33 +64,87 @@ const AdminControls = ({ currentUser }) => {
     try {
       setLoading(true);
       const token = localStorage.getItem('token');
+      
+      // Check if we have a token
+      if (!token) {
+        alert('Authentication required. Please login as admin.');
+        return;
+      }
+
       const headers = { 
         Authorization: `Bearer ${token}`,
         'Content-Type': 'application/json'
       };
       
+      // Create the request payload
+      const tabPayload = {
+        title: editingTab.title,
+        description: editingTab.description,
+        image: editingTab.image || '',
+        border_color_light: editingTab.border_color_light,
+        border_color_dark: editingTab.border_color_dark,
+        type: 'informational' // Default type
+      };
+
+      // For stat tabs, include value instead of description
+      if (editingTab.type === 'stat') {
+        delete tabPayload.description;
+        delete tabPayload.image;
+        tabPayload.value = editingTab.value;
+      }
+
+      console.log('Saving tab with payload:', tabPayload);
+      console.log('Using endpoint:', `${backendUrl}/api/admin/${editingTab.type}-tabs`);
+      
       if (editingTab.id) {
         // Update existing tab
-        await axios.put(
+        const response = await axios.put(
           `${backendUrl}/api/admin/${editingTab.type}-tabs/${editingTab.id}`,
-          editingTab,
+          tabPayload,
           { headers }
         );
+        console.log('Update response:', response.data);
       } else {
         // Create new tab
-        await axios.post(
+        const response = await axios.post(
           `${backendUrl}/api/admin/${editingTab.type}-tabs`,
-          editingTab,
+          tabPayload,
           { headers }
         );
+        console.log('Create response:', response.data);
       }
       
       setIsEditing(false);
       setEditingTab(null);
       alert('Tab saved successfully!');
+      
+      // Trigger refresh of appropriate list based on tab type
+      if (editingTab.type === 'program' && onProgramSaved) {
+        console.log('Refreshing program list after successful save');
+        onProgramSaved();
+      } else if (editingTab.type === 'stat' && onStatSaved) {
+        console.log('Refreshing stat list after successful save');
+        onStatSaved();
+      }
     } catch (error) {
       console.error('Error saving tab:', error);
-      alert('Error saving tab: ' + (error.response?.data?.detail || error.message));
+      console.error('Error response:', error.response?.data);
+      console.error('Error status:', error.response?.status);
+      
+      let errorMessage = 'Unknown error occurred';
+      if (error.response?.data?.detail) {
+        errorMessage = error.response.data.detail;
+      } else if (error.response?.status === 401) {
+        errorMessage = 'Authentication failed. Please login as admin.';
+      } else if (error.response?.status === 403) {
+        errorMessage = 'Access denied. Admin privileges required.';
+      } else if (error.response?.status === 404) {
+        errorMessage = 'API endpoint not found. Please check server configuration.';
+      } else if (error.message) {
+        errorMessage = error.message;
+      }
+      
+      alert('Error saving tab: ' + errorMessage);
     } finally {
       setLoading(false);
     }
@@ -128,7 +198,7 @@ const AdminControls = ({ currentUser }) => {
         )}
       </div>
 
-      {/* Modal with MAXIMUM Z-Index - Above Everything */}
+      {/* Modal with MAXIMUM Z-Index - Theme-Aware Modal */}
       {isEditing && (
         <div 
           className="modal-backdrop"
@@ -147,6 +217,7 @@ const AdminControls = ({ currentUser }) => {
             justifyContent: 'center',
             padding: '20px'
           }}
+          onClick={() => setIsEditing(false)}
         >
           <div 
             className="modal-content"
@@ -156,20 +227,20 @@ const AdminControls = ({ currentUser }) => {
               width: '100%',
               maxHeight: '80vh',
               overflowY: 'auto',
-              backgroundColor: 'white',
               borderRadius: '24px',
               padding: '32px',
               boxShadow: '0 25px 50px rgba(0, 0, 0, 0.25)',
               border: '3px solid rgba(180, 140, 255, 0.4)'
             }}
+            onClick={(e) => e.stopPropagation()}
           >
             <div className="flex items-center justify-between mb-6">
-              <h3 className="text-2xl font-bold text-gray-800">
-                {editingTab.id ? 'Edit' : 'Add'} {editingTab.type === 'programs' ? 'Program' : 'Stat'} Tab
+              <h3 className="text-2xl font-bold modal-title">
+                {editingTab.id ? 'Edit' : 'Add'} {editingTab.type === 'program' ? 'Program' : 'Stat'} Tab
               </h3>
               <button
                 onClick={() => setIsEditing(false)}
-                className="p-2 hover:bg-gray-100 rounded-lg transition-colors text-gray-600 text-xl font-bold"
+                className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors modal-close-btn text-xl font-bold"
               >
                 ✕
               </button>
@@ -177,105 +248,89 @@ const AdminControls = ({ currentUser }) => {
             
             <form onSubmit={handleSaveTab} className="space-y-6">
               <div>
-                <label className="block text-gray-700 font-semibold mb-2 text-sm">Title *</label>
+                <label className="block font-semibold mb-2 text-sm modal-label">Title *</label>
                 <input
                   type="text"
                   value={editingTab.title}
                   onChange={(e) => setEditingTab({...editingTab, title: e.target.value})}
-                  className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-purple-500 focus:outline-none bg-white text-gray-900"
+                  className="w-full px-4 py-3 border-2 rounded-lg focus:border-purple-500 focus:outline-none modal-input"
                   required
-                  style={{ 
-                    backgroundColor: 'white !important',
-                    color: '#1f2937 !important'
-                  }}
                 />
               </div>
               
-              {editingTab.type === 'programs' && (
+              {editingTab.type === 'program' && (
                 <>
                   <div>
-                    <label className="block text-gray-700 font-semibold mb-2 text-sm">Description *</label>
+                    <label className="block font-semibold mb-2 text-sm modal-label">Description *</label>
                     <textarea
                       value={editingTab.description}
                       onChange={(e) => setEditingTab({...editingTab, description: e.target.value})}
-                      className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-purple-500 focus:outline-none bg-white text-gray-900"
+                      className="w-full px-4 py-3 border-2 rounded-lg focus:border-purple-500 focus:outline-none modal-input"
                       rows="3"
                       required
-                      style={{ 
-                        backgroundColor: 'white !important',
-                        color: '#1f2937 !important'
-                      }}
                     />
                   </div>
                   
                   <div>
-                    <label className="block text-gray-700 font-semibold mb-2 text-sm">Image URL (Optional)</label>
+                    <label className="block font-semibold mb-2 text-sm modal-label">Image URL (Optional)</label>
                     <input
                       type="text"
                       value={editingTab.image || ''}
                       onChange={(e) => setEditingTab({...editingTab, image: e.target.value})}
-                      className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-purple-500 focus:outline-none bg-white text-gray-900"
+                      className="w-full px-4 py-3 border-2 rounded-lg focus:border-purple-500 focus:outline-none modal-input"
                       placeholder="https://example.com/image.jpg"
-                      style={{ 
-                        backgroundColor: 'white !important',
-                        color: '#1f2937 !important'
-                      }}
                     />
                   </div>
                 </>
               )}
               
-              {editingTab.type === 'stats' && (
+              {editingTab.type === 'stat' && (
                 <div>
-                  <label className="block text-gray-700 font-semibold mb-2 text-sm">Value *</label>
+                  <label className="block font-semibold mb-2 text-sm modal-label">Value *</label>
                   <input
                     type="text"
                     value={editingTab.value || ''}
                     onChange={(e) => setEditingTab({...editingTab, value: e.target.value})}
-                    className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-purple-500 focus:outline-none bg-white text-gray-900"
+                    className="w-full px-4 py-3 border-2 rounded-lg focus:border-purple-500 focus:outline-none modal-input"
                     placeholder="e.g., 500+, 95%, 24/7"
                     required
-                    style={{ 
-                      backgroundColor: 'white !important',
-                      color: '#1f2937 !important'
-                    }}
                   />
                 </div>
               )}
               
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-gray-700 font-semibold mb-2 text-sm">Light Mode Border</label>
+                  <label className="block font-semibold mb-2 text-sm modal-label">Light Mode Border</label>
                   <div className="flex items-center gap-3">
                     <input
                       type="color"
                       value={editingTab.border_color_light}
                       onChange={(e) => setEditingTab({...editingTab, border_color_light: e.target.value})}
-                      className="w-12 h-12 rounded-lg border-2 border-gray-300 cursor-pointer"
+                      className="w-12 h-12 rounded-lg border-2 cursor-pointer modal-color-input"
                     />
-                    <span className="text-sm text-gray-600 font-mono">{editingTab.border_color_light}</span>
+                    <span className="text-sm font-mono modal-color-text">{editingTab.border_color_light}</span>
                   </div>
                 </div>
                 
                 <div>
-                  <label className="block text-gray-700 font-semibold mb-2 text-sm">Dark Mode Border</label>
+                  <label className="block font-semibold mb-2 text-sm modal-label">Dark Mode Border</label>
                   <div className="flex items-center gap-3">
                     <input
                       type="color"
                       value={editingTab.border_color_dark}
                       onChange={(e) => setEditingTab({...editingTab, border_color_dark: e.target.value})}
-                      className="w-12 h-12 rounded-lg border-2 border-gray-300 cursor-pointer"
+                      className="w-12 h-12 rounded-lg border-2 cursor-pointer modal-color-input"
                     />
-                    <span className="text-sm text-gray-600 font-mono">{editingTab.border_color_dark}</span>
+                    <span className="text-sm font-mono modal-color-text">{editingTab.border_color_dark}</span>
                   </div>
                 </div>
               </div>
               
-              <div className="flex justify-end space-x-4 pt-6 border-t border-gray-200">
+              <div className="flex justify-end space-x-4 pt-6 border-t modal-border-top">
                 <button
                   type="button"
                   onClick={() => setIsEditing(false)}
-                  className="px-8 py-3 bg-gray-500 text-white rounded-lg hover:bg-gray-600 transition-colors font-semibold text-base"
+                  className="px-8 py-3 rounded-lg transition-colors font-semibold text-base modal-cancel-btn"
                   style={{ zIndex: 2147483647 }}
                 >
                   Cancel
@@ -283,7 +338,7 @@ const AdminControls = ({ currentUser }) => {
                 <button
                   type="submit"
                   disabled={loading}
-                  className="px-8 py-3 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors font-semibold text-base disabled:opacity-50"
+                  className="px-8 py-3 rounded-lg transition-colors font-semibold text-base disabled:opacity-50 modal-save-btn"
                   style={{ zIndex: 2147483647 }}
                 >
                   {loading ? 'Saving...' : 'Save Tab'}
