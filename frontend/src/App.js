@@ -508,6 +508,53 @@ const LandingPage = () => {
     }
   };
 
+  // Add an update mechanism that triggers when border colors are modified
+  useEffect(() => {
+    const updateBorderColors = () => {
+      const programCards = document.querySelectorAll('.program-card');
+      programCards.forEach(card => {
+        const currentTheme = document.documentElement.getAttribute('data-theme') || 'light';
+        const lightBorder = card.getAttribute('data-theme-light-border');
+        const darkBorder = card.getAttribute('data-theme-dark-border');
+        
+        if (lightBorder || darkBorder) {
+          const leftBorderColor = currentTheme === 'dark' ? darkBorder : lightBorder;
+          const bottomBorderColor = leftBorderColor ? calculateDarkerHue(leftBorderColor, 0.5) : null;
+          
+          if (leftBorderColor) {
+            card.style.borderLeftColor = leftBorderColor;
+            if (currentTheme === 'dark' && bottomBorderColor) {
+              card.style.borderBottomColor = bottomBorderColor;
+            } else if (currentTheme === 'light') {
+              card.style.borderBottomColor = leftBorderColor;
+            }
+            
+            console.log('Updated card borders:', card, 'Left:', leftBorderColor, 'Bottom:', bottomBorderColor);
+          }
+        }
+      });
+    };
+
+    // Update on theme change
+    const observer = new MutationObserver((mutations) => {
+      mutations.forEach((mutation) => {
+        if (mutation.type === 'attributes' && mutation.attributeName === 'data-theme') {
+          updateBorderColors();
+        }
+      });
+    });
+
+    observer.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ['data-theme']
+    });
+
+    // Initial update
+    updateBorderColors();
+
+    return () => observer.disconnect();
+  }, [programsData, statsData]); // Re-run when data changes
+
   useEffect(() => {
     const fetchContent = async () => {
       try {
