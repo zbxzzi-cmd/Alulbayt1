@@ -2442,9 +2442,9 @@ html[data-theme="dark"] .ds-card-base:hover {
   box-shadow: 0 12px 32px rgba(91, 33, 182, 0.4) !important;
 }
 
-/* Design System Card Types - UPDATED TO 18PX BORDERS + FIX GREEN BORDER */
+/* 6. FIX DESIGN SYSTEM DEMO CARD COLORS - LIGHT MODE SHOULD USE LIGHT COLORS */
 .ds-card-aqua {
-  border-left: 18px solid #4A90A4 !important;
+  border-left: 18px solid #5DD3DD !important; /* Lighter aqua for light mode */
 }
 
 html[data-theme="dark"] .ds-card-aqua {
@@ -2452,7 +2452,7 @@ html[data-theme="dark"] .ds-card-aqua {
 }
 
 .ds-card-pink {
-  border-left: 18px solid #B8739B !important;
+  border-left: 18px solid #E8A4C8 !important; /* Lighter pink for light mode */
 }
 
 html[data-theme="dark"] .ds-card-pink {
@@ -2460,7 +2460,7 @@ html[data-theme="dark"] .ds-card-pink {
 }
 
 .ds-card-orange {
-  border-left: 18px solid #CC9966 !important;
+  border-left: 18px solid #F4CC8F !important; /* Lighter orange for light mode */
 }
 
 html[data-theme="dark"] .ds-card-orange {
@@ -2468,7 +2468,7 @@ html[data-theme="dark"] .ds-card-orange {
 }
 
 .ds-card-green {
-  border-left: 18px solid #7AAF7A !important;
+  border-left: 18px solid #A5D6A5 !important; /* Lighter green for light mode */
 }
 
 html[data-theme="dark"] .ds-card-green {
