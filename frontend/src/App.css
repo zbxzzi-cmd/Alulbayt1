@@ -2342,37 +2342,37 @@ html[data-theme="dark"] .ds-card-base:hover {
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4) !important;
 }
 
-/* Design System Card Types */
+/* Design System Card Types - UPDATED TO 18PX BORDERS */
 .ds-card-aqua {
-  border-left: 6px solid #4A90A4 !important;
+  border-left: 18px solid #4A90A4 !important;
 }
 
 html[data-theme="dark"] .ds-card-aqua {
-  border-left: 6px solid var(--card-border-aqua-custom, #4A90A4) !important;
+  border-left: 18px solid var(--card-border-aqua-custom, #4A90A4) !important;
 }
 
 .ds-card-pink {
-  border-left: 6px solid #B8739B !important;
+  border-left: 18px solid #B8739B !important;
 }
 
 html[data-theme="dark"] .ds-card-pink {
-  border-left: 6px solid var(--card-border-pink-custom, #B8739B) !important;
+  border-left: 18px solid var(--card-border-pink-custom, #B8739B) !important;
 }
 
 .ds-card-orange {
-  border-left: 6px solid #CC9966 !important;
+  border-left: 18px solid #CC9966 !important;
 }
 
 html[data-theme="dark"] .ds-card-orange {
-  border-left: 6px solid var(--card-border-orange-custom, #CC9966) !important;
+  border-left: 18px solid var(--card-border-orange-custom, #CC9966) !important;
 }
 
 .ds-card-green {
-  border-left: 6px solid #7AAF7A !important;
+  border-left: 18px solid #7AAF7A !important;
 }
 
 html[data-theme="dark"] .ds-card-green {
-  border-left: 6px solid var(--card-border-green-custom, #7AAF7A) !important;
+  border-left: 18px solid var(--card-border-green-custom, #7AAF7A) !important;
 }
 
 /* Design System Buttons */
