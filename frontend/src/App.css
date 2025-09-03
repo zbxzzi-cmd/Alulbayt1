@@ -2543,10 +2543,16 @@ html[data-theme="dark"] .ds-form-label {
   color: #1f2937 !important;
 }
 
+/* 5. FIX LIGHT MODE TEXT BOX FOCUS COLORS - TEAL/CYAN THEME */
 .ds-form-input:focus {
   outline: none !important;
-  border-color: #8b5cf6 !important;
-  box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1) !important;
+  border-color: #14b8a6 !important; /* Teal instead of purple */
+  box-shadow: 0 0 0 3px rgba(20, 184, 166, 0.15) !important; /* Teal glow */
+}
+
+.modal-input:focus {
+  border-color: #14b8a6 !important; /* Teal instead of purple */
+  box-shadow: 0 0 0 3px rgba(20, 184, 166, 0.15) !important; /* Teal glow */
 }
 
 html[data-theme="dark"] .ds-form-input {
