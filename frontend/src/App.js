@@ -949,6 +949,7 @@ Click OK to open font & color selector...`);
                     ...(program.isBackendProgram && program.border_color_light && {
                       '--custom-light-border': program.border_color_light,
                       '--custom-dark-border': program.border_color_dark || program.border_color_light,
+                      '--custom-dark-border-darker': darkenColor(program.border_color_dark || program.border_color_light, 30),
                     })
                   }}
                   data-theme-light-border={program.isBackendProgram ? program.border_color_light : null}
