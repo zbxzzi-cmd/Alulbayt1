@@ -1669,8 +1669,13 @@ html[data-theme="dark"] .stats-widget[style*="border-top"] {
   -webkit-backdrop-filter: blur(25px) !important;
 }
 
-[data-theme="dark"] .stats-widget {
-  background: rgba(255, 255, 255, 0.06) !important;
+/* 3. FIX STAT TABS ON MAIN LANDING PAGE - DARK PURPLE GRADIENT */
+html[data-theme="dark"] .stats-widget {
+  background: linear-gradient(135deg, 
+    rgba(15, 15, 35, 0.9) 0%,
+    rgba(26, 26, 46, 0.8) 30%,
+    rgba(22, 33, 62, 0.7) 100%
+  ) !important;
   backdrop-filter: blur(25px) !important;
   -webkit-backdrop-filter: blur(25px) !important;
 }
