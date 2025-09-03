@@ -521,35 +521,67 @@ const LandingPage = () => {
   // Add an update mechanism that triggers when border colors are modified
   useEffect(() => {
     const updateBorderColors = () => {
+      console.log('🔄 UPDATING BORDER COLORS - START');
       const programCards = document.querySelectorAll('.program-card');
-      programCards.forEach(card => {
+      console.log(`🔍 Found ${programCards.length} program cards`);
+      
+      programCards.forEach((card, cardIndex) => {
         const currentTheme = document.documentElement.getAttribute('data-theme') || 'light';
         const lightBorder = card.getAttribute('data-theme-light-border');
         const darkBorder = card.getAttribute('data-theme-dark-border');
+        
+        console.log(`🃏 Card ${cardIndex}:`, {
+          hasLightBorder: !!lightBorder,
+          hasDarkBorder: !!darkBorder,
+          lightBorderValue: lightBorder,
+          darkBorderValue: darkBorder,
+          currentTheme: currentTheme
+        });
         
         if (lightBorder || darkBorder) {
           const leftBorderColor = currentTheme === 'dark' ? darkBorder : lightBorder;
           const bottomBorderColor = leftBorderColor ? calculateDarkerHue(leftBorderColor, 0.5) : null;
           
+          console.log(`🎨 Applying colors to card ${cardIndex}:`, {
+            leftBorderColor,
+            bottomBorderColor,
+            theme: currentTheme
+          });
+          
           if (leftBorderColor) {
-            card.style.borderLeftColor = leftBorderColor;
+            // FORCE APPLICATION WITH IMPORTANT
+            card.style.setProperty('border-left-color', leftBorderColor, 'important');
+            card.style.setProperty('border-left-width', '18px', 'important');
+            card.style.setProperty('border-left-style', 'solid', 'important');
+            
             if (currentTheme === 'dark' && bottomBorderColor) {
-              card.style.borderBottomColor = bottomBorderColor;
+              card.style.setProperty('border-bottom-color', bottomBorderColor, 'important');
+              card.style.setProperty('border-bottom-width', '6px', 'important');
+              card.style.setProperty('border-bottom-style', 'solid', 'important');
             } else if (currentTheme === 'light') {
-              card.style.borderBottomColor = leftBorderColor;
+              card.style.setProperty('border-bottom-color', leftBorderColor, 'important');
+              card.style.setProperty('border-bottom-width', '6px', 'important');
+              card.style.setProperty('border-bottom-style', 'solid', 'important');
             }
             
-            console.log('Updated card borders:', card, 'Left:', leftBorderColor, 'Bottom:', bottomBorderColor);
+            console.log('✅ Updated card borders:', {
+              cardIndex,
+              leftColor: card.style.borderLeftColor,
+              bottomColor: card.style.borderBottomColor
+            });
           }
         }
       });
+      
+      console.log('🔄 UPDATING BORDER COLORS - END');
     };
 
     // Update on theme change
     const observer = new MutationObserver((mutations) => {
       mutations.forEach((mutation) => {
         if (mutation.type === 'attributes' && mutation.attributeName === 'data-theme') {
-          updateBorderColors();
+          console.log('🌓 THEME CHANGE DETECTED, updating border colors');
+          setTimeout(updateBorderColors, 100); // Small delay to ensure theme is applied
         }
       });
     });
@@ -559,8 +591,11 @@ const LandingPage = () => {
       attributeFilter: ['data-theme']
     });
 
-    // Initial update
-    updateBorderColors();
+    // Initial update with delay to ensure DOM is ready
+    setTimeout(() => {
+      console.log('🚀 INITIAL BORDER COLOR UPDATE');
+      updateBorderColors();
+    }, 100);
 
     return () => observer.disconnect();
   }, [programs, statsData]); // Re-run when data changes
