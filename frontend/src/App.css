@@ -2394,21 +2394,36 @@ html[data-theme="dark"] .ds-card-green {
   border-left: 18px solid var(--card-border-green-custom, #7AAF7A) !important;
 }
 
-/* Design System Card Hover Effects - EXACT MATCH to Main App */
+/* Design System Card Hover Effects - REDUCED INTENSITY GLOW */
+html[data-theme="dark"] .ds-card-base:hover {
+  transform: translateY(-8px) !important;
+  background: linear-gradient(135deg, 
+    rgba(15, 15, 35, 0.9) 0%,
+    rgba(26, 26, 46, 0.8) 30%,
+    rgba(22, 33, 62, 0.7) 100%
+  ), rgba(255, 255, 255, 0.1) !important;
+  box-shadow: 0 12px 32px rgba(76, 29, 149, 0.2) !important;
+}
+
+/* Design System Card Hover Effects - REDUCED INTENSITY BORDER GLOW */
 html[data-theme="dark"] .ds-card-aqua:hover {
   border-left-color: #5aa0b4 !important;
+  box-shadow: 0 12px 32px rgba(76, 29, 149, 0.2) !important;
 }
 
 html[data-theme="dark"] .ds-card-pink:hover {
   border-left-color: #c683ab !important;
+  box-shadow: 0 12px 32px rgba(76, 29, 149, 0.2) !important;
 }
 
 html[data-theme="dark"] .ds-card-orange:hover {
   border-left-color: #d9a977 !important;
+  box-shadow: 0 12px 32px rgba(76, 29, 149, 0.2) !important;
 }
 
 html[data-theme="dark"] .ds-card-green:hover {
   border-left-color: #8bbf8b !important;
+  box-shadow: 0 12px 32px rgba(76, 29, 149, 0.2) !important;
 }
 
 /* Design System Buttons - FIX SECONDARY AND SHADCN BUTTONS */
