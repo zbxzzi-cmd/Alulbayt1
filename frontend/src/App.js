@@ -956,7 +956,14 @@ Click OK to open font & color selector...`);
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8">
-            {programs.map((program) => {
+            {programs.map((program, index) => {
+              // Ensure BOTH borders use the custom colors correctly
+              const currentTheme = document.documentElement.getAttribute('data-theme') || 'light';
+              const leftBorderColor = currentTheme === 'dark' ? program.border_color_dark : program.border_color_light;
+              const bottomBorderColor = leftBorderColor ? calculateDarkerHue(leftBorderColor, 0.5) : null; // 50% darker
+              
+              console.log('Program:', program.name, 'Theme:', currentTheme, 'Left Border:', leftBorderColor, 'Bottom Border:', bottomBorderColor);
+              
               const IconComponent = program.icon;
               return (
                 <Card 
@@ -964,14 +971,18 @@ Click OK to open font & color selector...`);
                   className={`${getCardClassName(program.type)} group relative`}
                   style={{
                     // Apply custom border colors for backend programs
-                    ...(program.isBackendProgram && program.border_color_light && {
+                    ...(program.isBackendProgram && leftBorderColor && {
                       '--custom-light-border': program.border_color_light,
-                      '--custom-dark-border': program.border_color_dark || program.border_color_light,
-                      '--custom-dark-border-darker': darkenColor(program.border_color_dark || program.border_color_light, 50), // 50% darker for 3D effect
+                      '--custom-dark-border': program.border_color_dark,
+                      '--custom-dark-border-darker': bottomBorderColor,
+                      // Apply to both borders immediately
+                      borderLeftColor: leftBorderColor,
+                      borderBottomColor: currentTheme === 'dark' ? bottomBorderColor : undefined,
                     })
                   }}
                   data-theme-light-border={program.isBackendProgram ? program.border_color_light : null}
                   data-theme-dark-border={program.isBackendProgram ? program.border_color_dark : null}
+                  data-bottom-border-color={bottomBorderColor}
                 >
                   {/* Delete Button - Only show for backend programs - POSITIONED OUTSIDE IMAGE CONTAINER */}
                   {program.isBackendProgram && (
