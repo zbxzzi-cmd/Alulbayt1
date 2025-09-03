@@ -1073,7 +1073,7 @@ Click OK to open font & color selector...`);
                   className={`${getStatsClassName(stat.type)} group relative`}
                   style={{
                     borderTopColor: stat.isBackendStat ? borderColor : undefined,
-                    borderTopWidth: stat.isBackendStat ? '15px' : undefined,
+                    borderTopWidth: stat.isBackendStat ? '18px' : undefined, // Updated to 18px
                     borderTopStyle: stat.isBackendStat ? 'solid' : undefined
                   }}
                 >
