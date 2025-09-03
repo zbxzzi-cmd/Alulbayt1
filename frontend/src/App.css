@@ -2243,14 +2243,19 @@ html[data-theme="dark"] a[href="/design-system"] {
   border: 1px solid rgba(180, 140, 255, 0.3) !important;
 }
 
-html[data-theme="dark"] a[href="/design-system"]:hover {
-  background: linear-gradient(135deg, 
-    rgba(40, 40, 70, 0.95) 0%,
-    rgba(55, 55, 85, 0.9) 30%,
-    rgba(70, 70, 100, 0.98) 100%
-  ) !important;
-  color: white !important;
-  border-color: rgba(180, 140, 255, 0.5) !important;
+/* 8. FIX SCROLL BAR IN FORM SYSTEM DARK MODE */
+html[data-theme="dark"] .ds-form-container::-webkit-scrollbar-thumb {
+  background: linear-gradient(135deg, #4c1d95, #6b46c1) !important;
+  border-radius: 10px !important;
+}
+
+html[data-theme="dark"] .ds-form-container::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(135deg, #3c1366, #553c9a) !important;
+}
+
+html[data-theme="dark"] .ds-form-container::-webkit-scrollbar-track {
+  background: rgba(30, 30, 60, 0.3) !important;
+  border-radius: 10px !important;
 }
 .ds-bg-glass {
   background: rgba(255, 255, 255, 0.95) !important;
