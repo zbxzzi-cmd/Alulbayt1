@@ -2243,7 +2243,18 @@ html[data-theme="dark"] a[href="/design-system"] {
   border: 1px solid rgba(180, 140, 255, 0.3) !important;
 }
 
-/* 1. FIX PROGRAM TAB CUSTOM BORDER COLORS - BOTH LEFT AND BOTTOM BORDERS */
+/* FIX STAT TAB CUSTOM BORDER COLORS */
+.stats-widget[data-stat-light-border] {
+  border-top-color: var(--custom-stat-light-border) !important;
+  border-top-width: 18px !important;
+  border-top-style: solid !important;
+}
+
+html[data-theme="dark"] .stats-widget[data-stat-dark-border] {
+  border-top-color: var(--custom-stat-dark-border) !important;
+  border-top-width: 18px !important;
+  border-top-style: solid !important;
+}
 .program-card[data-theme-light-border] {
   border-left-color: var(--custom-light-border) !important;
   border-bottom-color: calc(var(--custom-light-border) * 0.8) !important; /* Slightly darker bottom */
