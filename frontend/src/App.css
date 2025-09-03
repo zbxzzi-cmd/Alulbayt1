@@ -2411,7 +2411,7 @@ html[data-theme="dark"] .ds-card-green:hover {
   border-left-color: #8bbf8b !important;
 }
 
-/* Design System Buttons */
+/* Design System Buttons - FIX SECONDARY AND SHADCN BUTTONS */
 .ds-btn-base {
   padding: 12px 24px !important;
   border-radius: 16px !important;
@@ -2464,15 +2464,25 @@ html[data-theme="dark"] .ds-btn-primary:hover {
 }
 
 html[data-theme="dark"] .ds-btn-secondary {
-  background: rgba(255, 255, 255, 0.1) !important;
+  /* Dark Mode - DARK PURPLE GRADIENT BACKGROUND */
+  background: linear-gradient(135deg, 
+    rgba(15, 15, 35, 0.9) 0%,
+    rgba(26, 26, 46, 0.8) 30%,
+    rgba(22, 33, 62, 0.7) 100%
+  ) !important;
   border: 2px solid rgba(180, 140, 255, 0.3) !important;
   color: #e5e7eb !important;
+  backdrop-filter: blur(20px) !important;
 }
 
 html[data-theme="dark"] .ds-btn-secondary:hover {
-  background: rgba(255, 255, 255, 0.15) !important;
+  background: linear-gradient(135deg, 
+    rgba(25, 25, 45, 0.95) 0%,
+    rgba(36, 36, 56, 0.85) 30%,
+    rgba(32, 43, 72, 0.75) 100%
+  ) !important;
   border-color: rgba(180, 140, 255, 0.5) !important;
-  box-shadow: 0 4px 16px rgba(180, 140, 255, 0.3) !important;
+  box-shadow: 0 4px 16px rgba(76, 29, 149, 0.2) !important;
 }
 
 /* Design System Forms - MATCH MAIN APP EXACTLY */
