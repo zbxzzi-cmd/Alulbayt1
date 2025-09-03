@@ -874,7 +874,14 @@ Click OK to open font & color selector...`);
                       className="delete-program-btn"
                       title={`Delete ${program.name}`}
                     >
-                      <Trash2 className="h-4 w-4" />
+                      <Trash2 
+                        className="h-4 w-4" 
+                        stroke="currentColor"
+                        fill="none"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
                     </button>
                   )}
                   
