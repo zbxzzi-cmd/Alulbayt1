@@ -937,11 +937,10 @@ Click OK to open font & color selector...`);
                     ...(program.isBackendProgram && program.border_color_light && {
                       '--custom-light-border': program.border_color_light,
                       '--custom-dark-border': program.border_color_dark || program.border_color_light,
-                      borderLeftColor: `var(--custom-light-border)`,
                     })
                   }}
-                  data-theme-light-border={program.border_color_light}
-                  data-theme-dark-border={program.border_color_dark}
+                  data-theme-light-border={program.isBackendProgram ? program.border_color_light : null}
+                  data-theme-dark-border={program.isBackendProgram ? program.border_color_dark : null}
                 >
                   {/* Delete Button - Only show for backend programs - POSITIONED OUTSIDE IMAGE CONTAINER */}
                   {program.isBackendProgram && (
