@@ -553,7 +553,7 @@ const LandingPage = () => {
     updateBorderColors();
 
     return () => observer.disconnect();
-  }, [programsData, statsData]); // Re-run when data changes
+  }, [programs, statsData]); // Re-run when data changes
 
   useEffect(() => {
     const fetchContent = async () => {
