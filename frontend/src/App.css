@@ -2274,15 +2274,37 @@ html[data-theme="dark"] .stats-widget[data-stat-dark-border] {
   border-top-width: 18px !important;
   border-top-style: solid !important;
 }
-/* BUG 1 FIX: PROGRAM TAB CUSTOM BORDER COLORS - BOTH LEFT AND BOTTOM BORDERS */
+/* TECHNICAL FIX: PROPER BORDER COLOR APPLICATION */
+
+/* Light Mode - Custom border colors */
 .program-card[data-theme-light-border] {
   border-left-color: var(--custom-light-border) !important;
   border-bottom-color: var(--custom-light-border) !important;
 }
 
-.program-card[data-theme-light-border]:not([data-theme-dark-border]) {
+/* Dark Mode - Custom border colors with 3D effect */
+html[data-theme="dark"] .program-card[data-theme-dark-border] {
+  border-left-color: var(--custom-dark-border) !important;
+  border-bottom-color: var(--custom-dark-border-darker) !important;
+}
+
+html[data-theme="dark"] .program-card[data-theme-dark-border]:hover {
+  border-left-color: var(--custom-dark-border) !important;
+  border-bottom-color: var(--custom-dark-border-darker) !important;
+  filter: brightness(1.1) !important;
+}
+
+/* Force inline styles to take precedence */
+.program-card[data-theme-light-border][style*="border-left-color"] {
   border-left-color: var(--custom-light-border) !important;
-  border-bottom-color: var(--custom-light-border) !important;
+}
+
+html[data-theme="dark"] .program-card[data-theme-dark-border][style*="border-left-color"] {
+  border-left-color: var(--custom-dark-border) !important;
+}
+
+html[data-theme="dark"] .program-card[data-bottom-border-color] {
+  border-bottom-color: attr(data-bottom-border-color) !important;
 }
 
 /* NEW FEATURE: 3D EFFECT WITH DARKER BOTTOM BORDERS (DARK MODE ONLY) */
@@ -2312,18 +2334,6 @@ html[data-theme="dark"] .program-card.card-type-c {
 html[data-theme="dark"] .program-card.card-type-d {
   border-left-color: var(--card-border-green-custom, #7AAF7A) !important;
   border-bottom-color: #3D573D !important; /* 50% darker green */
-}
-
-/* Custom program cards - 3D effect with 50% darker bottom borders */
-html[data-theme="dark"] .program-card[data-theme-dark-border] {
-  border-left-color: var(--custom-dark-border) !important;
-  border-bottom-color: var(--custom-dark-border-darker) !important;
-}
-
-html[data-theme="dark"] .program-card[data-theme-dark-border]:hover {
-  border-left-color: var(--custom-dark-border) !important;
-  border-bottom-color: var(--custom-dark-border-darker) !important;
-  filter: brightness(1.1) !important; /* Reduced brightness change */
 }
 /* BUG 3 FIX: DARKER SCROLL BAR IN DARK MODE - NO EYE STRAIN */
 html[data-theme="dark"] ::-webkit-scrollbar-thumb {
