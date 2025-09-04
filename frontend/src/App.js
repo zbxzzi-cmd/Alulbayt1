@@ -1136,12 +1136,15 @@ Click OK to open font & color selector...`);
                       '--custom-light-border': program.border_color_light,
                       '--custom-dark-border': program.border_color_dark,
                       '--custom-dark-border-darker': bottomBorderColor,
+                      '--current-left-border': leftBorderColor,
+                      '--current-bottom-border': currentTheme === 'dark' ? bottomBorderColor : leftBorderColor,
                       // DIRECT INLINE STYLES - HIGHEST PRIORITY
                       borderLeftColor: leftBorderColor + ' !important',
                       borderBottomColor: (currentTheme === 'dark' ? bottomBorderColor : leftBorderColor) + ' !important',
                       borderLeftWidth: '18px',
                       borderLeftStyle: 'solid',
-                      borderBottomWidth: currentTheme === 'dark' ? '6px' : '6px',
+                      // ISSUE 3 FIX: Consistent border thickness based on theme
+                      borderBottomWidth: currentTheme === 'dark' ? '6px' : '1px', // Thin in light mode, thick in dark mode
                       borderBottomStyle: 'solid',
                     }),
                     // DEFAULT PROGRAMS - ENSURE THEY HAVE BOTTOM BORDERS TOO
