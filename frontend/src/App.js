@@ -57,11 +57,15 @@ const LandingPage = () => {
       cardElement
     });
     
-    // Apply border colors immediately
+    // Apply border colors immediately with proper thickness
     cardElement.style.setProperty('border-left-color', newLeftColor, 'important');
     cardElement.style.setProperty('border-bottom-color', theme === 'dark' ? darkerHue : newLeftColor, 'important');
     
-    // Update CSS variables for hover effects
+    // ISSUE 3 FIX: Set consistent border thickness based on theme
+    cardElement.style.setProperty('border-bottom-width', theme === 'dark' ? '6px' : '1px', 'important');
+    cardElement.style.setProperty('border-bottom-style', 'solid', 'important');
+    
+    // Update CSS variables for hover effects - ISSUE 1 FIX
     cardElement.style.setProperty('--current-left-border', newLeftColor);
     cardElement.style.setProperty('--current-bottom-border', theme === 'dark' ? darkerHue : newLeftColor);
     
