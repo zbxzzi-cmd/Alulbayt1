@@ -699,14 +699,44 @@ const LandingPage = () => {
   }, []);
 
   // Save border colors to localStorage and apply to CSS
-  const handleBorderColorChange = (type, color) => {
-    const newColors = { ...borderColors, [type]: color };
-    setBorderColors(newColors);
-    localStorage.setItem('borderColors', JSON.stringify(newColors));
+  const handleBorderColorChange = (type, newColor) => {
+    // Color picker should detect current theme and show appropriate values
+    const currentTheme = document.documentElement.getAttribute('data-theme') || 'light';
     
-    // Apply to CSS variable
+    console.log('🎨 THEME-AWARE COLOR PICKER:', {
+      type,
+      newColor,
+      currentTheme,
+      changingProperty: currentTheme === 'dark' ? 'border_color_dark' : 'border_color_light'
+    });
+    
+    setBorderColors(prev => ({
+      ...prev,
+      [type]: newColor
+    }));
+    
+    // Apply colors to CSS variables
     const root = document.documentElement;
-    root.style.setProperty(`--card-border-${type}-custom`, color);
+    root.style.setProperty(`--card-border-${type}-custom`, newColor);
+    
+    // CRITICAL FIX: Update both light and dark mode values based on current theme
+    const cardElements = document.querySelectorAll(`.card-type-${type === 'aqua' ? 'a' : type === 'pink' ? 'b' : type === 'orange' ? 'c' : 'd'}`);
+    cardElements.forEach(cardElement => {
+      if (currentTheme === 'dark') {
+        cardElement.setAttribute('data-theme-dark-border', newColor);
+      } else {
+        cardElement.setAttribute('data-theme-light-border', newColor);
+      }
+      
+      // Immediately synchronize borders
+      updateBorderColors(newColor, currentTheme, cardElement);
+    });
+    
+    // Save to localStorage
+    localStorage.setItem('borderColors', JSON.stringify({
+      ...borderColors,
+      [type]: newColor
+    }));
   };
 
   // Reset border colors to default
