@@ -44,6 +44,35 @@ const LandingPage = () => {
     } : null;
   };
 
+  // When left border color changes, immediately update bottom border
+  function updateBorderColors(newLeftColor, theme, cardElement) {
+    if (!newLeftColor || !cardElement) return;
+    
+    const darkerHue = calculateDarkerHue(newLeftColor, theme === 'dark' ? 0.5 : 0.3); // 50% darker for dark mode, 30% for light
+    
+    console.log('🔄 SYNCHRONIZING BORDER COLORS:', {
+      newLeftColor,
+      darkerHue,
+      theme,
+      cardElement
+    });
+    
+    // Apply border colors immediately
+    cardElement.style.setProperty('border-left-color', newLeftColor, 'important');
+    cardElement.style.setProperty('border-bottom-color', theme === 'dark' ? darkerHue : newLeftColor, 'important');
+    
+    // Update CSS variables for hover effects
+    cardElement.style.setProperty('--current-left-border', newLeftColor);
+    cardElement.style.setProperty('--current-bottom-border', theme === 'dark' ? darkerHue : newLeftColor);
+    
+    // Update data attributes
+    if (theme === 'dark') {
+      cardElement.setAttribute('data-theme-dark-border', newLeftColor);
+    } else {
+      cardElement.setAttribute('data-theme-light-border', newLeftColor);
+    }
+  }
+
   // Add this function to automatically calculate darker hues
   function calculateDarkerHue(hexColor, darkenPercentage) {
     if (!hexColor || !hexColor.startsWith('#')) return '#000000';
