@@ -2276,21 +2276,34 @@ html[data-theme="dark"] .stats-widget[data-stat-dark-border] {
 }
 /* TECHNICAL FIX: PROPER BORDER COLOR APPLICATION */
 
-/* Light Mode - Custom border colors */
+/* Light Mode - Custom border colors with CONSISTENT THICKNESS */
 .program-card[data-theme-light-border] {
   border-left-color: var(--custom-light-border) !important;
   border-bottom-color: var(--custom-light-border) !important;
+  /* ISSUE 3 FIX: Ensure same thickness as default cards in light mode */
+  border-bottom-width: 1px !important; /* Same as default cards */
+  border-bottom-style: solid !important;
 }
 
 /* Dark Mode - Custom border colors with 3D effect */
 html[data-theme="dark"] .program-card[data-theme-dark-border] {
   border-left-color: var(--custom-dark-border) !important;
   border-bottom-color: var(--custom-dark-border-darker) !important;
+  /* Maintain 6px bottom border for 3D effect in dark mode */
+  border-bottom-width: 6px !important;
+  border-bottom-style: solid !important;
 }
 
+/* ISSUE 1 FIX: Hover effects use current color values, not cached values */
 html[data-theme="dark"] .program-card[data-theme-dark-border]:hover {
-  border-left-color: var(--custom-dark-border) !important;
-  border-bottom-color: var(--custom-dark-border-darker) !important;
+  border-left-color: var(--current-left-border, var(--custom-dark-border)) !important;
+  border-bottom-color: var(--current-bottom-border, var(--custom-dark-border-darker)) !important;
+  filter: brightness(1.1) !important;
+}
+
+.program-card[data-theme-light-border]:hover {
+  border-left-color: var(--current-left-border, var(--custom-light-border)) !important;
+  border-bottom-color: var(--current-bottom-border, var(--custom-light-border)) !important;
   filter: brightness(1.1) !important;
 }
 
