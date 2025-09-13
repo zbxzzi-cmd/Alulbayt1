@@ -900,14 +900,25 @@ ${colorList}
 Click OK to open font & color selector...`);
   };
 
-  const handleBgColorChange = (color) => {
+  const handleBgColorChange = (color, presetId = null) => {
     setCurrentBgColor(color);
     
     // FIX 1: SAVE TO LOCALSTORAGE FOR PERSISTENCE
     localStorage.setItem('customBackgroundColor', color);
     
-    // REMOVED WRONG LOGIC: Do NOT update preset colors - keep them as defaults
-    // Presets should remain as their original colors, not change dynamically
+    // FIX 2: UPDATE ONLY THE SPECIFIC PRESET THAT WAS CLICKED
+    if (presetId) {
+      setPresetColors(prev => ({
+        ...prev,
+        [presetId]: color // Update only the specific preset color
+      }));
+      
+      // Also save the updated preset colors
+      const updatedPresets = { ...presetColors, [presetId]: color };
+      localStorage.setItem('presetColors', JSON.stringify(updatedPresets));
+      
+      console.log(`✅ PRESET UPDATE: Updated ${presetId} preset to ${color}`);
+    }
     
     // FIX 2: TARGET CORRECT BACKGROUND ELEMENT - LIGHT MODE ONLY
     const theme = document.documentElement.getAttribute('data-theme') || 'light';
