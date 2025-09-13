@@ -810,54 +810,68 @@ Click OK to open font & color selector...`);
   const handleBgColorChange = (color) => {
     setCurrentBgColor(color);
     
+    // FIX 1: SAVE TO LOCALSTORAGE FOR PERSISTENCE
+    localStorage.setItem('customBackgroundColor', color);
+    
     // FIX 2: TARGET CORRECT BACKGROUND ELEMENT - LIGHT MODE ONLY
     const theme = document.documentElement.getAttribute('data-theme') || 'light';
     
     if (theme === 'light') {
-      // CRITICAL FIX: Use setProperty with 'important' to override CSS !important rules
-      const root = document.documentElement;
+      applyLightModeBackground(color);
       
-      // Method 1: Override CSS variables
-      root.style.setProperty('--main-bg-color', color, 'important');
-      root.style.setProperty('--custom-bg-color-light', color, 'important');
+      // FIX 2: UPDATE ADMIN TAB BORDER TO DARKER HUE
+      updateAdminTabBorder(color);
       
-      // Method 2: Directly target elements with highest specificity
-      const appBackground = document.querySelector('.app-background');
-      const body = document.body;
-      
-      if (appBackground) {
-        appBackground.style.setProperty('background', color, 'important');
-        appBackground.style.setProperty('background-color', color, 'important');
-      }
-      
-      if (body) {
-        body.style.setProperty('background', color, 'important');
-        body.style.setProperty('background-color', color, 'important');
-      }
-      
-      // Method 3: Add a CSS rule with highest specificity
-      let styleSheet = document.getElementById('dynamic-bg-style');
-      if (!styleSheet) {
-        styleSheet = document.createElement('style');
-        styleSheet.id = 'dynamic-bg-style';
-        document.head.appendChild(styleSheet);
-      }
-      
-      styleSheet.textContent = `
-        html[data-theme="light"] .app-background {
-          background: ${color} !important;
-          background-color: ${color} !important;
-        }
-        html[data-theme="light"] body {
-          background: ${color} !important;
-          background-color: ${color} !important;
-        }
-      `;
-      
-      console.log(`✅ BACKGROUND FIX: Applied background color ${color} in light mode with maximum specificity`);
+      console.log(`✅ BACKGROUND FIX: Applied and saved background color ${color} in light mode`);
     } else {
       console.log(`⚠️ BACKGROUND FIX: Background color changes only work in light mode`);
     }
+  };
+
+  // Helper function to apply light mode background
+  const applyLightModeBackground = (color) => {
+    // Method: Add CSS rule with specific light mode targeting
+    let styleSheet = document.getElementById('dynamic-bg-style');
+    if (!styleSheet) {
+      styleSheet = document.createElement('style');
+      styleSheet.id = 'dynamic-bg-style';
+      document.head.appendChild(styleSheet);
+    }
+    
+    // CRITICAL FIX: Only target light mode, never dark mode
+    styleSheet.textContent = `
+      html[data-theme="light"] .app-background,
+      html[data-theme="light"] body {
+        background: ${color} !important;
+        background-color: ${color} !important;
+      }
+      /* Ensure dark mode is never affected */
+      html[data-theme="dark"] .app-background,
+      html[data-theme="dark"] body {
+        background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%) !important;
+      }
+    `;
+  };
+
+  // FIX 2: Helper function to update admin tab border to darker hue
+  const updateAdminTabBorder = (backgroundColor) => {
+    const darkerHue = calculateDarkerHue(backgroundColor, 0.3); // 30% darker
+    
+    let adminStyleSheet = document.getElementById('admin-border-style');
+    if (!adminStyleSheet) {
+      adminStyleSheet = document.createElement('style');
+      adminStyleSheet.id = 'admin-border-style';
+      document.head.appendChild(adminStyleSheet);
+    }
+    
+    adminStyleSheet.textContent = `
+      html[data-theme="light"] .admin-controls-panel {
+        border: 2px solid ${darkerHue} !important;
+        box-shadow: inset 0 2px 0 ${darkerHue} !important;
+      }
+    `;
+    
+    console.log(`✅ ADMIN BORDER: Updated to darker hue ${darkerHue}`);
   };
 
   const handleBorderThicknessChange = (thickness) => {
