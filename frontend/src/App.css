@@ -1018,7 +1018,7 @@ html[data-theme="dark"] .text-teal-600 {
   color: #4c1d95 !important; /* Darker purple instead of cyan */
 }
 
-/* MAXIMUM SPECIFICITY FOR LOGO BORDER IN DARK MODE */
+/* MAXIMUM SPECIFICITY FOR LOGO BORDER IN DARK MODE - COMPLETELY OVERRIDE TEAL */
 html[data-theme="dark"] body header .border-b-4.border-teal-400,
 html[data-theme="dark"] body .border-b-4.border-teal-400,
 html[data-theme="dark"] body .border-teal-400,
@@ -1033,9 +1033,24 @@ html[data-theme="dark"] .app-background .border-bottom,
 html[data-theme="dark"] nav .border-b-4,
 html[data-theme="dark"] nav .border-teal-400,
 html[data-theme="dark"] nav .border-b,
-html[data-theme="dark"] nav .border-bottom {
+html[data-theme="dark"] nav .border-bottom,
+html[data-theme="dark"] .border-teal-400,
+html[data-theme="dark"] .border-b-4.border-teal-400 {
   border-color: #4c1d95 !important;
   border-bottom-color: #4c1d95 !important;
+  border-top-color: #4c1d95 !important;
+  border-left-color: #4c1d95 !important;
+  border-right-color: #4c1d95 !important;
+}
+
+/* FORCE OVERRIDE ALL TEAL REFERENCES IN DARK MODE */
+html[data-theme="dark"] * {
+  --tw-border-opacity: 1 !important;
+}
+
+html[data-theme="dark"] .border-teal-400 {
+  --tw-border-opacity: 1 !important;
+  border-color: #4c1d95 !important;
 }
 
 html[data-theme="dark"] .text-cyan-600,
