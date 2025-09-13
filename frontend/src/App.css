@@ -1382,6 +1382,7 @@ html[data-theme="dark"] .modal-save-btn {
 }
 
 html[data-theme="dark"] .modal-save-btn:hover {
+
   background: linear-gradient(135deg, #3c1366, #553c9a) !important;
 }
 

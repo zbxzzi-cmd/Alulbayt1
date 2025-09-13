@@ -377,7 +377,7 @@ const LandingPage = () => {
 
       // Remove from UI immediately (works for both default and backend programs)
       setPrograms(prevPrograms => prevPrograms.filter(p => p.id !== programId));
-      
+
     } catch (error) {
       console.error('Error deleting program:', error);
       
@@ -1313,6 +1313,7 @@ Click OK to open font & color selector...`);
                       strokeLinejoin="round"
                     />
                   </button>
+
                   
                   <div className="relative">
                     <img 
@@ -1426,6 +1427,7 @@ Click OK to open font & color selector...`);
                   }}
                   data-stat-light-border={stat.isBackendStat ? stat.border_color_light : null}
                   data-stat-dark-border={stat.isBackendStat ? stat.border_color_dark : null}
+
                 >
                   {/* Delete Button - Only show for backend stats */}
                   {stat.isBackendStat && (
