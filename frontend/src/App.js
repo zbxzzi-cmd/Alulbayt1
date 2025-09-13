@@ -1050,10 +1050,10 @@ Click OK to open font & color selector...`);
           <div className="color-presets">
             {bgColorPresets.map((preset, index) => (
               <div
-                key={index}
+                key={preset.id || index}
                 className={`color-preset ${currentBgColor === preset.color ? 'active' : ''}`}
                 style={{ backgroundColor: preset.color }}
-                onClick={() => handleBgColorChange(preset.color)}
+                onClick={() => handleBgColorChange(preset.color, preset.id)} // Pass preset ID
                 title={preset.name}
               />
             ))}
