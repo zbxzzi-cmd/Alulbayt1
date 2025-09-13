@@ -560,10 +560,9 @@ const LandingPage = () => {
     }
   };
 
-  // FIX 1: Load saved background color on mount
+  // FIX 1: Load saved background color on mount (REMOVED PRESET LOADING)
   useEffect(() => {
     const savedBgColor = localStorage.getItem('customBackgroundColor');
-    const savedPresets = localStorage.getItem('bgColorPresets');
     
     if (savedBgColor) {
       setCurrentBgColor(savedBgColor);
@@ -571,11 +570,6 @@ const LandingPage = () => {
       applyLightModeBackground(savedBgColor);
       updateAdminTabBorder(savedBgColor);
       console.log(`✅ PERSISTENCE: Loaded saved background color: ${savedBgColor}`);
-    }
-    
-    if (savedPresets) {
-      setBgColorPresets(JSON.parse(savedPresets));
-      console.log(`✅ PERSISTENCE: Loaded saved color presets`);
     }
   }, []);
 
