@@ -22,8 +22,7 @@ const LandingPage = () => {
   });
 
   const [showBgEditor, setShowBgEditor] = useState(false);
-  const [showBorderEditor, setShowBorderEditor] = useState(false);
-  const [showBorderColorEditor, setShowBorderColorEditor] = useState(false);
+  // FIX 3: REMOVED showBorderColorEditor state - no longer needed
   const [currentBgColor, setCurrentBgColor] = useState("#c3ffff");
   const [borderThickness, setBorderThickness] = useState(18);
   const [borderColors, setBorderColors] = useState({
