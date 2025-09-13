@@ -1420,7 +1420,7 @@ html[data-theme="dark"] .modal-save-btn:hover {
 html[data-theme="dark"] .delete-program-btn {
   background: rgba(30, 30, 60, 0.95) !important;
   border: 2px solid rgba(168, 85, 247, 0.5) !important;
-  color: #e0b3ff !important; /* Light purple for high contrast */
+  color: #ffffff !important; /* WHITE for maximum contrast */
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4) !important;
   opacity: 0.9 !important;
   z-index: 50 !important; /* Ensure it's above everything */
@@ -1431,16 +1431,16 @@ html[data-theme="dark"] .delete-program-btn:hover {
   opacity: 1 !important;
   background: rgba(30, 30, 60, 1) !important;
   border-color: rgba(168, 85, 247, 0.8) !important;
-  color: #f0d9ff !important; /* Very light purple on hover */
+  color: #ffffff !important; /* WHITE on hover */
   transform: scale(1.15) !important;
   box-shadow: 0 4px 12px rgba(147, 51, 234, 0.5) !important;
 }
 
-/* Delete Button Icon - FORCE PROPER RENDERING IN DARK MODE */
+/* Delete Button Icon - FORCE WHITE ICON IN DARK MODE */
 html[data-theme="dark"] .delete-program-btn svg {
-  color: #e0b3ff !important;
+  color: #ffffff !important; /* WHITE ICON */
   fill: none !important;
-  stroke: currentColor !important;
+  stroke: #ffffff !important; /* EXPLICIT WHITE STROKE */
   stroke-width: 2.5 !important;
   stroke-linecap: round !important;
   stroke-linejoin: round !important;
