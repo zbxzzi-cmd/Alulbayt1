@@ -1018,13 +1018,13 @@ html[data-theme="dark"] .text-teal-600 {
   color: #4c1d95 !important; /* Darker purple instead of cyan */
 }
 
-/* NUCLEAR OVERRIDE FOR DARK MODE BORDER COLOR */
+/* NUCLEAR OVERRIDE FOR DARK MODE BORDER COLOR - MATCH ADMIN TAB */
 html[data-theme="dark"] .navigation-bar::after {
-  background: #4c1d95 !important; /* FORCE PURPLE BORDER */
+  background: rgba(180, 140, 255, 0.8) !important; /* MATCH ADMIN TAB BORDER BUT SLIGHTLY STRONGER */
 }
 
 html[data-theme="dark"] .navigation-bar {
-  --border-color: #4c1d95 !important; /* OVERRIDE CSS VARIABLE */
+  --border-color: rgba(180, 140, 255, 0.8) !important; /* OVERRIDE CSS VARIABLE */
 }
 
 /* MAXIMUM SPECIFICITY FOR LOGO BORDER IN DARK MODE - COMPLETELY OVERRIDE TEAL */
