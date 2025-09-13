@@ -349,10 +349,15 @@ const LandingPage = () => {
         };
 
         await axios.delete(`${API}/admin/program-tabs/${programId}`, { headers });
-        console.log(`Successfully deleted backend program: ${programName}`);
+        console.log(`✅ PERSISTENCE: Successfully deleted backend program: ${programName}`);
       } else {
-        // Default program - just remove from UI (no backend deletion needed)
-        console.log(`Removing default program from UI: ${programName}`);
+        // Default program - add to localStorage deleted list for persistence
+        const deletedDefaultPrograms = JSON.parse(localStorage.getItem('deletedDefaultPrograms') || '[]');
+        if (!deletedDefaultPrograms.includes(programId)) {
+          deletedDefaultPrograms.push(programId);
+          localStorage.setItem('deletedDefaultPrograms', JSON.stringify(deletedDefaultPrograms));
+        }
+        console.log(`✅ PERSISTENCE: Marked default program as deleted: ${programName}`);
       }
 
       // Remove from UI immediately (works for both default and backend programs)
