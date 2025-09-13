@@ -579,6 +579,7 @@ const LandingPage = () => {
   useEffect(() => {
     const savedBgColor = localStorage.getItem('customBackgroundColor');
     const savedPresetColors = localStorage.getItem('presetColors');
+    const savedLastPreset = localStorage.getItem('lastSelectedPreset');
     
     if (savedBgColor) {
       setCurrentBgColor(savedBgColor);
@@ -591,6 +592,11 @@ const LandingPage = () => {
     if (savedPresetColors) {
       setPresetColors(JSON.parse(savedPresetColors));
       console.log(`✅ PERSISTENCE: Loaded saved preset colors`);
+    }
+    
+    if (savedLastPreset) {
+      setLastSelectedPreset(savedLastPreset);
+      console.log(`✅ PERSISTENCE: Loaded last selected preset: ${savedLastPreset}`);
     }
   }, []);
 
