@@ -916,19 +916,33 @@ Click OK to open font & color selector...`);
     // FIX 1: SAVE TO LOCALSTORAGE FOR PERSISTENCE
     localStorage.setItem('customBackgroundColor', color);
     
-    // FIX 2: UPDATE ONLY THE SPECIFIC PRESET THAT WAS CLICKED
+    // FIX 2: UPDATE THE SPECIFIC PRESET OR LAST SELECTED PRESET
     if (presetId) {
+      // Clicked on a preset box - track it and update it
+      setLastSelectedPreset(presetId);
       setPresetColors(prev => ({
         ...prev,
-        [presetId]: color // Update only the specific preset color
+        [presetId]: color // Update the clicked preset
       }));
       
-      // Also save the updated preset colors
-      const updatedPresets = { ...presetColors, [presetId]: color };
-      localStorage.setItem('presetColors', JSON.stringify(updatedPresets));
+      console.log(`✅ PRESET CLICK: Selected and updated ${presetId} preset to ${color}`);
+    } else if (lastSelectedPreset) {
+      // Used custom color picker - update the last selected preset
+      setPresetColors(prev => ({
+        ...prev,
+        [lastSelectedPreset]: color // Update the last selected preset
+      }));
       
-      console.log(`✅ PRESET UPDATE: Updated ${presetId} preset to ${color}`);
+      console.log(`✅ CUSTOM COLOR: Updated last selected preset ${lastSelectedPreset} to ${color}`);
     }
+    
+    // Save the updated preset colors
+    const updatedPresets = presetId 
+      ? { ...presetColors, [presetId]: color }
+      : lastSelectedPreset 
+        ? { ...presetColors, [lastSelectedPreset]: color }
+        : presetColors;
+    localStorage.setItem('presetColors', JSON.stringify(updatedPresets));
     
     // FIX 2: TARGET CORRECT BACKGROUND ELEMENT - LIGHT MODE ONLY
     const theme = document.documentElement.getAttribute('data-theme') || 'light';
