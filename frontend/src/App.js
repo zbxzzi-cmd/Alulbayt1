@@ -211,16 +211,27 @@ const LandingPage = () => {
     { name: "White", class: "text-white", hex: "#ffffff" }
   ];
 
-  // Background color presets - REVERTED TO STATIC (NO DYNAMIC UPDATES)
+  // Background color presets - USE COLOR MAP WITH INDIVIDUAL IDENTIFIERS
+  const [presetColors, setPresetColors] = useState({
+    cyan: "#c3ffff",
+    blue: "#b3e5fc", 
+    green: "#b3f0b3",
+    lavender: "#e1bee7",
+    peach: "#ffccbc",
+    pink: "#f8bbd9",
+    yellow: "#fff9c4",
+    gray: "#f5f5f5"
+  });
+
   const bgColorPresets = [
-    { name: "Light Cyan", color: "#c3ffff" },
-    { name: "Soft Blue", color: "#b3e5fc" },
-    { name: "Mint Green", color: "#b3f0b3" },
-    { name: "Lavender", color: "#e1bee7" },
-    { name: "Peach", color: "#ffccbc" },
-    { name: "Light Pink", color: "#f8bbd9" },
-    { name: "Soft Yellow", color: "#fff9c4" },
-    { name: "Light Gray", color: "#f5f5f5" }
+    { name: "Light Cyan", color: presetColors.cyan, id: "cyan" },
+    { name: "Soft Blue", color: presetColors.blue, id: "blue" },
+    { name: "Mint Green", color: presetColors.green, id: "green" },
+    { name: "Lavender", color: presetColors.lavender, id: "lavender" },
+    { name: "Peach", color: presetColors.peach, id: "peach" },
+    { name: "Light Pink", color: presetColors.pink, id: "pink" },
+    { name: "Soft Yellow", color: presetColors.yellow, id: "yellow" },
+    { name: "Light Gray", color: presetColors.gray, id: "gray" }
   ];
 
   // Sample programs data - ALL CONTENT IS EDITABLE
