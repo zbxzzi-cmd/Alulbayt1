@@ -332,33 +332,31 @@ const LandingPage = () => {
     }
 
     try {
-      // Only delete backend programs (those with isBackendProgram flag)
       const programToDelete = programs.find(p => p.id === programId);
       
-      if (!programToDelete?.isBackendProgram) {
-        alert('Cannot delete default programs');
-        return;
+      if (programToDelete?.isBackendProgram) {
+        // Backend program - delete from database
+        const token = localStorage.getItem('token');
+        
+        if (!token) {
+          alert('Authentication required to delete programs');
+          return;
+        }
+
+        const headers = {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        };
+
+        await axios.delete(`${API}/admin/program-tabs/${programId}`, { headers });
+        console.log(`Successfully deleted backend program: ${programName}`);
+      } else {
+        // Default program - just remove from UI (no backend deletion needed)
+        console.log(`Removing default program from UI: ${programName}`);
       }
 
-      // Make API call to delete the program
-      const token = localStorage.getItem('token');
-      
-      if (!token) {
-        alert('Authentication required to delete programs');
-        return;
-      }
-
-      const headers = {
-        Authorization: `Bearer ${token}`,
-        'Content-Type': 'application/json'
-      };
-
-      await axios.delete(`${API}/admin/program-tabs/${programId}`, { headers });
-
-      // Remove from UI immediately (optimistic update)
+      // Remove from UI immediately (works for both default and backend programs)
       setPrograms(prevPrograms => prevPrograms.filter(p => p.id !== programId));
-      
-      console.log(`Successfully deleted program: ${programName}`);
       
     } catch (error) {
       console.error('Error deleting program:', error);
