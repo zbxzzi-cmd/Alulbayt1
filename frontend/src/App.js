@@ -926,6 +926,7 @@ Click OK to open font & color selector...`);
     if (presetId) {
       // Clicked on a preset box - track it and update it
       setLastSelectedPreset(presetId);
+      localStorage.setItem('lastSelectedPreset', presetId); // Save to localStorage
       setPresetColors(prev => ({
         ...prev,
         [presetId]: color // Update the clicked preset
