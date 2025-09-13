@@ -902,13 +902,13 @@ Click OK to open font & color selector...`);
     localStorage.setItem('customBackgroundColor', color);
     
     // FIX 2: UPDATE PRESET COLORS TO REFLECT SELECTION
-    setBgColorPresets(prevPresets => 
-      prevPresets.map(preset => 
-        preset.color === currentBgColor 
-          ? { ...preset, color: color } // Update the previously selected preset to new color
-          : preset
-      )
+    const updatedPresets = bgColorPresets.map(preset => 
+      preset.color === currentBgColor 
+        ? { ...preset, color: color } // Update the previously selected preset to new color
+        : preset
     );
+    setBgColorPresets(updatedPresets);
+    localStorage.setItem('bgColorPresets', JSON.stringify(updatedPresets));
     
     // FIX 2: TARGET CORRECT BACKGROUND ELEMENT - LIGHT MODE ONLY
     const theme = document.documentElement.getAttribute('data-theme') || 'light';
