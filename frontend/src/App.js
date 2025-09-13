@@ -223,7 +223,8 @@ const LandingPage = () => {
     gray: "#f5f5f5"
   });
 
-  const bgColorPresets = [
+  // FORCE DYNAMIC PRESET ARRAY - RECREATE ON EVERY RENDER
+  const bgColorPresets = React.useMemo(() => [
     { name: "Light Cyan", color: presetColors.cyan, id: "cyan" },
     { name: "Soft Blue", color: presetColors.blue, id: "blue" },
     { name: "Mint Green", color: presetColors.green, id: "green" },
@@ -232,7 +233,7 @@ const LandingPage = () => {
     { name: "Light Pink", color: presetColors.pink, id: "pink" },
     { name: "Soft Yellow", color: presetColors.yellow, id: "yellow" },
     { name: "Light Gray", color: presetColors.gray, id: "gray" }
-  ];
+  ], [presetColors]); // Re-create when presetColors changes
 
   // Sample programs data - ALL CONTENT IS EDITABLE
   const [programs, setPrograms] = useState([
