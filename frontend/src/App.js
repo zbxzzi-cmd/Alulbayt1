@@ -560,6 +560,18 @@ const LandingPage = () => {
     }
   };
 
+  // FIX 1: Load saved background color on mount
+  useEffect(() => {
+    const savedBgColor = localStorage.getItem('customBackgroundColor');
+    if (savedBgColor) {
+      setCurrentBgColor(savedBgColor);
+      // Apply the saved background color
+      applyLightModeBackground(savedBgColor);
+      updateAdminTabBorder(savedBgColor);
+      console.log(`✅ PERSISTENCE: Loaded saved background color: ${savedBgColor}`);
+    }
+  }, []);
+
   // Add an update mechanism that triggers when border colors are modified
   useEffect(() => {
     const updateBorderColors = () => {
