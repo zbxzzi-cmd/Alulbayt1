@@ -809,11 +809,30 @@ Click OK to open font & color selector...`);
 
   const handleBgColorChange = (color) => {
     setCurrentBgColor(color);
-    // ENHANCED: Theme-aware background color function
+    
+    // FIX 2: TARGET CORRECT BACKGROUND ELEMENT - LIGHT MODE ONLY
     const theme = document.documentElement.getAttribute('data-theme') || 'light';
-    const variableName = theme === 'dark' ? '--custom-bg-color-dark' : '--custom-bg-color-light';
-    document.documentElement.style.setProperty(variableName, color);
-    document.documentElement.style.setProperty('--main-bg-color', color);
+    
+    if (theme === 'light') {
+      // Apply to main app background container
+      const appBackground = document.querySelector('.app-background');
+      const landingPage = document.querySelector('.landing-page');
+      
+      if (appBackground) {
+        appBackground.style.backgroundColor = color;
+      }
+      if (landingPage) {
+        landingPage.style.backgroundColor = color;
+      }
+      
+      // Also update CSS variables for consistency
+      document.documentElement.style.setProperty('--custom-bg-color-light', color);
+      document.documentElement.style.setProperty('--main-bg-color', color);
+      
+      console.log(`✅ BACKGROUND FIX: Applied background color ${color} in light mode`);
+    } else {
+      console.log(`⚠️ BACKGROUND FIX: Background color changes only work in light mode`);
+    }
   };
 
   const handleBorderThicknessChange = (thickness) => {
