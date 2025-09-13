@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import "./App.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import axios from "axios";
@@ -23,7 +23,7 @@ const LandingPage = () => {
 
   const [showBgEditor, setShowBgEditor] = useState(false);
   const [showBorderEditor, setShowBorderEditor] = useState(false);
-  const [showBorderColorEditor, setShowBorderColorEditor] = useState(false);
+  // FIX 3: REMOVED showBorderColorEditor state - no longer needed
   const [currentBgColor, setCurrentBgColor] = useState("#c3ffff");
   const [borderThickness, setBorderThickness] = useState(18);
   const [borderColors, setBorderColors] = useState({
@@ -42,6 +42,69 @@ const LandingPage = () => {
       g: parseInt(result[2], 16),
       b: parseInt(result[3], 16)
     } : null;
+  };
+
+  // When left border color changes, immediately update bottom border
+  function updateBorderColors(newLeftColor, theme, cardElement) {
+    if (!newLeftColor || !cardElement) return;
+    
+    const darkerHue = calculateDarkerHue(newLeftColor, theme === 'dark' ? 0.5 : 0.3); // 50% darker for dark mode, 30% for light
+    
+    console.log('🔄 SYNCHRONIZING BORDER COLORS:', {
+      newLeftColor,
+      darkerHue,
+      theme,
+      cardElement
+    });
+    
+    // Apply border colors immediately with proper thickness
+    cardElement.style.setProperty('border-left-color', newLeftColor, 'important');
+    cardElement.style.setProperty('border-bottom-color', theme === 'dark' ? darkerHue : newLeftColor, 'important');
+    
+    // ISSUE 3 FIX: Set consistent border thickness based on theme
+    cardElement.style.setProperty('border-bottom-width', theme === 'dark' ? '6px' : '1px', 'important');
+    cardElement.style.setProperty('border-bottom-style', 'solid', 'important');
+    
+    // Update CSS variables for hover effects - ISSUE 1 FIX
+    cardElement.style.setProperty('--current-left-border', newLeftColor);
+    cardElement.style.setProperty('--current-bottom-border', theme === 'dark' ? darkerHue : newLeftColor);
+    
+    // Update data attributes
+    if (theme === 'dark') {
+      cardElement.setAttribute('data-theme-dark-border', newLeftColor);
+    } else {
+      cardElement.setAttribute('data-theme-light-border', newLeftColor);
+    }
+  }
+
+  // Add this function to automatically calculate darker hues
+  function calculateDarkerHue(hexColor, darkenPercentage) {
+    if (!hexColor || !hexColor.startsWith('#')) return '#000000';
+    
+    // Convert hex to RGB
+    let r = parseInt(hexColor.slice(1, 3), 16);
+    let g = parseInt(hexColor.slice(3, 5), 16);
+    let b = parseInt(hexColor.slice(5, 7), 16);
+    
+    // Calculate darker values (50% darker)
+    r = Math.floor(r * (1 - darkenPercentage));
+    g = Math.floor(g * (1 - darkenPercentage));
+    b = Math.floor(b * (1 - darkenPercentage));
+    
+    // Convert back to hex
+    return `#${((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1)}`;
+  }
+
+  // Helper function to darken a color by 30% for 3D effect
+  const darkenColor = (hex, percent = 30) => {
+    const num = parseInt(hex.replace("#", ""), 16);
+    const amt = Math.round(2.55 * percent);
+    const R = (num >> 16) - amt;
+    const G = (num >> 8 & 0x00FF) - amt;
+    const B = (num & 0x0000FF) - amt;
+    return "#" + (0x1000000 + (R < 255 ? R < 1 ? 0 : R : 255) * 0x10000 +
+      (G < 255 ? G < 1 ? 0 : G : 255) * 0x100 +
+      (B < 255 ? B < 1 ? 0 : B : 255)).toString(16).slice(1);
   };
 
   // Helper function to convert RGB to HSL
@@ -148,17 +211,32 @@ const LandingPage = () => {
     { name: "White", class: "text-white", hex: "#ffffff" }
   ];
 
-  // Background color presets
-  const bgColorPresets = [
-    { name: "Light Cyan", color: "#c3ffff" },
-    { name: "Soft Blue", color: "#b3e5fc" },
-    { name: "Mint Green", color: "#b3f0b3" },
-    { name: "Lavender", color: "#e1bee7" },
-    { name: "Peach", color: "#ffccbc" },
-    { name: "Light Pink", color: "#f8bbd9" },
-    { name: "Soft Yellow", color: "#fff9c4" },
-    { name: "Light Gray", color: "#f5f5f5" }
-  ];
+  // Background color presets - USE COLOR MAP WITH INDIVIDUAL IDENTIFIERS
+  const [presetColors, setPresetColors] = useState({
+    cyan: "#c3ffff",
+    blue: "#b3e5fc", 
+    green: "#b3f0b3",
+    lavender: "#e1bee7",
+    peach: "#ffccbc",
+    pink: "#f8bbd9",
+    yellow: "#fff9c4",
+    gray: "#f5f5f5"
+  });
+
+  // TRACK LAST SELECTED PRESET FOR CUSTOM COLOR UPDATES
+  const [lastSelectedPreset, setLastSelectedPreset] = useState(null);
+
+  // FORCE DYNAMIC PRESET ARRAY - RECREATE ON EVERY RENDER
+  const bgColorPresets = useMemo(() => [
+    { name: "Light Cyan", color: presetColors.cyan, id: "cyan" },
+    { name: "Soft Blue", color: presetColors.blue, id: "blue" },
+    { name: "Mint Green", color: presetColors.green, id: "green" },
+    { name: "Lavender", color: presetColors.lavender, id: "lavender" },
+    { name: "Peach", color: presetColors.peach, id: "peach" },
+    { name: "Light Pink", color: presetColors.pink, id: "pink" },
+    { name: "Soft Yellow", color: presetColors.yellow, id: "yellow" },
+    { name: "Light Gray", color: presetColors.gray, id: "gray" }
+  ], [presetColors]); // Re-create when presetColors changes
 
   // Sample programs data - ALL CONTENT IS EDITABLE
   const [programs, setPrograms] = useState([
@@ -269,34 +347,37 @@ const LandingPage = () => {
     }
 
     try {
-      // Only delete backend programs (those with isBackendProgram flag)
       const programToDelete = programs.find(p => p.id === programId);
       
-      if (!programToDelete?.isBackendProgram) {
-        alert('Cannot delete default programs');
-        return;
+      if (programToDelete?.isBackendProgram) {
+        // Backend program - delete from database
+        const token = localStorage.getItem('token');
+        
+        if (!token) {
+          alert('Authentication required to delete programs');
+          return;
+        }
+
+        const headers = {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        };
+
+        await axios.delete(`${API}/admin/program-tabs/${programId}`, { headers });
+        console.log(`✅ PERSISTENCE: Successfully deleted backend program: ${programName}`);
+      } else {
+        // Default program - add to localStorage deleted list for persistence
+        const deletedDefaultPrograms = JSON.parse(localStorage.getItem('deletedDefaultPrograms') || '[]');
+        if (!deletedDefaultPrograms.includes(programId)) {
+          deletedDefaultPrograms.push(programId);
+          localStorage.setItem('deletedDefaultPrograms', JSON.stringify(deletedDefaultPrograms));
+        }
+        console.log(`✅ PERSISTENCE: Marked default program as deleted: ${programName}`);
       }
 
-      // Make API call to delete the program
-      const token = localStorage.getItem('token');
-      
-      if (!token) {
-        alert('Authentication required to delete programs');
-        return;
-      }
-
-      const headers = {
-        Authorization: `Bearer ${token}`,
-        'Content-Type': 'application/json'
-      };
-
-      await axios.delete(`${API}/admin/program-tabs/${programId}`, { headers });
-
-      // Remove from UI immediately (optimistic update)
+      // Remove from UI immediately (works for both default and backend programs)
       setPrograms(prevPrograms => prevPrograms.filter(p => p.id !== programId));
-      
-      console.log(`Successfully deleted program: ${programName}`);
-      
+
     } catch (error) {
       console.error('Error deleting program:', error);
       
@@ -325,16 +406,28 @@ const LandingPage = () => {
       const programTabs = response.data;
       
       // Convert backend program tabs to frontend format
-      const backendPrograms = programTabs.map((tab, index) => ({
-        id: tab.id || `backend-${index}`, // Use backend ID or generate one
-        name: tab.title,
-        tagline: tab.description ? tab.description.substring(0, 60) + "..." : "New Program",
-        description: tab.description || "Program description",
-        image: tab.image || "https://images.unsplash.com/photo-1694758375810-2d7c7bc3e84e",
-        icon: BookOpen, // Default icon for backend programs
-        type: tab.type || "informational",
-        isBackendProgram: true // Mark as backend program for identification
-      }));
+      const backendPrograms = programTabs.map((tab, index) => {
+        console.log('🔍 BACKEND PROGRAM TAB DATA:', {
+          id: tab.id,
+          title: tab.title,
+          border_color_light: tab.border_color_light,
+          border_color_dark: tab.border_color_dark,
+          raw_tab: tab
+        });
+        
+        return {
+          id: tab.id || `backend-${index}`, // Use backend ID or generate one
+          name: tab.title,
+          tagline: tab.description ? tab.description.substring(0, 60) + "..." : "New Program",
+          description: tab.description || "Program description",
+          image: tab.image || "https://images.unsplash.com/photo-1694758375810-2d7c7bc3e84e",
+          icon: BookOpen, // Default icon for backend programs
+          type: tab.type || "informational",
+          isBackendProgram: true, // Mark as backend program for identification
+          border_color_light: tab.border_color_light || "#E0F7FA", // CUSTOM BORDER COLORS
+          border_color_dark: tab.border_color_dark || "#4A90A4"
+        };
+      });
       
       // Original hardcoded programs
       const defaultPrograms = [
@@ -376,11 +469,17 @@ const LandingPage = () => {
         }
       ];
       
-      // Merge backend programs with default programs (backend programs first)
-      const allPrograms = [...backendPrograms, ...defaultPrograms];
+      // FIX 1: DATA PERSISTENCE - Check for deleted default programs in localStorage
+      const deletedDefaultPrograms = JSON.parse(localStorage.getItem('deletedDefaultPrograms') || '[]');
+      const filteredDefaultPrograms = defaultPrograms.filter(program => 
+        !deletedDefaultPrograms.includes(program.id)
+      );
+      
+      // Merge backend programs with filtered default programs (backend programs first)
+      const allPrograms = [...backendPrograms, ...filteredDefaultPrograms];
       setPrograms(allPrograms);
       
-      console.log(`Loaded ${backendPrograms.length} backend programs and ${defaultPrograms.length} default programs`);
+      console.log(`✅ PERSISTENCE: Loaded ${backendPrograms.length} backend programs and ${filteredDefaultPrograms.length} default programs (${deletedDefaultPrograms.length} deleted)`);
       
     } catch (error) {
       console.error("Error fetching program tabs:", error);
@@ -446,7 +545,9 @@ const LandingPage = () => {
         label: tab.title || "New Stat",
         type: tab.type || "a",
         id: tab.id,
-        isBackendStat: true // Mark as backend stat for identification
+        isBackendStat: true, // Mark as backend stat for identification
+        border_color_light: tab.border_color_light || "#4A90A4", // CUSTOM BORDER COLORS
+        border_color_dark: tab.border_color_dark || "#B8739B"
       }));
       
       // Original hardcoded stats
@@ -473,6 +574,182 @@ const LandingPage = () => {
       setStatsData(defaultStats);
     }
   };
+
+  // FIX 1: Load saved background color and preset colors on mount
+  useEffect(() => {
+    const savedBgColor = localStorage.getItem('customBackgroundColor');
+    const savedPresetColors = localStorage.getItem('presetColors');
+    const savedLastPreset = localStorage.getItem('lastSelectedPreset');
+    
+    if (savedBgColor) {
+      setCurrentBgColor(savedBgColor);
+      // Apply the saved background color
+      applyLightModeBackground(savedBgColor);
+      updateAdminTabBorder(savedBgColor);
+      console.log(`✅ PERSISTENCE: Loaded saved background color: ${savedBgColor}`);
+    }
+    
+    if (savedPresetColors) {
+      setPresetColors(JSON.parse(savedPresetColors));
+      console.log(`✅ PERSISTENCE: Loaded saved preset colors`);
+    }
+    
+    if (savedLastPreset) {
+      setLastSelectedPreset(savedLastPreset);
+      console.log(`✅ PERSISTENCE: Loaded last selected preset: ${savedLastPreset}`);
+    }
+  }, []);
+
+  // FIX 3: Add theme change listener to ensure dark mode background is preserved
+  useEffect(() => {
+    const handleThemeChange = () => {
+      const currentTheme = document.documentElement.getAttribute('data-theme') || 'light';
+      
+      if (currentTheme === 'dark') {
+        // Force dark mode background when switching to dark mode
+        let darkModeStyleSheet = document.getElementById('force-dark-mode-style');
+        if (!darkModeStyleSheet) {
+          darkModeStyleSheet = document.createElement('style');
+          darkModeStyleSheet.id = 'force-dark-mode-style';
+          document.head.appendChild(darkModeStyleSheet);
+        }
+        
+        darkModeStyleSheet.textContent = `
+          html[data-theme="dark"] .app-background,
+          html[data-theme="dark"] body,
+          html[data-theme="dark"] .landing-page {
+            background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%) !important;
+          }
+          
+          /* FIX 1: MAXIMUM SPECIFICITY FOR LOGO BORDER IN DARK MODE */
+          html[data-theme="dark"] header .border-b-4,
+          html[data-theme="dark"] header .border-teal-400,
+          html[data-theme="dark"] header .border-b,
+          html[data-theme="dark"] header .border-bottom,
+          html[data-theme="dark"] .navigation-bar .border-b-4,
+          html[data-theme="dark"] .navigation-bar .border-teal-400,
+          html[data-theme="dark"] .navigation-bar .border-b,
+          html[data-theme="dark"] .navigation-bar .border-bottom,
+          html[data-theme="dark"] .navigation-bar,
+          html[data-theme="dark"] header {
+            border-color: #4c1d95 !important;
+            border-bottom-color: #4c1d95 !important;
+          }
+        `;
+        
+        console.log('✅ DARK MODE: Forced correct dark mode background AND logo border');
+      } else if (currentTheme === 'light') {
+        // Apply saved light mode background when switching to light mode
+        const savedBgColor = localStorage.getItem('customBackgroundColor');
+        if (savedBgColor) {
+          applyLightModeBackground(savedBgColor);
+          updateAdminTabBorder(savedBgColor);
+          console.log(`✅ LIGHT MODE: Restored saved background color: ${savedBgColor}`);
+        }
+      }
+    };
+
+    // Listen for theme changes
+    const observer = new MutationObserver((mutations) => {
+      mutations.forEach((mutation) => {
+        if (mutation.type === 'attributes' && mutation.attributeName === 'data-theme') {
+          handleThemeChange();
+        }
+      });
+    });
+
+    observer.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ['data-theme']
+    });
+
+    // Initial check
+    handleThemeChange();
+
+    return () => observer.disconnect();
+  }, []);
+
+  // Add an update mechanism that triggers when border colors are modified
+  useEffect(() => {
+    const updateBorderColors = () => {
+      console.log('🔄 UPDATING BORDER COLORS - START');
+      const programCards = document.querySelectorAll('.program-card');
+      console.log(`🔍 Found ${programCards.length} program cards`);
+      
+      programCards.forEach((card, cardIndex) => {
+        const currentTheme = document.documentElement.getAttribute('data-theme') || 'light';
+        const lightBorder = card.getAttribute('data-theme-light-border');
+        const darkBorder = card.getAttribute('data-theme-dark-border');
+        
+        console.log(`🃏 Card ${cardIndex}:`, {
+          hasLightBorder: !!lightBorder,
+          hasDarkBorder: !!darkBorder,
+          lightBorderValue: lightBorder,
+          darkBorderValue: darkBorder,
+          currentTheme: currentTheme
+        });
+        
+        if (lightBorder || darkBorder) {
+          const leftBorderColor = currentTheme === 'dark' ? darkBorder : lightBorder;
+          const bottomBorderColor = leftBorderColor ? calculateDarkerHue(leftBorderColor, 0.5) : null;
+          
+          console.log(`🎨 Applying colors to card ${cardIndex}:`, {
+            leftBorderColor,
+            bottomBorderColor,
+            theme: currentTheme
+          });
+          
+          if (leftBorderColor) {
+            // FORCE APPLICATION WITH IMPORTANT
+            card.style.setProperty('border-left-color', leftBorderColor, 'important');
+            card.style.setProperty('border-left-width', '18px', 'important');
+            card.style.setProperty('border-left-style', 'solid', 'important');
+            
+            if (currentTheme === 'dark' && bottomBorderColor) {
+              card.style.setProperty('border-bottom-color', bottomBorderColor, 'important');
+              card.style.setProperty('border-bottom-width', '6px', 'important');
+              card.style.setProperty('border-bottom-style', 'solid', 'important');
+            } else if (currentTheme === 'light') {
+              card.style.setProperty('border-bottom-color', leftBorderColor, 'important');
+              card.style.setProperty('border-bottom-width', '6px', 'important');
+              card.style.setProperty('border-bottom-style', 'solid', 'important');
+            }
+            
+            console.log('✅ Updated card borders:', {
+              cardIndex,
+              leftColor: card.style.borderLeftColor,
+              bottomColor: card.style.borderBottomColor
+            });
+          }
+        }
+      });
+      
+      console.log('🔄 UPDATING BORDER COLORS - END');
+    };
+
+    // Update on theme change
+    const observer = new MutationObserver((mutations) => {
+      mutations.forEach((mutation) => {
+        if (mutation.type === 'attributes' && mutation.attributeName === 'data-theme') {
+          console.log('🌓 THEME CHANGE DETECTED, updating border colors');
+          setTimeout(updateBorderColors, 100); // Small delay to ensure theme is applied
+        }
+      });
+    });
+
+    observer.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ['data-theme']
+    });
+
+    // Initial update with delay to ensure DOM is ready
+    setTimeout(() => {
+      console.log('🚀 INITIAL BORDER COLOR UPDATE');
+      updateBorderColors();
+    }, 100);
+
+    return () => observer.disconnect();
+  }, [programs, statsData]); // Re-run when data changes
 
   useEffect(() => {
     const fetchContent = async () => {
@@ -544,14 +821,44 @@ const LandingPage = () => {
   }, []);
 
   // Save border colors to localStorage and apply to CSS
-  const handleBorderColorChange = (type, color) => {
-    const newColors = { ...borderColors, [type]: color };
-    setBorderColors(newColors);
-    localStorage.setItem('borderColors', JSON.stringify(newColors));
+  const handleBorderColorChange = (type, newColor) => {
+    // Color picker should detect current theme and show appropriate values
+    const currentTheme = document.documentElement.getAttribute('data-theme') || 'light';
     
-    // Apply to CSS variable
+    console.log('🎨 THEME-AWARE COLOR PICKER:', {
+      type,
+      newColor,
+      currentTheme,
+      changingProperty: currentTheme === 'dark' ? 'border_color_dark' : 'border_color_light'
+    });
+    
+    setBorderColors(prev => ({
+      ...prev,
+      [type]: newColor
+    }));
+    
+    // Apply colors to CSS variables
     const root = document.documentElement;
-    root.style.setProperty(`--card-border-${type}-custom`, color);
+    root.style.setProperty(`--card-border-${type}-custom`, newColor);
+    
+    // CRITICAL FIX: Update both light and dark mode values based on current theme
+    const cardElements = document.querySelectorAll(`.card-type-${type === 'aqua' ? 'a' : type === 'pink' ? 'b' : type === 'orange' ? 'c' : 'd'}`);
+    cardElements.forEach(cardElement => {
+      if (currentTheme === 'dark') {
+        cardElement.setAttribute('data-theme-dark-border', newColor);
+      } else {
+        cardElement.setAttribute('data-theme-light-border', newColor);
+      }
+      
+      // Immediately synchronize borders
+      updateBorderColors(newColor, currentTheme, cardElement);
+    });
+    
+    // Save to localStorage
+    localStorage.setItem('borderColors', JSON.stringify({
+      ...borderColors,
+      [type]: newColor
+    }));
   };
 
   // Reset border colors to default
@@ -609,13 +916,100 @@ ${colorList}
 Click OK to open font & color selector...`);
   };
 
-  const handleBgColorChange = (color) => {
+  const handleBgColorChange = (color, presetId = null) => {
     setCurrentBgColor(color);
-    // ENHANCED: Theme-aware background color function
+    
+    // FIX 1: SAVE TO LOCALSTORAGE FOR PERSISTENCE
+    localStorage.setItem('customBackgroundColor', color);
+    
+    // FIX 2: UPDATE THE SPECIFIC PRESET OR LAST SELECTED PRESET
+    if (presetId) {
+      // Clicked on a preset box - track it and update it
+      setLastSelectedPreset(presetId);
+      localStorage.setItem('lastSelectedPreset', presetId); // Save to localStorage
+      setPresetColors(prev => ({
+        ...prev,
+        [presetId]: color // Update the clicked preset
+      }));
+      
+      console.log(`✅ PRESET CLICK: Selected and updated ${presetId} preset to ${color}`);
+    } else if (lastSelectedPreset) {
+      // Used custom color picker - update the last selected preset
+      setPresetColors(prev => ({
+        ...prev,
+        [lastSelectedPreset]: color // Update the last selected preset
+      }));
+      
+      console.log(`✅ CUSTOM COLOR: Updated last selected preset ${lastSelectedPreset} to ${color}`);
+    }
+    
+    // Save the updated preset colors
+    const updatedPresets = presetId 
+      ? { ...presetColors, [presetId]: color }
+      : lastSelectedPreset 
+        ? { ...presetColors, [lastSelectedPreset]: color }
+        : presetColors;
+    localStorage.setItem('presetColors', JSON.stringify(updatedPresets));
+    
+    // FIX 2: TARGET CORRECT BACKGROUND ELEMENT - LIGHT MODE ONLY
     const theme = document.documentElement.getAttribute('data-theme') || 'light';
-    const variableName = theme === 'dark' ? '--custom-bg-color-dark' : '--custom-bg-color-light';
-    document.documentElement.style.setProperty(variableName, color);
-    document.documentElement.style.setProperty('--main-bg-color', color);
+    
+    if (theme === 'light') {
+      applyLightModeBackground(color);
+      
+      // FIX 2: UPDATE ADMIN TAB BORDER TO DARKER HUE
+      updateAdminTabBorder(color);
+      
+      console.log(`✅ BACKGROUND FIX: Applied and saved background color ${color} in light mode`);
+    } else {
+      console.log(`⚠️ BACKGROUND FIX: Background color changes only work in light mode`);
+    }
+  };
+
+  // Helper function to apply light mode background
+  const applyLightModeBackground = (color) => {
+    // Method: Add CSS rule with specific light mode targeting
+    let styleSheet = document.getElementById('dynamic-bg-style');
+    if (!styleSheet) {
+      styleSheet = document.createElement('style');
+      styleSheet.id = 'dynamic-bg-style';
+      document.head.appendChild(styleSheet);
+    }
+    
+    // CRITICAL FIX: Only target light mode, never dark mode
+    styleSheet.textContent = `
+      html[data-theme="light"] .app-background,
+      html[data-theme="light"] body {
+        background: ${color} !important;
+        background-color: ${color} !important;
+      }
+      /* Ensure dark mode is never affected */
+      html[data-theme="dark"] .app-background,
+      html[data-theme="dark"] body {
+        background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%) !important;
+      }
+    `;
+  };
+
+  // FIX 2: Helper function to update admin tab border to lighter darker hue
+  const updateAdminTabBorder = (backgroundColor) => {
+    const darkerHue = calculateDarkerHue(backgroundColor, 0.15); // REDUCED from 0.3 to 0.15 (15% darker - lighter)
+    
+    let adminStyleSheet = document.getElementById('admin-border-style');
+    if (!adminStyleSheet) {
+      adminStyleSheet = document.createElement('style');
+      adminStyleSheet.id = 'admin-border-style';
+      document.head.appendChild(adminStyleSheet);
+    }
+    
+    adminStyleSheet.textContent = `
+      html[data-theme="light"] .admin-controls-panel {
+        border: 2px solid ${darkerHue} !important;
+        box-shadow: inset 0 2px 0 ${darkerHue} !important;
+      }
+    `;
+    
+    console.log(`✅ ADMIN BORDER: Updated to lighter darker hue ${darkerHue} (15% darker)`);
   };
 
   const handleBorderThicknessChange = (thickness) => {
@@ -656,8 +1050,14 @@ Click OK to open font & color selector...`);
 
   return (
     <div className="app-background ds-bg-main landing-page">
-      {/* Theme Toggle - Top Right Corner with Higher Z-Index */}
-      <div className="fixed top-4 right-4 z-[9999]">
+      {/* Theme Toggle and Design System Link - Top Right Corner with Higher Z-Index */}
+      <div className="fixed top-4 right-4 z-[9999] flex items-center space-x-3">
+        <a 
+          href="/design-system" 
+          className="px-4 py-2 bg-white/90 hover:bg-white text-gray-700 hover:text-gray-900 rounded-full text-sm font-medium transition-all duration-200 shadow-lg hover:shadow-xl backdrop-blur-sm border border-white/30"
+        >
+          Design System
+        </a>
         <ThemeToggle />
       </div>
       
@@ -675,10 +1075,10 @@ Click OK to open font & color selector...`);
           <div className="color-presets">
             {bgColorPresets.map((preset, index) => (
               <div
-                key={index}
+                key={preset.id || index}
                 className={`color-preset ${currentBgColor === preset.color ? 'active' : ''}`}
                 style={{ backgroundColor: preset.color }}
-                onClick={() => handleBgColorChange(preset.color)}
+                onClick={() => handleBgColorChange(preset.color, preset.id)} // Pass preset ID
                 title={preset.name}
               />
             ))}
@@ -693,69 +1093,8 @@ Click OK to open font & color selector...`);
         </div>
       )}
 
-      {/* Border Color Editor Panel */}
-      {showBorderColorEditor && (
-        <div className="fixed top-20 right-4 bg-white p-6 rounded-2xl shadow-2xl border border-gray-200 z-50 max-w-sm">
-          <h3 className="text-lg font-semibold text-gray-800 mb-4">Border Colors (Dark Mode)</h3>
-          
-          <div className="space-y-4">
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Aqua Cards</label>
-              <input
-                type="color"
-                value={borderColors.aqua}
-                onChange={(e) => handleBorderColorChange('aqua', e.target.value)}
-                className="w-full h-10 rounded-lg border border-gray-300 cursor-pointer"
-              />
-            </div>
-            
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Pink Cards</label>
-              <input
-                type="color"
-                value={borderColors.pink}
-                onChange={(e) => handleBorderColorChange('pink', e.target.value)}
-                className="w-full h-10 rounded-lg border border-gray-300 cursor-pointer"
-              />
-            </div>
-            
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Orange Cards</label>
-              <input
-                type="color"
-                value={borderColors.orange}
-                onChange={(e) => handleBorderColorChange('orange', e.target.value)}
-                className="w-full h-10 rounded-lg border border-gray-300 cursor-pointer"
-              />
-            </div>
-            
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Green Cards</label>
-              <input
-                type="color"
-                value={borderColors.green}
-                onChange={(e) => handleBorderColorChange('green', e.target.value)}
-                className="w-full h-10 rounded-lg border border-gray-300 cursor-pointer"
-              />
-            </div>
-            
-            <div className="flex space-x-2 pt-4">
-              <button
-                onClick={resetBorderColors}
-                className="px-4 py-2 bg-gray-500 text-white text-sm rounded-lg hover:bg-gray-600 transition-colors"
-              >
-                Reset to Default
-              </button>
-              <button
-                onClick={() => setShowBorderColorEditor(false)}
-                className="px-4 py-2 bg-teal-600 text-white text-sm rounded-lg hover:bg-teal-700 transition-colors"
-              >
-                Close
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
+      {/* REMOVED: Border Color Editor Panel for Default Cards */}
+      {/* This functionality has been removed to eliminate persistent errors */}
 
       {/* Border Editor Panel */}
       {/* Border Thickness & Length Editor - ENHANCED */}
@@ -837,17 +1176,7 @@ Click OK to open font & color selector...`);
                 <Sliders className="h-4 w-4" />
                 <span>Borders</span>
               </button>
-              <button
-                onClick={(e) => {
-                  e.stopPropagation();
-                  setShowBorderColorEditor(!showBorderColorEditor);
-                }}
-                className="flex items-center space-x-2 text-teal-700 text-sm hover:text-teal-800 transition-colors"
-                title="Change border colors (Dark Mode only)"
-              >
-                <Palette className="h-4 w-4" />
-                <span>Colors</span>
-              </button>
+              {/* FIX 3: REMOVED COLOR PICKER BUTTON COMPLETELY */}
               <button
                 onClick={(e) => {
                   e.stopPropagation();
@@ -916,33 +1245,75 @@ Click OK to open font & color selector...`);
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8">
-            {programs.map((program) => {
+            {programs.map((program, index) => {
+              // Ensure BOTH borders use the custom colors correctly
+              const currentTheme = document.documentElement.getAttribute('data-theme') || 'light';
+              const leftBorderColor = currentTheme === 'dark' ? program.border_color_dark : program.border_color_light;
+              const bottomBorderColor = leftBorderColor ? calculateDarkerHue(leftBorderColor, 0.5) : null; // 50% darker
+              
+              console.log('🎨 BORDER COLOR APPLICATION:', {
+                programName: program.name,
+                currentTheme: currentTheme,
+                isBackendProgram: program.isBackendProgram,
+                border_color_light: program.border_color_light,
+                border_color_dark: program.border_color_dark,
+                calculatedLeftBorder: leftBorderColor,
+                calculatedBottomBorder: bottomBorderColor,
+                shouldApplyCustomColors: program.isBackendProgram && leftBorderColor
+              });
+              
               const IconComponent = program.icon;
               return (
                 <Card 
                   key={program.id} 
                   className={`${getCardClassName(program.type)} group relative`}
+                  style={{
+                    // FORCE IMMEDIATE BORDER APPLICATION FOR BACKEND PROGRAMS
+                    ...(program.isBackendProgram && leftBorderColor && {
+                      // CSS Variables for fallback
+                      '--custom-light-border': program.border_color_light,
+                      '--custom-dark-border': program.border_color_dark,
+                      '--custom-dark-border-darker': bottomBorderColor,
+                      '--current-left-border': leftBorderColor,
+                      '--current-bottom-border': currentTheme === 'dark' ? bottomBorderColor : leftBorderColor,
+                      // DIRECT INLINE STYLES - HIGHEST PRIORITY
+                      borderLeftColor: leftBorderColor + ' !important',
+                      borderBottomColor: (currentTheme === 'dark' ? bottomBorderColor : leftBorderColor) + ' !important',
+                      borderLeftWidth: '18px',
+                      borderLeftStyle: 'solid',
+                      // ISSUE 3 FIX: Consistent border thickness based on theme
+                      borderBottomWidth: currentTheme === 'dark' ? '6px' : '1px', // Thin in light mode, thick in dark mode
+                      borderBottomStyle: 'solid',
+                    }),
+                    // DEFAULT PROGRAMS - ENSURE THEY HAVE BOTTOM BORDERS TOO
+                    ...(!program.isBackendProgram && currentTheme === 'dark' && {
+                      borderBottomWidth: '6px',
+                      borderBottomStyle: 'solid',
+                    })
+                  }}
+                  data-theme-light-border={program.isBackendProgram ? program.border_color_light : null}
+                  data-theme-dark-border={program.isBackendProgram ? program.border_color_dark : null}
+                  data-bottom-border-color={bottomBorderColor}
                 >
-                  {/* Delete Button - Only show for backend programs - POSITIONED OUTSIDE IMAGE CONTAINER */}
-                  {program.isBackendProgram && (
-                    <button
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        handleDeleteProgram(program.id, program.name);
-                      }}
-                      className="delete-program-btn"
-                      title={`Delete ${program.name}`}
-                    >
-                      <Trash2 
-                        className="h-5 w-5" 
-                        stroke="currentColor"
-                        fill="none"
-                        strokeWidth="2.5"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      />
-                    </button>
-                  )}
+                  {/* DELETE BUTTON - NOW AVAILABLE FOR ALL PROGRAMS (DEFAULT + CUSTOM) */}
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleDeleteProgram(program.id, program.name);
+                    }}
+                    className="delete-program-btn"
+                    title={`Delete ${program.name}`}
+                  >
+                    <Trash2 
+                      className="h-5 w-5" 
+                      stroke="currentColor"
+                      fill="none"
+                      strokeWidth="2.5"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </button>
+
                   
                   <div className="relative">
                     <img 
@@ -1043,19 +1414,20 @@ Click OK to open font & color selector...`);
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {statsData.map((stat, index) => {
-              // Get current theme
-              const isDarkMode = document.documentElement.getAttribute('data-theme') === 'dark';
-              const borderColor = isDarkMode ? (stat.border_color_dark || '#B8739B') : (stat.border_color_light || '#4A90A4');
-              
               return (
                 <div 
                   key={stat.id || index} 
                   className={`${getStatsClassName(stat.type)} group relative`}
                   style={{
-                    borderTopColor: stat.isBackendStat ? borderColor : undefined,
-                    borderTopWidth: stat.isBackendStat ? '15px' : undefined,
-                    borderTopStyle: stat.isBackendStat ? 'solid' : undefined
+                    // Apply custom border colors for backend stats
+                    ...(stat.isBackendStat && stat.border_color_light && {
+                      '--custom-stat-light-border': stat.border_color_light,
+                      '--custom-stat-dark-border': stat.border_color_dark || stat.border_color_light,
+                    })
                   }}
+                  data-stat-light-border={stat.isBackendStat ? stat.border_color_light : null}
+                  data-stat-dark-border={stat.isBackendStat ? stat.border_color_dark : null}
+
                 >
                   {/* Delete Button - Only show for backend stats */}
                   {stat.isBackendStat && (

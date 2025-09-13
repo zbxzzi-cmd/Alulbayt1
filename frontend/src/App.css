@@ -873,7 +873,7 @@ html[data-theme="light"] .program-card:hover {
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15) !important;
 }
 
-/* 4. ENHANCED CARD HOVER EFFECT */
+/* BUG 3 FIX: REDUCE GLOW INTENSITY ON HOVER - NO EYE STRAIN */
 html[data-theme="dark"] .program-card:hover {
   transform: translateY(-8px) !important;
   background: linear-gradient(135deg, 
@@ -881,11 +881,30 @@ html[data-theme="dark"] .program-card:hover {
     rgba(26, 26, 46, 0.8) 30%,
     rgba(22, 33, 62, 0.7) 100%
   ), rgba(255, 255, 255, 0.1) !important;
-  box-shadow: 0 12px 32px rgba(91, 33, 182, 0.4) !important;
+  box-shadow: 0 12px 32px rgba(44, 16, 101, 0.15) !important; /* MUCH LOWER intensity */
   
   /* Slightly brighten the borders on hover */
   border-top-color: rgba(255, 255, 255, 0.25) !important;
   border-right-color: rgba(255, 255, 255, 0.25) !important;
+}
+
+/* Reduce hover glow for Design System cards */
+html[data-theme="dark"] .ds-card-base:hover {
+  transform: translateY(-8px) !important;
+  background: linear-gradient(135deg, 
+    rgba(15, 15, 35, 0.9) 0%,
+    rgba(26, 26, 46, 0.8) 30%,
+    rgba(22, 33, 62, 0.7) 100%
+  ), rgba(255, 255, 255, 0.1) !important;
+  box-shadow: 0 12px 32px rgba(44, 16, 101, 0.1) !important; /* MUCH LOWER intensity */
+}
+
+/* Reduce hover glow for all cards */
+html[data-theme="dark"] .ds-card-aqua:hover,
+html[data-theme="dark"] .ds-card-pink:hover,
+html[data-theme="dark"] .ds-card-orange:hover,
+html[data-theme="dark"] .ds-card-green:hover {
+  box-shadow: 0 12px 32px rgba(44, 16, 101, 0.1) !important; /* MUCH LOWER intensity */
 }
 
 /* Enhance the colored borders on hover for dark mode - HIGH SPECIFICITY */
@@ -999,12 +1018,48 @@ html[data-theme="dark"] .text-teal-600 {
   color: #4c1d95 !important; /* Darker purple instead of cyan */
 }
 
-html[data-theme="dark"] .border-b-4.border-teal-400,
+/* NUCLEAR OVERRIDE FOR DARK MODE BORDER COLOR - MATCH ADMIN TAB */
+html[data-theme="dark"] .navigation-bar::after {
+  background: rgba(180, 140, 255, 0.8) !important; /* MATCH ADMIN TAB BORDER BUT SLIGHTLY STRONGER */
+}
+
+html[data-theme="dark"] .navigation-bar {
+  --border-color: rgba(180, 140, 255, 0.8) !important; /* OVERRIDE CSS VARIABLE */
+}
+
+/* MAXIMUM SPECIFICITY FOR LOGO BORDER IN DARK MODE - COMPLETELY OVERRIDE TEAL */
+html[data-theme="dark"] body header .border-b-4.border-teal-400,
+html[data-theme="dark"] body .border-b-4.border-teal-400,
+html[data-theme="dark"] body .border-teal-400,
+html[data-theme="dark"] body .border-b-4,
+html[data-theme="dark"] body .border-b,
+html[data-theme="dark"] body .border-bottom,
+html[data-theme="dark"] .app-background header .border-b-4,
+html[data-theme="dark"] .app-background .border-teal-400,
+html[data-theme="dark"] .app-background .border-b-4,
+html[data-theme="dark"] .app-background .border-b,
+html[data-theme="dark"] .app-background .border-bottom,
+html[data-theme="dark"] nav .border-b-4,
+html[data-theme="dark"] nav .border-teal-400,
+html[data-theme="dark"] nav .border-b,
+html[data-theme="dark"] nav .border-bottom,
 html[data-theme="dark"] .border-teal-400,
-html[data-theme="dark"] .border-b-4,
-html[data-theme="dark"] .border-b,
-html[data-theme="dark"] .border-bottom {
-  border-color: rgba(56, 178, 172, 0.4) !important; /* Darker cyan - easy on eyes */
+html[data-theme="dark"] .border-b-4.border-teal-400 {
+  border-color: #4c1d95 !important;
+  border-bottom-color: #4c1d95 !important;
+  border-top-color: #4c1d95 !important;
+  border-left-color: #4c1d95 !important;
+  border-right-color: #4c1d95 !important;
+}
+
+/* FORCE OVERRIDE ALL TEAL REFERENCES IN DARK MODE */
+html[data-theme="dark"] * {
+  --tw-border-opacity: 1 !important;
+}
+
+html[data-theme="dark"] .border-teal-400 {
+  --tw-border-opacity: 1 !important;
+  border-color: #4c1d95 !important;
 }
 
 html[data-theme="dark"] .text-cyan-600,
@@ -1246,13 +1301,20 @@ html[data-theme="dark"] .modal-label {
 }
 
 html[data-theme="dark"] .modal-input {
-  background: #374151 !important;
+  /* DARK PURPLE GRADIENT BACKGROUND - NO DARK GREY */
+  background: linear-gradient(135deg, 
+    rgba(15, 15, 35, 0.9) 0%,
+    rgba(26, 26, 46, 0.8) 30%,
+    rgba(22, 33, 62, 0.7) 100%
+  ) !important;
   color: #f3f4f6 !important;
-  border-color: #4b5563 !important;
+  border: 2px solid rgba(180, 140, 255, 0.3) !important;
 }
 
+/* Also fix the actual modal forms on the main landing page */
 html[data-theme="dark"] .modal-input:focus {
-  border-color: #a855f7 !important;
+  border-color: rgba(76, 29, 149, 0.6) !important;
+  box-shadow: 0 0 0 3px rgba(76, 29, 149, 0.15) !important;
 }
 
 /* Modal Color Input */
@@ -1312,14 +1374,16 @@ html[data-theme="dark"] .modal-cancel-btn:hover {
   background: linear-gradient(135deg, #2563eb 0%, #0d9488 100%) !important;
 }
 
+/* Also update the main app primary button in dark mode to match */
 html[data-theme="dark"] .modal-save-btn {
-  /* Dark Mode - Purple Gradient to match cosmic theme */
-  background: linear-gradient(135deg, #8b5cf6 0%, #a855f7 100%) !important;
+  /* Dark Mode - EXACT MATCH to theme toggle colors */
+  background: linear-gradient(135deg, #4c1d95, #6b46c1) !important;
   color: white !important;
 }
 
 html[data-theme="dark"] .modal-save-btn:hover {
-  background: linear-gradient(135deg, #7c3aed 0%, #9333ea 100%) !important;
+
+  background: linear-gradient(135deg, #3c1366, #553c9a) !important;
 }
 
 /* ====== DELETE PROGRAM BUTTON STYLING - FIXED POSITIONING ====== */
@@ -1661,8 +1725,13 @@ html[data-theme="dark"] .stats-widget[style*="border-top"] {
   -webkit-backdrop-filter: blur(25px) !important;
 }
 
-[data-theme="dark"] .stats-widget {
-  background: rgba(255, 255, 255, 0.06) !important;
+/* 3. FIX STAT TABS ON MAIN LANDING PAGE - DARK PURPLE GRADIENT */
+html[data-theme="dark"] .stats-widget {
+  background: linear-gradient(135deg, 
+    rgba(15, 15, 35, 0.9) 0%,
+    rgba(26, 26, 46, 0.8) 30%,
+    rgba(22, 33, 62, 0.7) 100%
+  ) !important;
   backdrop-filter: blur(25px) !important;
   -webkit-backdrop-filter: blur(25px) !important;
 }
@@ -1720,24 +1789,24 @@ html[data-theme="dark"] .stats-widget[style*="border-top"] {
   background: var(--stats-hover-bg) !important;
 }
 
-/* Stats Type Borders with Enhanced Dark Mode */
+/* Stats Type Borders with Enhanced Dark Mode - UPDATED TO 18PX */
 .stats-type-a {
-  border-top: 15px solid var(--card-border-aqua) !important;
+  border-top: 18px solid var(--card-border-aqua) !important;
   border-top-style: solid !important;
 }
 
 .stats-type-b {
-  border-top: 15px solid var(--card-border-pink) !important;
+  border-top: 18px solid var(--card-border-pink) !important;
   border-top-style: solid !important;
 }
 
 .stats-type-c {
-  border-top: 15px solid var(--card-border-orange) !important;
+  border-top: 18px solid var(--card-border-orange) !important;
   border-top-style: solid !important;
 }
 
 .stats-type-d {
-  border-top: 15px solid var(--card-border-green) !important;
+  border-top: 18px solid var(--card-border-green) !important;
   border-top-style: solid !important;
 }
 
@@ -2202,5 +2271,671 @@ textarea:focus {
   }
   100% {
     background-position: 200% 0;
+  }
+}
+
+/* ====== DESIGN SYSTEM COMPONENT STYLES ====== */
+
+/* Design System Background - Theme Aware */
+.ds-bg-main {
+  background-color: var(--custom-bg-color-light, #c3ffff) !important;
+  min-height: 100vh !important;
+  color: var(--text-primary) !important;
+}
+
+html[data-theme="dark"] .ds-bg-main {
+  background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%) !important;
+  color: #f8fafc !important;
+}
+
+/* 7. FIX DESIGN SYSTEM BUTTON IN DARK MODE */
+html[data-theme="dark"] a[href="/design-system"] {
+  background: linear-gradient(135deg, 
+    rgba(30, 30, 60, 0.9) 0%,
+    rgba(45, 45, 75, 0.85) 30%,
+    rgba(60, 60, 90, 0.95) 100%
+  ) !important;
+  color: #e5e7eb !important;
+  border: 1px solid rgba(180, 140, 255, 0.3) !important;
+}
+
+/* FIX STAT TAB CUSTOM BORDER COLORS */
+.stats-widget[data-stat-light-border] {
+  border-top-color: var(--custom-stat-light-border) !important;
+  border-top-width: 18px !important;
+  border-top-style: solid !important;
+}
+
+html[data-theme="dark"] .stats-widget[data-stat-dark-border] {
+  border-top-color: var(--custom-stat-dark-border) !important;
+  border-top-width: 18px !important;
+  border-top-style: solid !important;
+}
+/* TECHNICAL FIX: PROPER BORDER COLOR APPLICATION */
+
+/* Light Mode - Custom border colors with CONSISTENT THICKNESS */
+.program-card[data-theme-light-border] {
+  border-left-color: var(--custom-light-border) !important;
+  border-bottom-color: var(--custom-light-border) !important;
+  /* ISSUE 3 FIX: Ensure same thickness as default cards in light mode */
+  border-bottom-width: 1px !important; /* Same as default cards */
+  border-bottom-style: solid !important;
+}
+
+/* Dark Mode - Custom border colors with 3D effect */
+html[data-theme="dark"] .program-card[data-theme-dark-border] {
+  border-left-color: var(--custom-dark-border) !important;
+  border-bottom-color: var(--custom-dark-border-darker) !important;
+  /* Maintain 6px bottom border for 3D effect in dark mode */
+  border-bottom-width: 6px !important;
+  border-bottom-style: solid !important;
+}
+
+/* ISSUE 1 FIX: Hover effects use current color values, not cached values */
+html[data-theme="dark"] .program-card[data-theme-dark-border]:hover {
+  border-left-color: var(--current-left-border, var(--custom-dark-border)) !important;
+  border-bottom-color: var(--current-bottom-border, var(--custom-dark-border-darker)) !important;
+  filter: brightness(1.1) !important;
+}
+
+.program-card[data-theme-light-border]:hover {
+  border-left-color: var(--current-left-border, var(--custom-light-border)) !important;
+  border-bottom-color: var(--current-bottom-border, var(--custom-light-border)) !important;
+  filter: brightness(1.1) !important;
+}
+
+/* Force inline styles to take precedence */
+.program-card[data-theme-light-border][style*="border-left-color"] {
+  border-left-color: var(--custom-light-border) !important;
+}
+
+html[data-theme="dark"] .program-card[data-theme-dark-border][style*="border-left-color"] {
+  border-left-color: var(--custom-dark-border) !important;
+}
+
+html[data-theme="dark"] .program-card[data-bottom-border-color] {
+  border-bottom-color: attr(data-bottom-border-color) !important;
+}
+
+/* NEW FEATURE: 3D EFFECT WITH DARKER BOTTOM BORDERS (DARK MODE ONLY) */
+
+/* Function to darken colors by 50% for enhanced 3D effect */
+html[data-theme="dark"] .program-card {
+  border-bottom-width: 6px !important;
+  border-bottom-style: solid !important;
+}
+
+/* Default program cards - 3D effect with 50% darker bottom borders + FIXED HOVER */
+html[data-theme="dark"] .program-card.card-type-a {
+  border-left-color: var(--card-border-aqua-custom, #4A90A4) !important;
+  border-bottom-color: #254852 !important; /* 50% darker aqua */
+}
+
+html[data-theme="dark"] .program-card.card-type-a:hover {
+  border-left-color: var(--card-border-aqua-custom, #4A90A4) !important;
+  border-bottom-color: #254852 !important; /* MAINTAIN 50% darker aqua on hover */
+}
+
+html[data-theme="dark"] .program-card.card-type-b {
+  border-left-color: var(--card-border-pink-custom, #B8739B) !important;
+  border-bottom-color: #5C394D !important; /* 50% darker pink */
+}
+
+html[data-theme="dark"] .program-card.card-type-b:hover {
+  border-left-color: var(--card-border-pink-custom, #B8739B) !important;
+  border-bottom-color: #5C394D !important; /* MAINTAIN 50% darker pink on hover */
+}
+
+html[data-theme="dark"] .program-card.card-type-c {
+  border-left-color: var(--card-border-orange-custom, #CC9966) !important;
+  border-bottom-color: #664C33 !important; /* 50% darker orange */
+}
+
+html[data-theme="dark"] .program-card.card-type-c:hover {
+  border-left-color: var(--card-border-orange-custom, #CC9966) !important;
+  border-bottom-color: #664C33 !important; /* MAINTAIN 50% darker orange on hover */
+}
+
+html[data-theme="dark"] .program-card.card-type-d {
+  border-left-color: var(--card-border-green-custom, #7AAF7A) !important;
+  border-bottom-color: #3D573D !important; /* 50% darker green */
+}
+
+html[data-theme="dark"] .program-card.card-type-d:hover {
+  border-left-color: var(--card-border-green-custom, #7AAF7A) !important;
+  border-bottom-color: #3D573D !important; /* MAINTAIN 50% darker green on hover */
+}
+/* BUG 3 FIX: DARKER SCROLL BAR IN DARK MODE - NO EYE STRAIN */
+html[data-theme="dark"] ::-webkit-scrollbar-thumb {
+  background: linear-gradient(135deg, #2c1065, #4c1d95) !important; /* DARKER purple */
+  border-radius: 10px !important;
+}
+
+html[data-theme="dark"] ::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(135deg, #1e0b4d, #3c1366) !important; /* EVEN DARKER on hover */
+}
+
+html[data-theme="dark"] ::-webkit-scrollbar-track {
+  background: rgba(20, 20, 40, 0.4) !important; /* DARKER track */
+  border-radius: 10px !important;
+}
+
+html[data-theme="dark"] .ds-form-container::-webkit-scrollbar-thumb {
+  background: linear-gradient(135deg, #2c1065, #4c1d95) !important; /* DARKER purple */
+  border-radius: 10px !important;
+}
+
+html[data-theme="dark"] .ds-form-container::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(135deg, #1e0b4d, #3c1366) !important; /* EVEN DARKER on hover */
+}
+
+html[data-theme="dark"] .ds-form-container::-webkit-scrollbar-track {
+  background: rgba(20, 20, 40, 0.4) !important; /* DARKER track */
+  border-radius: 10px !important;
+}
+/* BUG 2 FIX: LIGHT MODE FORM BORDERS - LIGHT BLUE INSTEAD OF PURPLE */
+.ds-bg-glass {
+  background: rgba(255, 255, 255, 0.95) !important;
+  backdrop-filter: blur(12px) !important;
+  border: 2px solid #E0F7FA !important; /* Light blue borders */
+  border-bottom: none !important;
+  box-shadow: inset 0 2px 0 rgba(224, 247, 250, 0.8) !important; /* Light blue shadow */
+  border-radius: 16px !important;
+}
+
+.admin-controls-panel {
+  background: rgba(255, 255, 255, 0.95) !important;
+  backdrop-filter: blur(12px) !important;
+  border: 2px solid #E0F7FA !important; /* Light blue borders */
+  border-bottom: none !important;
+  box-shadow: inset 0 2px 0 rgba(224, 247, 250, 0.8) !important; /* Light blue shadow */
+}
+
+/* Fix modal content borders in light mode */
+.modal-content {
+  background: white !important;
+  color: #1f2937 !important;
+  border: 2px solid #E0F7FA !important; /* Light blue border */
+}
+
+html[data-theme="dark"] .modal-content {
+  background: linear-gradient(135deg, #1e1e3c 0%, #2d2d4b 50%, #3c3c5a 100%) !important;
+  color: #f8fafc !important;
+  border: 2px solid rgba(180, 140, 255, 0.3) !important; /* Purple border for dark mode */
+}
+
+html[data-theme="dark"] .ds-bg-glass {
+  /* EXACT MATCH to main app admin controls panel - REMOVE BRIGHT GLOW */
+  background: linear-gradient(135deg, rgba(30, 30, 60, 0.85) 0%, rgba(45, 45, 75, 0.9) 30%, rgba(60, 60, 90, 0.95) 100%) !important;
+  backdrop-filter: blur(20px) !important;
+  border: 2px solid rgba(180, 140, 255, 0.1225) !important;
+  border-bottom: none !important;
+  box-shadow: inset 0 2px 0 rgba(200, 150, 255, 0.245) !important;
+}
+
+/* Design System Typography - REMOVE Bottom Borders */
+.ds-heading-xl {
+  font-size: 3rem !important;
+  font-weight: 700 !important;
+  line-height: 1.1 !important;
+  color: var(--text-primary) !important;
+  margin-bottom: 1.5rem !important;
+}
+
+.ds-heading-lg {
+  font-size: 2.25rem !important;
+  font-weight: 600 !important;
+  line-height: 1.2 !important;
+  color: var(--text-primary) !important;
+  margin-bottom: 1.25rem !important;
+}
+
+.ds-heading-md {
+  font-size: 1.875rem !important;
+  font-weight: 600 !important;
+  line-height: 1.3 !important;
+  color: var(--text-primary) !important;
+  margin-bottom: 1rem !important;
+}
+
+.ds-heading-sm {
+  font-size: 1.5rem !important;
+  font-weight: 600 !important;
+  line-height: 1.4 !important;
+  color: var(--text-primary) !important;
+  margin-bottom: 0.75rem !important;
+}
+
+.ds-body-lg {
+  font-size: 1.25rem !important;
+  font-weight: 400 !important;
+  line-height: 1.6 !important;
+  color: var(--text-secondary) !important;
+}
+
+.ds-body-md {
+  font-size: 1rem !important;
+  font-weight: 400 !important;
+  line-height: 1.6 !important;
+  color: var(--text-secondary) !important;
+}
+
+.ds-body-sm {
+  font-size: 0.875rem !important;
+  font-weight: 400 !important;
+  line-height: 1.5 !important;
+  color: var(--text-secondary) !important;
+}
+
+/* Dark Mode Typography */
+html[data-theme="dark"] .ds-heading-xl,
+html[data-theme="dark"] .ds-heading-lg,
+html[data-theme="dark"] .ds-heading-md,
+html[data-theme="dark"] .ds-heading-sm {
+  color: #f8fafc !important;
+}
+
+html[data-theme="dark"] .ds-body-lg,
+html[data-theme="dark"] .ds-body-md,
+html[data-theme="dark"] .ds-body-sm {
+  color: #cbd5e1 !important;
+}
+
+/* Design System Spacing */
+.ds-mb-sm { margin-bottom: 0.5rem !important; }
+.ds-mb-md { margin-bottom: 1rem !important; }
+.ds-mb-lg { margin-bottom: 1.5rem !important; }
+.ds-mb-xl { margin-bottom: 2rem !important; }
+
+.ds-p-sm { padding: 0.5rem !important; }
+.ds-p-md { padding: 1rem !important; }
+.ds-p-lg { padding: 1.5rem !important; }
+.ds-p-xl { padding: 2rem !important; }
+
+/* Design System Card Base - MATCH MAIN APP EXACTLY */
+.ds-card-base {
+  background: rgba(255, 255, 255, 0.95) !important;
+  backdrop-filter: blur(12px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.3) !important;
+  border-radius: 16px !important;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1) !important;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  overflow: hidden !important;
+}
+
+html[data-theme="dark"] .ds-card-base {
+  /* EXACT MATCH to main app program cards - DARK PURPLE GRADIENT BACKGROUND */
+  background: linear-gradient(135deg, 
+    rgba(15, 15, 35, 0.9) 0%,
+    rgba(26, 26, 46, 0.8) 30%,
+    rgba(22, 33, 62, 0.7) 100%
+  ) !important;
+  backdrop-filter: blur(25px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.15) !important;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3) !important;
+}
+
+.ds-card-base:hover {
+  transform: translateY(-4px) !important;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15) !important;
+}
+
+html[data-theme="dark"] .ds-card-base:hover {
+  transform: translateY(-8px) !important;
+  background: linear-gradient(135deg, 
+    rgba(15, 15, 35, 0.9) 0%,
+    rgba(26, 26, 46, 0.8) 30%,
+    rgba(22, 33, 62, 0.7) 100%
+  ), rgba(255, 255, 255, 0.1) !important;
+  box-shadow: 0 12px 32px rgba(91, 33, 182, 0.4) !important;
+}
+
+/* 6. FIX DESIGN SYSTEM DEMO CARD COLORS - LIGHT MODE SHOULD USE LIGHT COLORS */
+.ds-card-aqua {
+  border-left: 18px solid #5DD3DD !important; /* Lighter aqua for light mode */
+}
+
+html[data-theme="dark"] .ds-card-aqua {
+  border-left: 18px solid var(--card-border-aqua-custom, #4A90A4) !important;
+}
+
+.ds-card-pink {
+  border-left: 18px solid #E8A4C8 !important; /* Lighter pink for light mode */
+}
+
+html[data-theme="dark"] .ds-card-pink {
+  border-left: 18px solid var(--card-border-pink-custom, #B8739B) !important;
+}
+
+.ds-card-orange {
+  border-left: 18px solid #F4CC8F !important; /* Lighter orange for light mode */
+}
+
+html[data-theme="dark"] .ds-card-orange {
+  border-left: 18px solid var(--card-border-orange-custom, #CC9966) !important;
+}
+
+.ds-card-green {
+  border-left: 18px solid #A5D6A5 !important; /* Lighter green for light mode */
+}
+
+html[data-theme="dark"] .ds-card-green {
+  border-left: 18px solid var(--card-border-green-custom, #7AAF7A) !important;
+}
+
+/* Design System Card Hover Effects - REDUCED INTENSITY GLOW */
+html[data-theme="dark"] .ds-card-base:hover {
+  transform: translateY(-8px) !important;
+  background: linear-gradient(135deg, 
+    rgba(15, 15, 35, 0.9) 0%,
+    rgba(26, 26, 46, 0.8) 30%,
+    rgba(22, 33, 62, 0.7) 100%
+  ), rgba(255, 255, 255, 0.1) !important;
+  box-shadow: 0 12px 32px rgba(76, 29, 149, 0.2) !important;
+}
+
+/* Design System Card Hover Effects - REDUCED INTENSITY BORDER GLOW */
+html[data-theme="dark"] .ds-card-aqua:hover {
+  border-left-color: #5aa0b4 !important;
+  box-shadow: 0 12px 32px rgba(76, 29, 149, 0.2) !important;
+}
+
+html[data-theme="dark"] .ds-card-pink:hover {
+  border-left-color: #c683ab !important;
+  box-shadow: 0 12px 32px rgba(76, 29, 149, 0.2) !important;
+}
+
+html[data-theme="dark"] .ds-card-orange:hover {
+  border-left-color: #d9a977 !important;
+  box-shadow: 0 12px 32px rgba(76, 29, 149, 0.2) !important;
+}
+
+html[data-theme="dark"] .ds-card-green:hover {
+  border-left-color: #8bbf8b !important;
+  box-shadow: 0 12px 32px rgba(76, 29, 149, 0.2) !important;
+}
+
+/* Design System Buttons - FIX SECONDARY AND SHADCN BUTTONS */
+.ds-btn-base {
+  padding: 12px 24px !important;
+  border-radius: 16px !important;
+  font-weight: 600 !important;
+  font-size: 1rem !important;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  border: none !important;
+  cursor: pointer !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+.ds-btn-primary {
+  background: linear-gradient(135deg, #3b82f6 0%, #14b8a6 100%) !important;
+  color: white !important;
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3) !important;
+}
+
+.ds-btn-primary:hover {
+  background: linear-gradient(135deg, #2563eb 0%, #0d9488 100%) !important;
+  transform: translateY(-2px) !important;
+  box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4) !important;
+}
+
+html[data-theme="dark"] .ds-btn-primary {
+  /* Dark Mode - EXACT MATCH to theme toggle colors */
+  background: linear-gradient(135deg, #4c1d95, #6b46c1) !important;
+  color: white !important;
+  box-shadow: 0 4px 12px rgba(76, 29, 149, 0.3) !important;
+}
+
+/* 1. FIX ENROLL NOW AND ADD NEW TAB BUTTON GLOW INTENSITY IN DARK MODE */
+html[data-theme="dark"] .ds-btn-primary:hover {
+  background: linear-gradient(135deg, #3c1366, #553c9a) !important;
+  box-shadow: 0 6px 20px rgba(76, 29, 149, 0.2) !important; /* REDUCED from bright blue */
+}
+
+.ds-btn-secondary {
+  background: rgba(255, 255, 255, 0.8) !important;
+  border: 2px solid rgba(224, 247, 250, 0.6) !important;
+  color: #4b5563 !important;
+  backdrop-filter: blur(8px) !important;
+}
+
+.ds-btn-secondary:hover {
+  background: rgba(255, 255, 255, 0.95) !important;
+  border-color: rgba(224, 247, 250, 0.8) !important;
+  transform: translateY(-2px) !important;
+  box-shadow: 0 4px 16px rgba(224, 247, 250, 0.5) !important;
+}
+
+html[data-theme="dark"] .ds-btn-secondary {
+  /* Dark Mode - DARK PURPLE GRADIENT BACKGROUND */
+  background: linear-gradient(135deg, 
+    rgba(15, 15, 35, 0.9) 0%,
+    rgba(26, 26, 46, 0.8) 30%,
+    rgba(22, 33, 62, 0.7) 100%
+  ) !important;
+  border: 2px solid rgba(180, 140, 255, 0.3) !important;
+  color: #e5e7eb !important;
+  backdrop-filter: blur(20px) !important;
+}
+
+html[data-theme="dark"] .ds-btn-secondary:hover {
+  background: linear-gradient(135deg, 
+    rgba(25, 25, 45, 0.95) 0%,
+    rgba(36, 36, 56, 0.85) 30%,
+    rgba(32, 43, 72, 0.75) 100%
+  ) !important;
+  border-color: rgba(180, 140, 255, 0.5) !important;
+  box-shadow: 0 4px 16px rgba(76, 29, 149, 0.2) !important;
+}
+
+/* 2. FIX FORM SYSTEM BACKGROUND IN DESIGN SYSTEM DEMO - EXACT MATCH TO ADMIN TAB MANAGEMENT */
+html[data-theme="dark"] .ds-form-container {
+  /* EXACT SAME as admin controls panel */
+  background: linear-gradient(135deg, rgba(30, 30, 60, 0.85) 0%, rgba(45, 45, 75, 0.9) 30%, rgba(60, 60, 90, 0.95) 100%) !important;
+  backdrop-filter: blur(20px) !important;
+  border: 2px solid rgba(180, 140, 255, 0.1225) !important;
+  border-bottom: none !important;
+  box-shadow: inset 0 2px 0 rgba(200, 150, 255, 0.245) !important;
+  border-radius: 16px !important;
+  padding: 2rem !important;
+}
+
+.ds-form-label {
+  display: block !important;
+  margin-bottom: 0.5rem !important;
+  font-weight: 500 !important;
+  font-size: 0.875rem !important;
+  color: #374151 !important;
+}
+
+html[data-theme="dark"] .ds-form-label {
+  color: #e5e7eb !important;
+}
+
+.ds-form-input {
+  width: 100% !important;
+  padding: 12px 16px !important;
+  border: 2px solid #d1d5db !important;
+  border-radius: 12px !important;
+  background: white !important;
+  font-size: 1rem !important;
+  transition: all 0.3s ease !important;
+  color: #1f2937 !important;
+}
+
+/* 5. FIX LIGHT MODE TEXT BOX FOCUS COLORS - TEAL/CYAN THEME */
+.ds-form-input:focus {
+  outline: none !important;
+  border-color: #14b8a6 !important; /* Teal instead of purple */
+  box-shadow: 0 0 0 3px rgba(20, 184, 166, 0.15) !important; /* Teal glow */
+}
+
+.modal-input:focus {
+  border-color: #14b8a6 !important; /* Teal instead of purple */
+  box-shadow: 0 0 0 3px rgba(20, 184, 166, 0.15) !important; /* Teal glow */
+}
+
+html[data-theme="dark"] .ds-form-input {
+  /* EXACT MATCH to main app modal inputs - DARK PURPLE GRADIENT BACKGROUND */
+  background: linear-gradient(135deg, 
+    rgba(15, 15, 35, 0.9) 0%,
+    rgba(26, 26, 46, 0.8) 30%,
+    rgba(22, 33, 62, 0.7) 100%
+  ) !important;
+  color: #f3f4f6 !important;
+  border: 2px solid rgba(180, 140, 255, 0.3) !important;
+}
+
+html[data-theme="dark"] .ds-form-input:focus {
+  border-color: rgba(76, 29, 149, 0.6) !important;
+  box-shadow: 0 0 0 3px rgba(76, 29, 149, 0.15) !important;
+}
+
+.ds-form-input::placeholder {
+  color: #9ca3af !important;
+}
+
+html[data-theme="dark"] .ds-form-input::placeholder {
+  color: #6b7280 !important;
+}
+
+.ds-form-error {
+  margin-top: 0.5rem !important;
+  font-size: 0.75rem !important;
+  color: #dc2626 !important;
+  font-weight: 500 !important;
+}
+
+html[data-theme="dark"] .ds-form-error {
+  color: #fca5a5 !important;
+}
+
+.ds-form-success {
+  margin-top: 0.5rem !important;
+  font-size: 0.75rem !important;
+  color: #059669 !important;
+  font-weight: 500 !important;
+}
+
+html[data-theme="dark"] .ds-form-success {
+  color: #6ee7b7 !important;
+}
+
+/* Design System Animations */
+@keyframes dsSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes dsBounceIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.3);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.05);
+  }
+  70% {
+    transform: scale(0.9);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes dsFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.ds-animate-fade-in {
+  animation: dsFadeIn 0.6s ease-out !important;
+}
+
+.ds-animate-slide-up {
+  animation: dsSlideUp 0.6s ease-out !important;
+}
+
+.ds-animate-bounce-in {
+  animation: dsBounceIn 0.8s ease-out !important;
+}
+
+/* Design System Editable Content */
+.ds-editable {
+  position: relative !important;
+  cursor: pointer !important;
+  transition: all 0.2s ease !important;
+}
+
+.ds-editable:hover {
+  background: rgba(255, 255, 255, 0.2) !important;
+  border-radius: 4px !important;
+  padding: 2px 4px !important;
+  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.4) !important;
+}
+
+html[data-theme="dark"] .ds-editable:hover {
+  background: rgba(255, 255, 255, 0.1) !important;
+  box-shadow: 0 0 0 2px rgba(180, 140, 255, 0.4) !important;
+}
+
+.ds-editable:hover::after {
+  content: "✏️ Click to edit" !important;
+  position: absolute !important;
+  bottom: -25px !important;
+  left: 50% !important;
+  transform: translateX(-50%) !important;
+  background: rgba(0, 0, 0, 0.8) !important;
+  color: white !important;
+  padding: 4px 8px !important;
+  border-radius: 4px !important;
+  font-size: 12px !important;
+  white-space: nowrap !important;
+  z-index: 1000 !important;
+}
+
+/* Design System Responsive */
+@media (max-width: 768px) {
+  .ds-heading-xl {
+    font-size: 2.5rem !important;
+  }
+  
+  .ds-heading-lg {
+    font-size: 2rem !important;
+  }
+  
+  .ds-heading-md {
+    font-size: 1.5rem !important;
+  }
+  
+  .ds-p-xl {
+    padding: 1.5rem !important;
+  }
+  
+  .ds-p-lg {
+    padding: 1rem !important;
+  }
+  
+  .ds-btn-base {
+    padding: 10px 20px !important;
+    font-size: 0.875rem !important;
+  }
+  
+  .ds-form-input {
+    padding: 10px 14px !important;
   }
 }
