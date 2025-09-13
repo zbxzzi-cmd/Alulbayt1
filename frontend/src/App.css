@@ -1018,6 +1018,15 @@ html[data-theme="dark"] .text-teal-600 {
   color: #4c1d95 !important; /* Darker purple instead of cyan */
 }
 
+/* NUCLEAR OVERRIDE FOR DARK MODE BORDER COLOR */
+html[data-theme="dark"] .navigation-bar::after {
+  background: #4c1d95 !important; /* FORCE PURPLE BORDER */
+}
+
+html[data-theme="dark"] .navigation-bar {
+  --border-color: #4c1d95 !important; /* OVERRIDE CSS VARIABLE */
+}
+
 /* MAXIMUM SPECIFICITY FOR LOGO BORDER IN DARK MODE - COMPLETELY OVERRIDE TEAL */
 html[data-theme="dark"] body header .border-b-4.border-teal-400,
 html[data-theme="dark"] body .border-b-4.border-teal-400,
