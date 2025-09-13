@@ -919,9 +919,9 @@ Click OK to open font & color selector...`);
     `;
   };
 
-  // FIX 2: Helper function to update admin tab border to darker hue
+  // FIX 2: Helper function to update admin tab border to lighter darker hue
   const updateAdminTabBorder = (backgroundColor) => {
-    const darkerHue = calculateDarkerHue(backgroundColor, 0.3); // 30% darker
+    const darkerHue = calculateDarkerHue(backgroundColor, 0.15); // REDUCED from 0.3 to 0.15 (15% darker - lighter)
     
     let adminStyleSheet = document.getElementById('admin-border-style');
     if (!adminStyleSheet) {
@@ -937,7 +937,7 @@ Click OK to open font & color selector...`);
       }
     `;
     
-    console.log(`✅ ADMIN BORDER: Updated to darker hue ${darkerHue}`);
+    console.log(`✅ ADMIN BORDER: Updated to lighter darker hue ${darkerHue} (15% darker)`);
   };
 
   const handleBorderThicknessChange = (thickness) => {
