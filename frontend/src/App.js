@@ -592,9 +592,24 @@ const LandingPage = () => {
           html[data-theme="dark"] .landing-page {
             background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%) !important;
           }
+          
+          /* FIX 1: MAXIMUM SPECIFICITY FOR LOGO BORDER IN DARK MODE */
+          html[data-theme="dark"] header .border-b-4,
+          html[data-theme="dark"] header .border-teal-400,
+          html[data-theme="dark"] header .border-b,
+          html[data-theme="dark"] header .border-bottom,
+          html[data-theme="dark"] .navigation-bar .border-b-4,
+          html[data-theme="dark"] .navigation-bar .border-teal-400,
+          html[data-theme="dark"] .navigation-bar .border-b,
+          html[data-theme="dark"] .navigation-bar .border-bottom,
+          html[data-theme="dark"] .navigation-bar,
+          html[data-theme="dark"] header {
+            border-color: #4c1d95 !important;
+            border-bottom-color: #4c1d95 !important;
+          }
         `;
         
-        console.log('✅ DARK MODE: Forced correct dark mode background');
+        console.log('✅ DARK MODE: Forced correct dark mode background AND logo border');
       } else if (currentTheme === 'light') {
         // Apply saved light mode background when switching to light mode
         const savedBgColor = localStorage.getItem('customBackgroundColor');
