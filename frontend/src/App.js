@@ -894,6 +894,15 @@ Click OK to open font & color selector...`);
     // FIX 1: SAVE TO LOCALSTORAGE FOR PERSISTENCE
     localStorage.setItem('customBackgroundColor', color);
     
+    // FIX 2: UPDATE PRESET COLORS TO REFLECT SELECTION
+    setBgColorPresets(prevPresets => 
+      prevPresets.map(preset => 
+        preset.color === currentBgColor 
+          ? { ...preset, color: color } // Update the previously selected preset to new color
+          : preset
+      )
+    );
+    
     // FIX 2: TARGET CORRECT BACKGROUND ELEMENT - LIGHT MODE ONLY
     const theme = document.documentElement.getAttribute('data-theme') || 'light';
     
@@ -903,7 +912,7 @@ Click OK to open font & color selector...`);
       // FIX 2: UPDATE ADMIN TAB BORDER TO DARKER HUE
       updateAdminTabBorder(color);
       
-      console.log(`✅ BACKGROUND FIX: Applied and saved background color ${color} in light mode`);
+      console.log(`✅ BACKGROUND FIX: Applied and saved background color ${color} in light mode, updated presets`);
     } else {
       console.log(`⚠️ BACKGROUND FIX: Background color changes only work in light mode`);
     }
