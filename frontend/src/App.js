@@ -1100,26 +1100,24 @@ Click OK to open font & color selector...`);
                   data-theme-dark-border={program.isBackendProgram ? program.border_color_dark : null}
                   data-bottom-border-color={bottomBorderColor}
                 >
-                  {/* Delete Button - Only show for backend programs - POSITIONED OUTSIDE IMAGE CONTAINER */}
-                  {program.isBackendProgram && (
-                    <button
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        handleDeleteProgram(program.id, program.name);
-                      }}
-                      className="delete-program-btn"
-                      title={`Delete ${program.name}`}
-                    >
-                      <Trash2 
-                        className="h-5 w-5" 
-                        stroke="currentColor"
-                        fill="none"
-                        strokeWidth="2.5"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      />
-                    </button>
-                  )}
+                  {/* DELETE BUTTON - NOW AVAILABLE FOR ALL PROGRAMS (DEFAULT + CUSTOM) */}
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleDeleteProgram(program.id, program.name);
+                    }}
+                    className="delete-program-btn"
+                    title={`Delete ${program.name}`}
+                  >
+                    <Trash2 
+                      className="h-5 w-5" 
+                      stroke="currentColor"
+                      fill="none"
+                      strokeWidth="2.5"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </button>
                   
                   <div className="relative">
                     <img 
