@@ -449,11 +449,17 @@ const LandingPage = () => {
         }
       ];
       
-      // Merge backend programs with default programs (backend programs first)
-      const allPrograms = [...backendPrograms, ...defaultPrograms];
+      // FIX 1: DATA PERSISTENCE - Check for deleted default programs in localStorage
+      const deletedDefaultPrograms = JSON.parse(localStorage.getItem('deletedDefaultPrograms') || '[]');
+      const filteredDefaultPrograms = defaultPrograms.filter(program => 
+        !deletedDefaultPrograms.includes(program.id)
+      );
+      
+      // Merge backend programs with filtered default programs (backend programs first)
+      const allPrograms = [...backendPrograms, ...filteredDefaultPrograms];
       setPrograms(allPrograms);
       
-      console.log(`Loaded ${backendPrograms.length} backend programs and ${defaultPrograms.length} default programs`);
+      console.log(`✅ PERSISTENCE: Loaded ${backendPrograms.length} backend programs and ${filteredDefaultPrograms.length} default programs (${deletedDefaultPrograms.length} deleted)`);
       
     } catch (error) {
       console.error("Error fetching program tabs:", error);
