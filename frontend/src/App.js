@@ -223,6 +223,9 @@ const LandingPage = () => {
     gray: "#f5f5f5"
   });
 
+  // TRACK LAST SELECTED PRESET FOR CUSTOM COLOR UPDATES
+  const [lastSelectedPreset, setLastSelectedPreset] = useState(null);
+
   // FORCE DYNAMIC PRESET ARRAY - RECREATE ON EVERY RENDER
   const bgColorPresets = useMemo(() => [
     { name: "Light Cyan", color: presetColors.cyan, id: "cyan" },
