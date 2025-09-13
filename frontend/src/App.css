@@ -2328,10 +2328,15 @@ html[data-theme="dark"] .program-card {
   border-bottom-style: solid !important;
 }
 
-/* Default program cards - 3D effect with 50% darker bottom borders */
+/* Default program cards - 3D effect with 50% darker bottom borders + FIXED HOVER */
 html[data-theme="dark"] .program-card.card-type-a {
   border-left-color: var(--card-border-aqua-custom, #4A90A4) !important;
   border-bottom-color: #254852 !important; /* 50% darker aqua */
+}
+
+html[data-theme="dark"] .program-card.card-type-a:hover {
+  border-left-color: var(--card-border-aqua-custom, #4A90A4) !important;
+  border-bottom-color: #254852 !important; /* MAINTAIN 50% darker aqua on hover */
 }
 
 html[data-theme="dark"] .program-card.card-type-b {
@@ -2339,14 +2344,29 @@ html[data-theme="dark"] .program-card.card-type-b {
   border-bottom-color: #5C394D !important; /* 50% darker pink */
 }
 
+html[data-theme="dark"] .program-card.card-type-b:hover {
+  border-left-color: var(--card-border-pink-custom, #B8739B) !important;
+  border-bottom-color: #5C394D !important; /* MAINTAIN 50% darker pink on hover */
+}
+
 html[data-theme="dark"] .program-card.card-type-c {
   border-left-color: var(--card-border-orange-custom, #CC9966) !important;
   border-bottom-color: #664C33 !important; /* 50% darker orange */
 }
 
+html[data-theme="dark"] .program-card.card-type-c:hover {
+  border-left-color: var(--card-border-orange-custom, #CC9966) !important;
+  border-bottom-color: #664C33 !important; /* MAINTAIN 50% darker orange on hover */
+}
+
 html[data-theme="dark"] .program-card.card-type-d {
   border-left-color: var(--card-border-green-custom, #7AAF7A) !important;
   border-bottom-color: #3D573D !important; /* 50% darker green */
+}
+
+html[data-theme="dark"] .program-card.card-type-d:hover {
+  border-left-color: var(--card-border-green-custom, #7AAF7A) !important;
+  border-bottom-color: #3D573D !important; /* MAINTAIN 50% darker green on hover */
 }
 /* BUG 3 FIX: DARKER SCROLL BAR IN DARK MODE - NO EYE STRAIN */
 html[data-theme="dark"] ::-webkit-scrollbar-thumb {
