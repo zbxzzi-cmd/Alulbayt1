@@ -1436,8 +1436,22 @@ html[data-theme="dark"] .delete-program-btn:hover {
   box-shadow: 0 4px 12px rgba(147, 51, 234, 0.5) !important;
 }
 
-/* Delete Button Icon - FORCE WHITE ICON IN DARK MODE */
-html[data-theme="dark"] .delete-program-btn svg {
+/* SURGICAL FIX: Delete Button Z-Index Issue in Program Cards */
+.program-card .delete-program-btn {
+  z-index: 999 !important; /* NUCLEAR Z-INDEX to appear above all content */
+  position: absolute !important;
+  top: 8px !important;
+  right: 8px !important;
+}
+
+/* SURGICAL FIX: Ensure image container doesn't interfere */
+.program-card .relative {
+  position: relative !important;
+  z-index: 1 !important; /* Lower than delete button */
+}
+
+/* SURGICAL FIX: Delete Button Icon Visibility in Dark Mode */
+html[data-theme="dark"] .program-card .delete-program-btn svg {
   color: #ffffff !important; /* WHITE ICON */
   fill: none !important;
   stroke: #ffffff !important; /* EXPLICIT WHITE STROKE */
@@ -1446,6 +1460,17 @@ html[data-theme="dark"] .delete-program-btn svg {
   stroke-linejoin: round !important;
   width: 18px !important;
   height: 18px !important;
+  opacity: 1 !important; /* Force full opacity */
+}
+
+/* SURGICAL FIX: Delete Button Background in Dark Mode */
+html[data-theme="dark"] .program-card .delete-program-btn {
+  background: rgba(30, 30, 60, 0.95) !important;
+  border: 2px solid rgba(168, 85, 247, 0.5) !important;
+  color: #ffffff !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4) !important;
+  opacity: 0.9 !important;
+  z-index: 999 !important;
 }
 
 html[data-theme="dark"] .delete-program-btn:hover svg {
