@@ -211,8 +211,8 @@ const LandingPage = () => {
     { name: "White", class: "text-white", hex: "#ffffff" }
   ];
 
-  // Background color presets
-  const bgColorPresets = [
+  // Background color presets - FIX 2: MAKE DYNAMIC TO UPDATE WHEN SELECTED
+  const [bgColorPresets, setBgColorPresets] = useState([
     { name: "Light Cyan", color: "#c3ffff" },
     { name: "Soft Blue", color: "#b3e5fc" },
     { name: "Mint Green", color: "#b3f0b3" },
@@ -221,7 +221,7 @@ const LandingPage = () => {
     { name: "Light Pink", color: "#f8bbd9" },
     { name: "Soft Yellow", color: "#fff9c4" },
     { name: "Light Gray", color: "#f5f5f5" }
-  ];
+  ]);
 
   // Sample programs data - ALL CONTENT IS EDITABLE
   const [programs, setPrograms] = useState([
