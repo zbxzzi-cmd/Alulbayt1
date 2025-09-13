@@ -814,22 +814,47 @@ Click OK to open font & color selector...`);
     const theme = document.documentElement.getAttribute('data-theme') || 'light';
     
     if (theme === 'light') {
-      // Apply to main app background container
+      // CRITICAL FIX: Use setProperty with 'important' to override CSS !important rules
+      const root = document.documentElement;
+      
+      // Method 1: Override CSS variables
+      root.style.setProperty('--main-bg-color', color, 'important');
+      root.style.setProperty('--custom-bg-color-light', color, 'important');
+      
+      // Method 2: Directly target elements with highest specificity
       const appBackground = document.querySelector('.app-background');
-      const landingPage = document.querySelector('.landing-page');
+      const body = document.body;
       
       if (appBackground) {
-        appBackground.style.backgroundColor = color;
-      }
-      if (landingPage) {
-        landingPage.style.backgroundColor = color;
+        appBackground.style.setProperty('background', color, 'important');
+        appBackground.style.setProperty('background-color', color, 'important');
       }
       
-      // Also update CSS variables for consistency
-      document.documentElement.style.setProperty('--custom-bg-color-light', color);
-      document.documentElement.style.setProperty('--main-bg-color', color);
+      if (body) {
+        body.style.setProperty('background', color, 'important');
+        body.style.setProperty('background-color', color, 'important');
+      }
       
-      console.log(`✅ BACKGROUND FIX: Applied background color ${color} in light mode`);
+      // Method 3: Add a CSS rule with highest specificity
+      let styleSheet = document.getElementById('dynamic-bg-style');
+      if (!styleSheet) {
+        styleSheet = document.createElement('style');
+        styleSheet.id = 'dynamic-bg-style';
+        document.head.appendChild(styleSheet);
+      }
+      
+      styleSheet.textContent = `
+        html[data-theme="light"] .app-background {
+          background: ${color} !important;
+          background-color: ${color} !important;
+        }
+        html[data-theme="light"] body {
+          background: ${color} !important;
+          background-color: ${color} !important;
+        }
+      `;
+      
+      console.log(`✅ BACKGROUND FIX: Applied background color ${color} in light mode with maximum specificity`);
     } else {
       console.log(`⚠️ BACKGROUND FIX: Background color changes only work in light mode`);
     }
