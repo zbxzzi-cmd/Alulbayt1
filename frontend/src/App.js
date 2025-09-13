@@ -224,7 +224,7 @@ const LandingPage = () => {
   });
 
   // FORCE DYNAMIC PRESET ARRAY - RECREATE ON EVERY RENDER
-  const bgColorPresets = React.useMemo(() => [
+  const bgColorPresets = useMemo(() => [
     { name: "Light Cyan", color: presetColors.cyan, id: "cyan" },
     { name: "Soft Blue", color: presetColors.blue, id: "blue" },
     { name: "Mint Green", color: presetColors.green, id: "green" },
