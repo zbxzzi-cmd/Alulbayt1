@@ -572,6 +572,60 @@ const LandingPage = () => {
     }
   }, []);
 
+  // FIX 3: Add theme change listener to ensure dark mode background is preserved
+  useEffect(() => {
+    const handleThemeChange = () => {
+      const currentTheme = document.documentElement.getAttribute('data-theme') || 'light';
+      
+      if (currentTheme === 'dark') {
+        // Force dark mode background when switching to dark mode
+        let darkModeStyleSheet = document.getElementById('force-dark-mode-style');
+        if (!darkModeStyleSheet) {
+          darkModeStyleSheet = document.createElement('style');
+          darkModeStyleSheet.id = 'force-dark-mode-style';
+          document.head.appendChild(darkModeStyleSheet);
+        }
+        
+        darkModeStyleSheet.textContent = `
+          html[data-theme="dark"] .app-background,
+          html[data-theme="dark"] body,
+          html[data-theme="dark"] .landing-page {
+            background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%) !important;
+          }
+        `;
+        
+        console.log('✅ DARK MODE: Forced correct dark mode background');
+      } else if (currentTheme === 'light') {
+        // Apply saved light mode background when switching to light mode
+        const savedBgColor = localStorage.getItem('customBackgroundColor');
+        if (savedBgColor) {
+          applyLightModeBackground(savedBgColor);
+          updateAdminTabBorder(savedBgColor);
+          console.log(`✅ LIGHT MODE: Restored saved background color: ${savedBgColor}`);
+        }
+      }
+    };
+
+    // Listen for theme changes
+    const observer = new MutationObserver((mutations) => {
+      mutations.forEach((mutation) => {
+        if (mutation.type === 'attributes' && mutation.attributeName === 'data-theme') {
+          handleThemeChange();
+        }
+      });
+    });
+
+    observer.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ['data-theme']
+    });
+
+    // Initial check
+    handleThemeChange();
+
+    return () => observer.disconnect();
+  }, []);
+
   // Add an update mechanism that triggers when border colors are modified
   useEffect(() => {
     const updateBorderColors = () => {
