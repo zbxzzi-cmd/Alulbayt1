@@ -1023,7 +1023,7 @@ html[data-theme="dark"] .border-teal-400,
 html[data-theme="dark"] .border-b-4,
 html[data-theme="dark"] .border-b,
 html[data-theme="dark"] .border-bottom {
-  border-color: rgba(56, 178, 172, 0.4) !important; /* Darker cyan - easy on eyes */
+  border-color: #4c1d95 !important; /* MATCH SCROLL BAR PURPLE COLOR */
 }
 
 html[data-theme="dark"] .text-cyan-600,
