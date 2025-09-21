@@ -1289,6 +1289,70 @@ Click OK to open font & color selector...`);
         onStatSaved={fetchStatTabs}
       />
 
+      {/* IMAGE EDITOR MODAL */}
+      {showImageEditor && (
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-[9999]">
+          <div className="bg-white dark:bg-gray-800 rounded-2xl p-6 w-full max-w-md mx-4 shadow-2xl">
+            <h3 className="text-xl font-bold mb-4 text-gray-900 dark:text-white">
+              Change Program Image
+            </h3>
+            <p className="text-sm text-gray-600 dark:text-gray-300 mb-4">
+              {editingImageProgram?.name}
+            </p>
+            
+            <div className="space-y-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                  Image URL
+                </label>
+                <input
+                  type="text"
+                  value={newImageUrl}
+                  onChange={(e) => setNewImageUrl(e.target.value)}
+                  placeholder="https://example.com/image.jpg"
+                  className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
+                />
+              </div>
+              
+              {newImageUrl && (
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                    Preview
+                  </label>
+                  <img
+                    src={newImageUrl}
+                    alt="Preview"
+                    className="w-full h-32 object-cover rounded-lg"
+                    onError={(e) => {
+                      e.target.style.display = 'none';
+                    }}
+                  />
+                </div>
+              )}
+            </div>
+            
+            <div className="flex gap-3 mt-6">
+              <button
+                onClick={() => {
+                  setShowImageEditor(false);
+                  setEditingImageProgram(null);
+                  setNewImageUrl('');
+                }}
+                className="flex-1 px-4 py-2 text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-gray-700 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={handleImageSave}
+                className="flex-1 px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors"
+              >
+                Save Image
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Programs Section - Enhanced White Background with Increased Spacing */}
       <section className="main-content-area hero-to-content-spacing">
         <div className="max-w-7xl mx-auto">
