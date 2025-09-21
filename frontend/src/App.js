@@ -916,6 +916,71 @@ ${colorList}
 Click OK to open font & color selector...`);
   };
 
+  const [showImageEditor, setShowImageEditor] = useState(false);
+  const [editingImageProgram, setEditingImageProgram] = useState(null);
+  const [newImageUrl, setNewImageUrl] = useState('');
+
+  // Handle image click for editing
+  const handleImageClick = (program) => {
+    setEditingImageProgram(program);
+    setNewImageUrl(program.image || '');
+    setShowImageEditor(true);
+  };
+
+  // Save new image URL
+  const handleImageSave = async () => {
+    if (!editingImageProgram) return;
+
+    try {
+      if (editingImageProgram.isBackendProgram) {
+        // Update backend program
+        const token = localStorage.getItem('token');
+        if (!token) {
+          alert('Authentication required');
+          return;
+        }
+
+        const headers = {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        };
+
+        await axios.put(
+          `${API}/admin/program-tabs/${editingImageProgram.id}`,
+          {
+            title: editingImageProgram.name,
+            description: editingImageProgram.description,
+            image: newImageUrl,
+            border_color_light: editingImageProgram.border_color_light,
+            border_color_dark: editingImageProgram.border_color_dark,
+            type: 'informational'
+          },
+          { headers }
+        );
+
+        // Refresh program list
+        fetchProgramTabs();
+      } else {
+        // Update default program in state (won't persist refresh but works for session)
+        setPrograms(prevPrograms => 
+          prevPrograms.map(p => 
+            p.id === editingImageProgram.id 
+              ? { ...p, image: newImageUrl }
+              : p
+          )
+        );
+      }
+
+      setShowImageEditor(false);
+      setEditingImageProgram(null);
+      setNewImageUrl('');
+      
+    } catch (error) {
+      console.error('Error updating image:', error);
+      alert('Failed to update image');
+    }
+  };
+
   const handleBgColorChange = (color, presetId = null) => {
     setCurrentBgColor(color);
     
