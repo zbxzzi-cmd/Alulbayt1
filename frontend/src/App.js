@@ -1316,11 +1316,15 @@ Click OK to open font & color selector...`);
                   
                   <div className="relative">
                     <img 
-                      src={program.image} 
+                      src={program.image || "https://images.unsplash.com/photo-1694758375810-2d7c7bc3e84e"} 
                       alt={program.name}
                       className="w-full h-48 object-cover rounded-t-2xl editable-image"
-                      onClick={() => handleEditClick('Program Image', `program-image-${program.id}`)}
-                      title="Click to replace image"
+                      onClick={() => handleImageClick(program)}
+                      title="Click to change image"
+                      onError={(e) => {
+                        console.log(`Image failed to load for ${program.name}:`, program.image);
+                        e.target.src = "https://images.unsplash.com/photo-1694758375810-2d7c7bc3e84e";
+                      }}
                     />
                     <div className="absolute top-4 left-4 bg-white/90 backdrop-blur-sm rounded-2xl p-3">
                       <IconComponent className="h-6 w-6 text-gray-700" />
