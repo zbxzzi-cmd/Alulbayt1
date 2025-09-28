@@ -399,6 +399,7 @@ const LandingPage = () => {
     }
   };
 
+
   // Function to fetch program tabs from backend and merge with default programs
   const fetchProgramTabs = async () => {
     try {
@@ -830,8 +831,7 @@ const LandingPage = () => {
       newColor,
       currentTheme,
       changingProperty: currentTheme === 'dark' ? 'border_color_dark' : 'border_color_light'
-    });
-    
+    });    
     setBorderColors(prev => ({
       ...prev,
       [type]: newColor
@@ -980,6 +980,7 @@ Click OK to open font & color selector...`);
     }
   }, [programs.length]); // Only run when programs are initially loaded
 
+
   // Handle image click for editing - ENHANCED FOR DARK MODE
   const handleImageClick = (program) => {
     console.log('🖼️ IMAGE CLICK:', {
@@ -1046,6 +1047,7 @@ Click OK to open font & color selector...`);
       alert('Failed to update image');
     }
   };
+
 
   const handleBgColorChange = (color, presetId = null) => {
     setCurrentBgColor(color);
@@ -1504,6 +1506,7 @@ Click OK to open font & color selector...`);
                   onDragOver={(e) => handleDragOver(e, index)}
                   onDragLeave={handleDragLeave}
                   onDrop={(e) => handleDrop(e, index)}
+
                   style={{
                     // FORCE IMMEDIATE BORDER APPLICATION FOR BACKEND PROGRAMS
                     ...(program.isBackendProgram && leftBorderColor && {
@@ -1552,6 +1555,7 @@ Click OK to open font & color selector...`);
                   </button>
                   
                   <div className="relative" style={{ zIndex: 1 }}>
+
                     <img 
                       src={program.image || "https://images.unsplash.com/photo-1694758375810-2d7c7bc3e84e"} 
                       alt={program.name}
