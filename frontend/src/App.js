@@ -919,6 +919,10 @@ Click OK to open font & color selector...`);
   const [showImageEditor, setShowImageEditor] = useState(false);
   const [editingImageProgram, setEditingImageProgram] = useState(null);
   const [newImageUrl, setNewImageUrl] = useState('');
+  
+  // DRAG AND DROP STATE
+  const [draggedProgram, setDraggedProgram] = useState(null);
+  const [dragOverIndex, setDragOverIndex] = useState(null);
 
   // Handle image click for editing - ENHANCED FOR DARK MODE
   const handleImageClick = (program) => {
