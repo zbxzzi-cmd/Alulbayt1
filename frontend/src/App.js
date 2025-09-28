@@ -469,17 +469,30 @@ const LandingPage = () => {
         }
       ];
       
-      // FIX 1: DATA PERSISTENCE - Check for deleted default programs in localStorage
+      // FIX: DATA PERSISTENCE - Check for deleted default programs AND apply saved order
       const deletedDefaultPrograms = JSON.parse(localStorage.getItem('deletedDefaultPrograms') || '[]');
       const filteredDefaultPrograms = defaultPrograms.filter(program => 
         !deletedDefaultPrograms.includes(program.id)
       );
       
       // Merge backend programs with filtered default programs (backend programs first)
-      const allPrograms = [...backendPrograms, ...filteredDefaultPrograms];
+      let allPrograms = [...backendPrograms, ...filteredDefaultPrograms];
+      
+      // APPLY SAVED DRAG AND DROP ORDER
+      const savedOrder = localStorage.getItem('programOrder');
+      if (savedOrder) {
+        const orderMap = JSON.parse(savedOrder);
+        allPrograms = allPrograms.sort((a, b) => {
+          const aOrder = orderMap.find(o => o.id === a.id)?.order ?? 999;
+          const bOrder = orderMap.find(o => o.id === b.id)?.order ?? 999;
+          return aOrder - bOrder;
+        });
+        console.log(`✅ PERSISTENCE: Applied saved program order`);
+      }
+      
       setPrograms(allPrograms);
       
-      console.log(`✅ PERSISTENCE: Loaded ${backendPrograms.length} backend programs and ${filteredDefaultPrograms.length} default programs (${deletedDefaultPrograms.length} deleted)`);
+      console.log(`✅ PERSISTENCE: Loaded ${backendPrograms.length} backend programs and ${filteredDefaultPrograms.length} default programs (${deletedDefaultPrograms.length} deleted) with saved order`);
       
     } catch (error) {
       console.error("Error fetching program tabs:", error);
