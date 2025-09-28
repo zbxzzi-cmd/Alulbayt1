@@ -920,8 +920,14 @@ Click OK to open font & color selector...`);
   const [editingImageProgram, setEditingImageProgram] = useState(null);
   const [newImageUrl, setNewImageUrl] = useState('');
 
-  // Handle image click for editing
+  // Handle image click for editing - ENHANCED FOR DARK MODE
   const handleImageClick = (program) => {
+    console.log('🖼️ IMAGE CLICK:', {
+      program: program.name,
+      currentImage: program.image,
+      theme: document.documentElement.getAttribute('data-theme')
+    });
+    
     setEditingImageProgram(program);
     setNewImageUrl(program.image || '');
     setShowImageEditor(true);
