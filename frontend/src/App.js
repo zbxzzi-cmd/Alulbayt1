@@ -924,6 +924,62 @@ Click OK to open font & color selector...`);
   const [draggedProgram, setDraggedProgram] = useState(null);
   const [dragOverIndex, setDragOverIndex] = useState(null);
 
+  // DRAG AND DROP FUNCTIONS
+  const handleDragStart = (e, program, index) => {
+    setDraggedProgram({ program, index });
+    e.dataTransfer.effectAllowed = 'move';
+  };
+
+  const handleDragOver = (e, index) => {
+    e.preventDefault();
+    e.dataTransfer.dropEffect = 'move';
+    setDragOverIndex(index);
+  };
+
+  const handleDragLeave = () => {
+    setDragOverIndex(null);
+  };
+
+  const handleDrop = (e, dropIndex) => {
+    e.preventDefault();
+    
+    if (!draggedProgram || draggedProgram.index === dropIndex) {
+      setDraggedProgram(null);
+      setDragOverIndex(null);
+      return;
+    }
+
+    // Reorder programs array
+    const newPrograms = [...programs];
+    const [draggedItem] = newPrograms.splice(draggedProgram.index, 1);
+    newPrograms.splice(dropIndex, 0, draggedItem);
+    
+    setPrograms(newPrograms);
+    
+    // Save new order to localStorage
+    const programOrder = newPrograms.map((p, index) => ({ id: p.id, order: index }));
+    localStorage.setItem('programOrder', JSON.stringify(programOrder));
+    
+    console.log(`✅ DRAG & DROP: Moved ${draggedItem.name} from position ${draggedProgram.index} to ${dropIndex}`);
+    
+    setDraggedProgram(null);
+    setDragOverIndex(null);
+  };
+
+  // Load saved program order on mount
+  useEffect(() => {
+    const savedOrder = localStorage.getItem('programOrder');
+    if (savedOrder && programs.length > 0) {
+      const orderMap = JSON.parse(savedOrder);
+      const orderedPrograms = [...programs].sort((a, b) => {
+        const aOrder = orderMap.find(o => o.id === a.id)?.order ?? 999;
+        const bOrder = orderMap.find(o => o.id === b.id)?.order ?? 999;
+        return aOrder - bOrder;
+      });
+      setPrograms(orderedPrograms);
+    }
+  }, [programs.length]); // Only run when programs are initially loaded
+
   // Handle image click for editing - ENHANCED FOR DARK MODE
   const handleImageClick = (program) => {
     console.log('🖼️ IMAGE CLICK:', {
