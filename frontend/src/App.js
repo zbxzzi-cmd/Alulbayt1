@@ -979,20 +979,6 @@ Click OK to open font & color selector...`);
     setDragOverIndex(null);
   };
 
-  // Load saved program order on mount
-  useEffect(() => {
-    const savedOrder = localStorage.getItem('programOrder');
-    if (savedOrder && programs.length > 0) {
-      const orderMap = JSON.parse(savedOrder);
-      const orderedPrograms = [...programs].sort((a, b) => {
-        const aOrder = orderMap.find(o => o.id === a.id)?.order ?? 999;
-        const bOrder = orderMap.find(o => o.id === b.id)?.order ?? 999;
-        return aOrder - bOrder;
-      });
-      setPrograms(orderedPrograms);
-    }
-  }, [programs.length]); // Only run when programs are initially loaded
-
   // Handle image click for editing - ENHANCED FOR DARK MODE
   const handleImageClick = (program) => {
     console.log('🖼️ IMAGE CLICK:', {
