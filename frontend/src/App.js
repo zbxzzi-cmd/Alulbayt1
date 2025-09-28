@@ -399,6 +399,7 @@ const LandingPage = () => {
     }
   };
 
+
   // Function to fetch program tabs from backend and merge with default programs
   const fetchProgramTabs = async () => {
     try {
@@ -525,7 +526,6 @@ const LandingPage = () => {
       setPrograms(defaultPrograms);
     }
   };
-
 
   // EDITABLE STATS DATA - Dynamic with Backend Integration
   const [statsData, setStatsData] = useState([
@@ -831,8 +831,7 @@ const LandingPage = () => {
       newColor,
       currentTheme,
       changingProperty: currentTheme === 'dark' ? 'border_color_dark' : 'border_color_light'
-    });
-    
+    });    
     setBorderColors(prev => ({
       ...prev,
       [type]: newColor
@@ -920,6 +919,67 @@ Click OK to open font & color selector...`);
   const [showImageEditor, setShowImageEditor] = useState(false);
   const [editingImageProgram, setEditingImageProgram] = useState(null);
   const [newImageUrl, setNewImageUrl] = useState('');
+  
+  // DRAG AND DROP STATE
+  const [draggedProgram, setDraggedProgram] = useState(null);
+  const [dragOverIndex, setDragOverIndex] = useState(null);
+
+  // DRAG AND DROP FUNCTIONS
+  const handleDragStart = (e, program, index) => {
+    setDraggedProgram({ program, index });
+    e.dataTransfer.effectAllowed = 'move';
+  };
+
+  const handleDragOver = (e, index) => {
+    e.preventDefault();
+    e.dataTransfer.dropEffect = 'move';
+    setDragOverIndex(index);
+  };
+
+  const handleDragLeave = () => {
+    setDragOverIndex(null);
+  };
+
+  const handleDrop = (e, dropIndex) => {
+    e.preventDefault();
+    
+    if (!draggedProgram || draggedProgram.index === dropIndex) {
+      setDraggedProgram(null);
+      setDragOverIndex(null);
+      return;
+    }
+
+    // Reorder programs array
+    const newPrograms = [...programs];
+    const [draggedItem] = newPrograms.splice(draggedProgram.index, 1);
+    newPrograms.splice(dropIndex, 0, draggedItem);
+    
+    setPrograms(newPrograms);
+    
+    // Save new order to localStorage
+    const programOrder = newPrograms.map((p, index) => ({ id: p.id, order: index }));
+    localStorage.setItem('programOrder', JSON.stringify(programOrder));
+    
+    console.log(`✅ DRAG & DROP: Moved ${draggedItem.name} from position ${draggedProgram.index} to ${dropIndex}`);
+    
+    setDraggedProgram(null);
+    setDragOverIndex(null);
+  };
+
+  // Load saved program order on mount
+  useEffect(() => {
+    const savedOrder = localStorage.getItem('programOrder');
+    if (savedOrder && programs.length > 0) {
+      const orderMap = JSON.parse(savedOrder);
+      const orderedPrograms = [...programs].sort((a, b) => {
+        const aOrder = orderMap.find(o => o.id === a.id)?.order ?? 999;
+        const bOrder = orderMap.find(o => o.id === b.id)?.order ?? 999;
+        return aOrder - bOrder;
+      });
+      setPrograms(orderedPrograms);
+    }
+  }, [programs.length]); // Only run when programs are initially loaded
+
 
   // Handle image click for editing - ENHANCED FOR DARK MODE
   const handleImageClick = (program) => {
@@ -1396,7 +1456,6 @@ Click OK to open font & color selector...`);
         </div>
       )}
 
-
       {/* Programs Section - Enhanced White Background with Increased Spacing */}
       <section className="main-content-area hero-to-content-spacing">
         <div className="max-w-7xl mx-auto">
@@ -1439,7 +1498,15 @@ Click OK to open font & color selector...`);
               return (
                 <Card 
                   key={program.id} 
-                  className={`${getCardClassName(program.type)} group relative`}
+                  className={`${getCardClassName(program.type)} group relative ${
+                    dragOverIndex === index ? 'drag-over' : ''
+                  } ${draggedProgram?.index === index ? 'dragging' : ''}`}
+                  draggable="true"
+                  onDragStart={(e) => handleDragStart(e, program, index)}
+                  onDragOver={(e) => handleDragOver(e, index)}
+                  onDragLeave={handleDragLeave}
+                  onDrop={(e) => handleDrop(e, index)}
+
                   style={{
                     // FORCE IMMEDIATE BORDER APPLICATION FOR BACKEND PROGRAMS
                     ...(program.isBackendProgram && leftBorderColor && {
