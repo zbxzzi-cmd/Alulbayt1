@@ -377,7 +377,7 @@ const LandingPage = () => {
 
       // Remove from UI immediately (works for both default and backend programs)
       setPrograms(prevPrograms => prevPrograms.filter(p => p.id !== programId));
-
+      
     } catch (error) {
       console.error('Error deleting program:', error);
       
@@ -525,6 +525,7 @@ const LandingPage = () => {
       setPrograms(defaultPrograms);
     }
   };
+
 
   // EDITABLE STATS DATA - Dynamic with Backend Integration
   const [statsData, setStatsData] = useState([
@@ -916,6 +917,78 @@ ${colorList}
 Click OK to open font & color selector...`);
   };
 
+  const [showImageEditor, setShowImageEditor] = useState(false);
+  const [editingImageProgram, setEditingImageProgram] = useState(null);
+  const [newImageUrl, setNewImageUrl] = useState('');
+
+  // Handle image click for editing - ENHANCED FOR DARK MODE
+  const handleImageClick = (program) => {
+    console.log('🖼️ IMAGE CLICK:', {
+      program: program.name,
+      currentImage: program.image,
+      theme: document.documentElement.getAttribute('data-theme')
+    });
+    
+    setEditingImageProgram(program);
+    setNewImageUrl(program.image || '');
+    setShowImageEditor(true);
+  };
+
+  // Save new image URL
+  const handleImageSave = async () => {
+    if (!editingImageProgram) return;
+
+    try {
+      if (editingImageProgram.isBackendProgram) {
+        // Update backend program
+        const token = localStorage.getItem('token');
+        if (!token) {
+          alert('Authentication required');
+          return;
+        }
+
+        const headers = {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        };
+
+        await axios.put(
+          `${API}/admin/program-tabs/${editingImageProgram.id}`,
+          {
+            title: editingImageProgram.name,
+            description: editingImageProgram.description,
+            image: newImageUrl,
+            border_color_light: editingImageProgram.border_color_light,
+            border_color_dark: editingImageProgram.border_color_dark,
+            type: 'informational'
+          },
+          { headers }
+        );
+
+        // Refresh program list
+        fetchProgramTabs();
+      } else {
+        // Update default program in state (won't persist refresh but works for session)
+        setPrograms(prevPrograms => 
+          prevPrograms.map(p => 
+            p.id === editingImageProgram.id 
+              ? { ...p, image: newImageUrl }
+              : p
+          )
+        );
+      }
+
+      setShowImageEditor(false);
+      setEditingImageProgram(null);
+      setNewImageUrl('');
+      
+    } catch (error) {
+      console.error('Error updating image:', error);
+      alert('Failed to update image');
+    }
+  };
+
+
   const handleBgColorChange = (color, presetId = null) => {
     setCurrentBgColor(color);
     
@@ -1224,6 +1297,106 @@ Click OK to open font & color selector...`);
         onStatSaved={fetchStatTabs}
       />
 
+      {/* IMAGE EDITOR MODAL - ENHANCED FOR DARK MODE */}
+      {showImageEditor && (
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-[9999]">
+          <div className="bg-white rounded-2xl p-6 w-full max-w-md mx-4 shadow-2xl" 
+               style={{
+                 background: document.documentElement.getAttribute('data-theme') === 'dark' 
+                   ? 'linear-gradient(135deg, rgba(30, 30, 60, 0.95) 0%, rgba(45, 45, 75, 0.95) 30%, rgba(60, 60, 90, 0.95) 100%)' 
+                   : 'white'
+               }}>
+            <h3 className="text-xl font-bold mb-4" 
+                style={{
+                  color: document.documentElement.getAttribute('data-theme') === 'dark' ? 'white' : '#1f2937'
+                }}>
+              Change Program Image
+            </h3>
+            <p className="text-sm mb-4"
+               style={{
+                 color: document.documentElement.getAttribute('data-theme') === 'dark' ? '#cbd5e1' : '#6b7280'
+               }}>
+              {editingImageProgram?.name}
+            </p>
+            
+            <div className="space-y-4">
+              <div>
+                <label className="block text-sm font-medium mb-2"
+                       style={{
+                         color: document.documentElement.getAttribute('data-theme') === 'dark' ? '#e2e8f0' : '#374151'
+                       }}>
+                  Image URL
+                </label>
+                <input
+                  type="text"
+                  value={newImageUrl}
+                  onChange={(e) => setNewImageUrl(e.target.value)}
+                  placeholder="https://example.com/image.jpg"
+                  className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                  style={{
+                    background: document.documentElement.getAttribute('data-theme') === 'dark' 
+                      ? 'linear-gradient(135deg, rgba(15, 15, 35, 0.9) 0%, rgba(26, 26, 46, 0.8) 30%, rgba(22, 33, 62, 0.7) 100%)' 
+                      : 'white',
+                    borderColor: document.documentElement.getAttribute('data-theme') === 'dark' ? 'rgba(180, 140, 255, 0.3)' : '#d1d5db',
+                    color: document.documentElement.getAttribute('data-theme') === 'dark' ? 'white' : 'black'
+                  }}
+                />
+              </div>
+              
+              {newImageUrl && (
+                <div>
+                  <label className="block text-sm font-medium mb-2"
+                         style={{
+                           color: document.documentElement.getAttribute('data-theme') === 'dark' ? '#e2e8f0' : '#374151'
+                         }}>
+                    Preview
+                  </label>
+                  <img
+                    src={newImageUrl}
+                    alt="Preview"
+                    className="w-full h-32 object-cover rounded-lg"
+                    style={{
+                      opacity: 1,
+                      visibility: 'visible',
+                      display: 'block'
+                    }}
+                    onError={(e) => {
+                      e.target.style.display = 'none';
+                    }}
+                  />
+                </div>
+              )}
+            </div>
+            
+            <div className="flex gap-3 mt-6">
+              <button
+                onClick={() => {
+                  setShowImageEditor(false);
+                  setEditingImageProgram(null);
+                  setNewImageUrl('');
+                }}
+                className="flex-1 px-4 py-2 rounded-lg transition-colors"
+                style={{
+                  background: document.documentElement.getAttribute('data-theme') === 'dark' 
+                    ? 'rgba(55, 65, 81, 0.8)' 
+                    : '#f3f4f6',
+                  color: document.documentElement.getAttribute('data-theme') === 'dark' ? '#cbd5e1' : '#374151'
+                }}
+              >
+                Cancel
+              </button>
+              <button
+                onClick={handleImageSave}
+                className="flex-1 px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors"
+              >
+                Save Image
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+
       {/* Programs Section - Enhanced White Background with Increased Spacing */}
       <section className="main-content-area hero-to-content-spacing">
         <div className="max-w-7xl mx-auto">
@@ -1313,17 +1486,34 @@ Click OK to open font & color selector...`);
                       strokeLinejoin="round"
                     />
                   </button>
-
                   
-                  <div className="relative">
+                  <div className="relative" style={{ zIndex: 1 }}>
+
                     <img 
-                      src={program.image} 
+                      src={program.image || "https://images.unsplash.com/photo-1694758375810-2d7c7bc3e84e"} 
                       alt={program.name}
                       className="w-full h-48 object-cover rounded-t-2xl editable-image"
-                      onClick={() => handleEditClick('Program Image', `program-image-${program.id}`)}
-                      title="Click to replace image"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        console.log('🖼️ DIRECT IMAGE CLICK - Dark Mode Check:', document.documentElement.getAttribute('data-theme'));
+                        handleImageClick(program);
+                      }}
+                      title="Click to change image"
+                      style={{
+                        cursor: 'pointer',
+                        opacity: 1,
+                        visibility: 'visible',
+                        display: 'block',
+                        zIndex: 1,
+                        position: 'relative'
+                      }}
+                      onError={(e) => {
+                        console.log(`Image failed to load for ${program.name}:`, program.image);
+                        e.target.src = "https://images.unsplash.com/photo-1694758375810-2d7c7bc3e84e";
+                      }}
                     />
-                    <div className="absolute top-4 left-4 bg-white/90 backdrop-blur-sm rounded-2xl p-3">
+                    <div className="absolute top-4 left-4 bg-white/90 backdrop-blur-sm rounded-2xl p-3" style={{ zIndex: 2 }}>
                       <IconComponent className="h-6 w-6 text-gray-700" />
                     </div>
                   </div>
@@ -1427,7 +1617,6 @@ Click OK to open font & color selector...`);
                   }}
                   data-stat-light-border={stat.isBackendStat ? stat.border_color_light : null}
                   data-stat-dark-border={stat.isBackendStat ? stat.border_color_dark : null}
-
                 >
                   {/* Delete Button - Only show for backend stats */}
                   {stat.isBackendStat && (
