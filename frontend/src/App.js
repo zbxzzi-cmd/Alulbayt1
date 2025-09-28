@@ -1484,19 +1484,32 @@ Click OK to open font & color selector...`);
                     />
                   </button>
                   
-                  <div className="relative">
+                  <div className="relative" style={{ zIndex: 1 }}>
                     <img 
                       src={program.image || "https://images.unsplash.com/photo-1694758375810-2d7c7bc3e84e"} 
                       alt={program.name}
                       className="w-full h-48 object-cover rounded-t-2xl editable-image"
-                      onClick={() => handleImageClick(program)}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        console.log('🖼️ DIRECT IMAGE CLICK - Dark Mode Check:', document.documentElement.getAttribute('data-theme'));
+                        handleImageClick(program);
+                      }}
                       title="Click to change image"
+                      style={{
+                        cursor: 'pointer',
+                        opacity: 1,
+                        visibility: 'visible',
+                        display: 'block',
+                        zIndex: 1,
+                        position: 'relative'
+                      }}
                       onError={(e) => {
                         console.log(`Image failed to load for ${program.name}:`, program.image);
                         e.target.src = "https://images.unsplash.com/photo-1694758375810-2d7c7bc3e84e";
                       }}
                     />
-                    <div className="absolute top-4 left-4 bg-white/90 backdrop-blur-sm rounded-2xl p-3">
+                    <div className="absolute top-4 left-4 bg-white/90 backdrop-blur-sm rounded-2xl p-3" style={{ zIndex: 2 }}>
                       <IconComponent className="h-6 w-6 text-gray-700" />
                     </div>
                   </div>
