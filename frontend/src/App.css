@@ -1478,27 +1478,51 @@ html[data-theme="dark"] .program-card .editable-image:hover {
   z-index: 1 !important; /* Lower than delete button */
 }
 
-/* SURGICAL FIX: Delete Button Icon Visibility in Dark Mode */
-html[data-theme="dark"] .program-card .delete-program-btn svg {
-  color: #ffffff !important; /* WHITE ICON */
+/* COMPLETE REWRITE: Program Delete Button Dark Mode Fix */
+html[data-theme="dark"] body .program-card .delete-program-btn {
+  background: rgba(30, 30, 60, 0.95) !important;
+  border: 2px solid rgba(180, 140, 255, 0.5) !important;
+  color: #b48cff !important; /* LIGHT PURPLE for dark mode theme */
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4) !important;
+  opacity: 0.9 !important;
+  z-index: 999 !important;
+  position: absolute !important;
+  top: 8px !important;
+  right: 8px !important;
+  border-radius: 8px !important;
+  padding: 6px !important;
+  cursor: pointer !important;
+}
+
+/* COMPLETE REWRITE: Program Delete Button SVG in Dark Mode */
+html[data-theme="dark"] body .program-card .delete-program-btn svg {
+  color: #b48cff !important; /* LIGHT PURPLE */
   fill: none !important;
-  stroke: #ffffff !important; /* EXPLICIT WHITE STROKE */
+  stroke: #b48cff !important; /* EXPLICIT LIGHT PURPLE STROKE */
   stroke-width: 2.5 !important;
   stroke-linecap: round !important;
   stroke-linejoin: round !important;
   width: 18px !important;
   height: 18px !important;
-  opacity: 1 !important; /* Force full opacity */
+  opacity: 1 !important;
+  display: block !important;
+  visibility: visible !important;
 }
 
-/* SURGICAL FIX: Delete Button Background in Dark Mode */
-html[data-theme="dark"] .program-card .delete-program-btn {
-  background: rgba(30, 30, 60, 0.95) !important;
-  border: 2px solid rgba(168, 85, 247, 0.5) !important;
-  color: #ffffff !important;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4) !important;
-  opacity: 0.9 !important;
-  z-index: 999 !important;
+/* COMPLETE REWRITE: Program Delete Button Dark Mode Hover */
+html[data-theme="dark"] body .program-card .delete-program-btn:hover {
+  opacity: 1 !important;
+  background: rgba(30, 30, 60, 1) !important;
+  border-color: rgba(180, 140, 255, 0.8) !important;
+  color: #d4b3ff !important; /* Lighter purple on hover */
+  transform: scale(1.1) !important;
+  box-shadow: 0 4px 12px rgba(180, 140, 255, 0.3) !important;
+}
+
+html[data-theme="dark"] body .program-card .delete-program-btn:hover svg {
+  color: #d4b3ff !important; /* Lighter purple on hover */
+  stroke: #d4b3ff !important;
+  stroke-width: 2.5 !important;
 }
 
 html[data-theme="dark"] .delete-program-btn:hover svg {
