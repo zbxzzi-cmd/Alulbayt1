@@ -1289,20 +1289,34 @@ Click OK to open font & color selector...`);
         onStatSaved={fetchStatTabs}
       />
 
-      {/* IMAGE EDITOR MODAL */}
+      {/* IMAGE EDITOR MODAL - ENHANCED FOR DARK MODE */}
       {showImageEditor && (
         <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-[9999]">
-          <div className="bg-white dark:bg-gray-800 rounded-2xl p-6 w-full max-w-md mx-4 shadow-2xl">
-            <h3 className="text-xl font-bold mb-4 text-gray-900 dark:text-white">
+          <div className="bg-white rounded-2xl p-6 w-full max-w-md mx-4 shadow-2xl" 
+               style={{
+                 background: document.documentElement.getAttribute('data-theme') === 'dark' 
+                   ? 'linear-gradient(135deg, rgba(30, 30, 60, 0.95) 0%, rgba(45, 45, 75, 0.95) 30%, rgba(60, 60, 90, 0.95) 100%)' 
+                   : 'white'
+               }}>
+            <h3 className="text-xl font-bold mb-4" 
+                style={{
+                  color: document.documentElement.getAttribute('data-theme') === 'dark' ? 'white' : '#1f2937'
+                }}>
               Change Program Image
             </h3>
-            <p className="text-sm text-gray-600 dark:text-gray-300 mb-4">
+            <p className="text-sm mb-4"
+               style={{
+                 color: document.documentElement.getAttribute('data-theme') === 'dark' ? '#cbd5e1' : '#6b7280'
+               }}>
               {editingImageProgram?.name}
             </p>
             
             <div className="space-y-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                <label className="block text-sm font-medium mb-2"
+                       style={{
+                         color: document.documentElement.getAttribute('data-theme') === 'dark' ? '#e2e8f0' : '#374151'
+                       }}>
                   Image URL
                 </label>
                 <input
@@ -1310,19 +1324,34 @@ Click OK to open font & color selector...`);
                   value={newImageUrl}
                   onChange={(e) => setNewImageUrl(e.target.value)}
                   placeholder="https://example.com/image.jpg"
-                  className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
+                  className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                  style={{
+                    background: document.documentElement.getAttribute('data-theme') === 'dark' 
+                      ? 'linear-gradient(135deg, rgba(15, 15, 35, 0.9) 0%, rgba(26, 26, 46, 0.8) 30%, rgba(22, 33, 62, 0.7) 100%)' 
+                      : 'white',
+                    borderColor: document.documentElement.getAttribute('data-theme') === 'dark' ? 'rgba(180, 140, 255, 0.3)' : '#d1d5db',
+                    color: document.documentElement.getAttribute('data-theme') === 'dark' ? 'white' : 'black'
+                  }}
                 />
               </div>
               
               {newImageUrl && (
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                  <label className="block text-sm font-medium mb-2"
+                         style={{
+                           color: document.documentElement.getAttribute('data-theme') === 'dark' ? '#e2e8f0' : '#374151'
+                         }}>
                     Preview
                   </label>
                   <img
                     src={newImageUrl}
                     alt="Preview"
                     className="w-full h-32 object-cover rounded-lg"
+                    style={{
+                      opacity: 1,
+                      visibility: 'visible',
+                      display: 'block'
+                    }}
                     onError={(e) => {
                       e.target.style.display = 'none';
                     }}
@@ -1338,7 +1367,13 @@ Click OK to open font & color selector...`);
                   setEditingImageProgram(null);
                   setNewImageUrl('');
                 }}
-                className="flex-1 px-4 py-2 text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-gray-700 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors"
+                className="flex-1 px-4 py-2 rounded-lg transition-colors"
+                style={{
+                  background: document.documentElement.getAttribute('data-theme') === 'dark' 
+                    ? 'rgba(55, 65, 81, 0.8)' 
+                    : '#f3f4f6',
+                  color: document.documentElement.getAttribute('data-theme') === 'dark' ? '#cbd5e1' : '#374151'
+                }}
               >
                 Cancel
               </button>
