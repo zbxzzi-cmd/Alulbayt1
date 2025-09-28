@@ -1496,7 +1496,14 @@ Click OK to open font & color selector...`);
               return (
                 <Card 
                   key={program.id} 
-                  className={`${getCardClassName(program.type)} group relative`}
+                  className={`${getCardClassName(program.type)} group relative ${
+                    dragOverIndex === index ? 'drag-over' : ''
+                  } ${draggedProgram?.index === index ? 'dragging' : ''}`}
+                  draggable="true"
+                  onDragStart={(e) => handleDragStart(e, program, index)}
+                  onDragOver={(e) => handleDragOver(e, index)}
+                  onDragLeave={handleDragLeave}
+                  onDrop={(e) => handleDrop(e, index)}
                   style={{
                     // FORCE IMMEDIATE BORDER APPLICATION FOR BACKEND PROGRAMS
                     ...(program.isBackendProgram && leftBorderColor && {
