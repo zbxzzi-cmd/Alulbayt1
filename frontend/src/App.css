@@ -1382,6 +1382,7 @@ html[data-theme="dark"] .modal-save-btn {
 }
 
 html[data-theme="dark"] .modal-save-btn:hover {
+
   background: linear-gradient(135deg, #3c1366, #553c9a) !important;
 }
 
@@ -1420,7 +1421,8 @@ html[data-theme="dark"] .modal-save-btn:hover {
 html[data-theme="dark"] .delete-program-btn {
   background: rgba(30, 30, 60, 0.95) !important;
   border: 2px solid rgba(168, 85, 247, 0.5) !important;
-  color: #ffffff !important; /* WHITE for maximum contrast */
+
+  color: #e0b3ff !important; /* Light purple for high contrast */
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4) !important;
   opacity: 0.9 !important;
   z-index: 50 !important; /* Ensure it's above everything */
@@ -1431,7 +1433,8 @@ html[data-theme="dark"] .delete-program-btn:hover {
   opacity: 1 !important;
   background: rgba(30, 30, 60, 1) !important;
   border-color: rgba(168, 85, 247, 0.8) !important;
-  color: #ffffff !important; /* WHITE on hover */
+
+  color: #f0d9ff !important; /* Very light purple on hover */
   transform: scale(1.15) !important;
   box-shadow: 0 4px 12px rgba(147, 51, 234, 0.5) !important;
 }
@@ -1499,6 +1502,7 @@ html[data-theme="dark"] body .program-card .delete-program-btn svg {
   color: #b48cff !important; /* LIGHT PURPLE */
   fill: none !important;
   stroke: #b48cff !important; /* EXPLICIT LIGHT PURPLE STROKE */
+
   stroke-width: 2.5 !important;
   stroke-linecap: round !important;
   stroke-linejoin: round !important;
@@ -1523,6 +1527,7 @@ html[data-theme="dark"] body .program-card .delete-program-btn:hover svg {
   color: #d4b3ff !important; /* Lighter purple on hover */
   stroke: #d4b3ff !important;
   stroke-width: 2.5 !important;
+
 }
 
 html[data-theme="dark"] .delete-program-btn:hover svg {

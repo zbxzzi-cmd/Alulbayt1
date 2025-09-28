@@ -526,6 +526,7 @@ const LandingPage = () => {
     }
   };
 
+
   // EDITABLE STATS DATA - Dynamic with Backend Integration
   const [statsData, setStatsData] = useState([
     { number: "4", label: "Programs Available", type: "a" }, // EDITABLE
@@ -987,6 +988,7 @@ Click OK to open font & color selector...`);
     }
   };
 
+
   const handleBgColorChange = (color, presetId = null) => {
     setCurrentBgColor(color);
     
@@ -1394,6 +1396,7 @@ Click OK to open font & color selector...`);
         </div>
       )}
 
+
       {/* Programs Section - Enhanced White Background with Increased Spacing */}
       <section className="main-content-area hero-to-content-spacing">
         <div className="max-w-7xl mx-auto">
@@ -1485,6 +1488,7 @@ Click OK to open font & color selector...`);
                   </button>
                   
                   <div className="relative" style={{ zIndex: 1 }}>
+
                     <img 
                       src={program.image || "https://images.unsplash.com/photo-1694758375810-2d7c7bc3e84e"} 
                       alt={program.name}
