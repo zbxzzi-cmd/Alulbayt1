@@ -226,3 +226,5 @@ agent_communication:
     message: "AdminControls modal UI issues have been RESOLVED. Modal displays perfectly in both themes with proper z-index, backdrop blur, and button visibility. Ready to test backend form submission functionality."
   - agent: "main"
     message: "DESIGN SYSTEM TAB FULLY FIXED: The plain white screen issue has been completely resolved. Added comprehensive CSS implementation for all ds-* classes (ds-bg-main, ds-heading-*, ds-card-*, ds-btn-*, ds-form-*) with full theme awareness. Both light and dark modes working perfectly with cosmic purple theme, glassmorphism effects, proper typography, colored card borders, and theme toggle integration. Ready to proceed with authentication implementation."
+  - agent: "main"
+    message: "CRITICAL HOVER BUG FIXED: Eliminated the 'blinding white' hover effect on custom program cards in light mode. Custom cards now have subtle, professional hover styling (75% white opacity instead of 95%) with preserved border visibility. Fix verified via testing on multiple custom cards. Ready to proceed with authentication system implementation."
