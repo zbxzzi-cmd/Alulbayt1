@@ -2436,16 +2436,22 @@ html[data-theme="dark"] .program-card[data-theme-dark-border] {
   border-bottom-style: solid !important;
 }
 
-/* ISSUE 1 FIX: Hover effects use current color values, not cached values */
+/* CRITICAL FIX: Custom program cards hover - prevent blinding white effect in light mode */
+.program-card[data-theme-light-border]:hover {
+  /* SUBTLE background that doesn't blind - much less white */
+  background: rgba(255, 255, 255, 0.75) !important; /* Reduced from 0.95 to 0.75 */
+  border-left-color: var(--current-left-border, var(--custom-light-border)) !important;
+  border-bottom-color: var(--current-bottom-border, var(--custom-light-border)) !important;
+  /* Remove brightness filter that was making it even brighter */
+  filter: none !important;
+  /* Add subtle shadow instead of brightness */
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12) !important;
+}
+
+/* ISSUE 1 FIX: Dark mode hover effects use current color values, not cached values */
 html[data-theme="dark"] .program-card[data-theme-dark-border]:hover {
   border-left-color: var(--current-left-border, var(--custom-dark-border)) !important;
   border-bottom-color: var(--current-bottom-border, var(--custom-dark-border-darker)) !important;
-  filter: brightness(1.1) !important;
-}
-
-.program-card[data-theme-light-border]:hover {
-  border-left-color: var(--current-left-border, var(--custom-light-border)) !important;
-  border-bottom-color: var(--current-bottom-border, var(--custom-light-border)) !important;
   filter: brightness(1.1) !important;
 }
 
