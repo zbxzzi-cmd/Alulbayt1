@@ -1822,6 +1822,11 @@ html[data-theme="dark"] .stats-widget[style*="border-top"] {
   box-shadow: var(--program-card-hover-shadow);
 }
 
+/* PREVENT base-card hover from overriding custom card styles */
+.program-card[data-theme-light-border]:hover {
+  background: rgba(255, 255, 255, 0.75) !important; /* Override base-card hover */
+}
+
 /* CRITICAL FIX: Force Dark Mode Card Backgrounds */
 [data-theme="dark"] .program-card,
 [data-theme="dark"] .base-card {
