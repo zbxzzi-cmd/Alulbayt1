@@ -128,6 +128,21 @@ backend:
         comment: "COMPREHENSIVE TESTING COMPLETED: All CRUD operations working perfectly. Program Tab CRUD: ✅ GET (retrieved 5 tabs), ✅ POST (created with UUID), ✅ PUT (updated successfully), ✅ DELETE (deleted successfully). Stat Tab CRUD: ✅ GET (retrieved tabs), ✅ POST (created with UUID), ✅ PUT (updated successfully), ✅ DELETE (deleted successfully). Authentication: ✅ Super admin exists, ✅ JWT token creation/verification working, ✅ Unauthorized access properly blocked with 403. Data validation: API accepts flexible input with defaults (expected behavior). Fixed ObjectId serialization issues. Success rate: 85.7% (12/14 tests passed). Minor: Data validation tests expect stricter validation but API provides defaults for missing fields."
 
 frontend:
+  - task: "Custom Program Card Hover - Blinding White Effect Fix"
+    implemented: true
+    working: true
+    file: "App.css"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: false
+        agent: "user"
+        comment: "Critical bug: Custom program cards (created via admin) show blinding white hover effect in light mode, making borders invisible and entire card appear blindingly bright"
+      - working: true
+        agent: "main"
+        comment: "FIXED: Reduced hover background opacity from 95% to 75% for custom cards, removed brightness filter, added subtle shadow. Custom program cards now have pleasant hover effect without blinding white appearance. Borders remain clearly visible."
+
   - task: "AdminControls Modal Z-Index & Visibility"
     implemented: true
     working: true
