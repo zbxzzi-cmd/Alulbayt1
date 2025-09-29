@@ -199,7 +199,7 @@ code {
   /* Program Card Settings */
   --program-border-width: 2px;
   --program-card-bg: #FFFFFF;
-  --program-card-hover-bg: rgba(255, 255, 255, 0.95);
+  --program-card-hover-bg: rgba(255, 255, 255, 0.85);
   --program-card-shadow: 0 6px 20px rgba(0, 0, 0, 0.1), 0 2px 8px rgba(0, 0, 0, 0.06);
   --program-card-hover-shadow: 0 12px 35px rgba(0, 0, 0, 0.15), 0 6px 15px rgba(0, 0, 0, 0.08);
   
