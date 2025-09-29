@@ -214,7 +214,9 @@ metadata:
 
 test_plan:
   current_focus:
-    - "Modal Form Functionality"
+    - "Authentication Implementation"
+    - "Student Dashboard"
+    - "Admin Dashboard"
   stuck_tasks: []
   test_all: false
   test_priority: "high_first"
